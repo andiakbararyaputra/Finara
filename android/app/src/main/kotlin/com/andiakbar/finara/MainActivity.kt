@@ -1,5 +1,6 @@
 package com.andiakbar.finara
 
-import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterFragmentActivity
 
-class MainActivity : FlutterActivity()
+// FlutterFragmentActivity diperlukan local_auth (biometrik).
+class MainActivity : FlutterFragmentActivity()

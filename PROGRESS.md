@@ -17,7 +17,7 @@
   - UI Bahasa Indonesia via ARB id-only: `lib/l10n/app_id.arb` → `flutter gen-l10n`
   - Business logic HANYA di service Dart murni (deterministik, teruji tanpa UI), bukan di widget
 
-## Status saat ini (Fase 0 — Fondasi Proyek: ±95%)
+## Status saat ini (Fase 0 ✅ · 1A ✅ · 1B ✅ · 1C ✅ · 1D ✅ — Fase 1 LENGKAP, menunggu review pemilik proyek)
 
 ### Selesai
 - Proyek Flutter dibuat di root workspace (project-name `finara`, applicationId `com.andiakbar.finara`, platform Android saja)
@@ -29,15 +29,48 @@
 - Halaman placeholder: Beranda (bulan aktif + empty state + tombol Hitung Alokasi + pengaturan tema berfungsi), Hitung, Progres, Riwayat
 - Tema light/dark/system switcher (in-memory; persistensi menyusul via AppSettings di Fase 1B)
 - `flutter analyze`: bersih. `flutter test`: **24/24 lulus** (money 15, basis points/phase 4, smoke widget 5)
+- **`flutter build apk --debug` SUKSES** (2026-08-01, Codespace baru): Gradle assembleDebug 217s, artefak `build/app/outputs/flutter-apk/app-debug.apk` (162 MB, debug). Kegagalan di mesin lama terkonfirmasi karena toolchain hilang — di lingkungan dengan clang/cmake/ninja terpasang, Gradle otomatis mengunduh NDK, CMake 3.22.1, dan Platform 35; sqlite3mc terkompilasi normal (enkripsi TIDAK perlu ditunda)
+- **Fase 1A — Mesin perhitungan (2026-08-01):**
+  - Model domain `lib/domain/models/`: `AllocationInput` (+enum kanal/pembulatan/metode sub-Jago/siklus langganan/frekuensi DANA), `AllocationResult` (+`JagoSubAllocationResult`, `SubscriptionPlanResult`, `SubscriptionMonthlyPlan`, `EmergencyFundPlan`, `DanaScheduleResult`), `AllocationPreset` (4 preset 2 tingkat §13), `AllocationViolation` (16 kode → dipetakan ke ARB di presentasi nanti)
+  - Service `lib/domain/services/` (pure Dart, deterministik): `AllocationEngine` Tahap 0–5 §12 + pembulatan floor+residual §18 (floor Investasi & DANA → Jago residual; floor Stockbit → Bibit residual); `SubscriptionReserveService` §15 (`biayaTahunan ~/ 12`, sisa ke kontribusi bulan jatuh tempo, ledger cadangan, kekurangan eksplisit); `EmergencyFundService` §16 (pokok otomatis dari kategori bertanda + koreksi manual bertanda); `DanaScheduleService` §17 (harian/mingguan/sekaligus, sisa integer ke periode terakhir, jumlah kejadian mingguan sebenarnya); `AllocationValidator` §53 (validasi input pra-hitung + semua invarian pasca-pembulatan, Selisih Belum Dialokasikan wajib Rp0, blokir langganan > alokasi Jago §14)
+  - Test `test/domain/`: engine 17, langganan 8, jadwal DANA 6, dana darurat 8, fuzz 1000 input seed tetap (20260801) semua invarian — total **65/65 lulus**, analyze 0 issue
+- **Fase 1B — Data layer (2026-08-01):**
+  - Skema Drift subset F1 `lib/data/db/tables.dart` (15 tabel §54): MonthlyAllocations+Revisions (snapshot input+hasil, status draf/dikonfirmasi/dikunci/direvisi, unik (bulan,nomorRevisi)), IncomeSources, MandatoryExpenses, BudgetFundingAssignments (sumber≠kanal, unik per item+revisi), ExpenseRealizations, Subscriptions+ReserveLedgers (unik per periode), EmergencyFundTargets/Contributions, OtherSavingsContributions, InvestmentPlatformAllocations (unik revisi+platform), ChecklistItems (kode template→ARB), Reminders, AppSettings (key-value)
+  - Enum status di `lib/domain/models/finance_enums.dart` (RevisionStatus, BudgetSource, PlanActualStatus, VerificationStatus, InvestmentPlatform, ReminderKind)
+  - `AppDatabase` + codegen (`dart run build_runner build -d`); PRAGMA foreign_keys ON
+  - Enkripsi: `DatabaseKeyManager` (kunci hex 256-bit acak di flutter_secure_storage, tidak pernah di-log) + `openEncryptedConnection` (PRAGMA key sqlite3mc + fail-fast `PRAGMA cipher` jika cipher tidak aktif)
+  - `ChecklistBuilder` (domain, pure): checklist §21 dinamis per kanal pembayaran wajib
+  - Repositories `lib/data/repositories/`: AllocationRepository (simpanRevisi transaksional: bulan+revisi+anak; revisi immutable, revisi lama → `direvisi`; transisi status; checklist toggle), ExpenseRealizationRepository (§22A; sisa anggaran DANA null tanpa realisasi; wajib via DANA tidak mengurangi uang jajan), SubscriptionRepository (CRUD+ledger append-only sinkron saldo), EmergencyFundRepository (target terbaru menang + kontribusi rencana/aktual + tabungan lain), SettingsRepository (key-value; kredensial TIDAK di sini)
+  - Test integrasi in-memory `test/data/` (13 test) — total **78/78 lulus**, analyze 0 issue, build APK debug OK
+  - Dep baru: path_provider, path
+- **Fase 1C — UI inti (2026-08-01):**
+  - Splash (§7) + onboarding 3 halaman tanpa AI (`lib/features/onboarding/`); flag `onboardingSelesai` di AppSettings; initialLocation `/splash`
+  - Tema persisten via AppSettings (ThemeModeController baca/tulis SettingsRepository)
+  - Alur Hitung 3 langkah (`hitung_page.dart` + `hitung_controller.dart`): Pendapatan (utama+kas+tambahan) → Pengeluaran Wajib (kanal+dasar darurat) → Pembagian (4 preset chips + custom % dua tingkat + indikator 100% merah/hijau + pembulatan + frekuensi DANA); tombol Hitung disabled saat invalid
+  - Hasil (`hasil_page.dart`): donut §20 (pemetaan kategori) + 4 card §19 (BRImo/Jago/Investasi+sub-card Bibit&Stockbit/DANA) + persentase efektif + tombol salin + peringatan risiko + Simpan ke Riwayat
+  - Riwayat berversi (§22): list bulan + StatusChip; detail revisi + konfirmasi status draf→dikonfirmasi + checklist transfer interaktif (kode→ARB via `_labelChecklist`)
+  - Beranda §9: maks 4 info (Total Pendapatan, Wajib, Investasi rencana, progres checklist) dari revisi aktif; empty state jika belum ada
+  - Progres §23 dasar: dana darurat (target via dialog, disimpan EmergencyFundRepository) + progres checklist; label "Tidak tersedia" utk nilai null
+  - Pengaturan §51 subset: tema radio persisten + lihat onboarding + tentang + disclaimer
+  - Router: rute /splash /onboarding /hasil /pengaturan /riwayat/:revisiId; providers data di `lib/app/data_providers.dart`
+  - Smoke test ditulis ulang (DB in-memory via override databaseProvider): onboarding flow, navigasi, tema persisten, **E2E hitung→hasil→simpan→riwayat→konfirmasi→beranda** — total **79/79 lulus**, analyze 0 issue, APK debug OK
+- **Fase 1C lanjutan (2026-08-01):**
+  - Catat Pengeluaran §22A: dialog + daftar realisasi + **Sisa Anggaran DANA** di detail riwayat (null → "Tidak tersedia", bukan Rp0; wajib via DANA tidak mengurangi uang jajan)
+  - Kelola Langganan §15 (`lib/features/langganan/`): CRUD via dialog (siklus, bulan tagihan, metode tahunan, sumber anggaran, aktif); **langganan aktif dari DB otomatis ikut dihitung** saat Hitung; dropdown metode sub-Jago (persentase tetap / berdasarkan langganan) di langkah 3; blokir §14 ditampilkan sebagai pesan spesifik
+  - Aksi riwayat §22: menu Edit draf / Duplikasi ke Hitung (prefill controller dari revisi via `muatUntukPrefill`) + Hapus bulan dengan konfirmasi (`hapusBulan` transaksional hapus semua anak)
+  - Hapus seluruh data §51: `AppDatabase.hapusSemuaData()` + konfirmasi ganda di Pengaturan
+  - Notifikasi lokal §49 dasar (`lib/data/services/notification_service.dart`): pengingat top-up DANA 08.00 WIB utk jadwal mendatang, dijadwalkan saat konfirmasi alokasi; inexact schedule (tanpa izin exact alarm); POST_NOTIFICATIONS di manifest; error plugin ditelan (aman utk test); label app "Finara"
+  - Test baru: catat pengeluaran→sisa anggaran, kelola langganan, hapus semua data — total **82/82 lulus**, analyze 0 issue, APK debug OK
+  - **Ditunda ke 1D:** PIN/biometrik/auto-lock §51 (butuh uji perangkat fisik); bandingkan antarbulan + filter/cari riwayat §22
+- **Fase 1D (2026-08-01):**
+  - Keamanan §51: `PinManager` (SHA-256+salt acak di secure storage, tidak pernah plaintext); `LockPage` (/kunci) dgn PIN + biometrik via local_auth (MainActivity → FlutterFragmentActivity, izin USE_BIOMETRIC); splash cek PIN; auto-lock via WidgetsBindingObserver di FinaraApp (paused >1 menit → /kunci); UI Pengaturan→Keamanan (set PIN 2x input, toggle biometrik hanya saat PIN aktif); hapus semua data juga hapus PIN
+  - Riwayat §22: filter tahun (dropdown, muncul jika >1 tahun) + card "Dibanding bulan sebelumnya" (delta pendapatan/wajib/investasi/DANA; "Tidak ada data bulan sebelumnya" jika kosong)
+  - Dep baru: crypto. Test baru: pin_manager (hash/salt/verifikasi), alur kunci PIN E2E, perbandingan bulan — total **85/85 lulus**, analyze 0 issue, APK debug OK
+  - Catatan test: ListView lazy — scroll dulu sebelum assert elemen bawah; FlutterSecureStorage difake via `Fake implements` (param AppleOptions di v10)
 
-### BELUM selesai (pending — kerjakan pertama saat lanjut)
-1. **`flutter build apk --debug` GAGAL setelah 8m50s** (Gradle assembleDebug exit 1; log tail terpotong, penyebab belum didiagnosis).
-   - Jalankan ulang dengan log penuh: `flutter build apk --debug 2>&1 | tee /tmp/build.log` lalu cari error pertama (`grep -n -m5 -iE "error|failed|exception" /tmp/build.log`)
-   - Hipotesis utama (urut kemungkinan):
-     a. Build hook native assets `sqlite3`/sqlite3mc butuh toolchain C — di mesin lama TIDAK ada clang/gcc (flutter doctor menandai clang missing). Coba: pasang `clang` (di Codespace: `sudo apt-get install -y clang cmake ninja-build`), atau sementara HAPUS blok `hooks:` di pubspec + dep `sqlite3` untuk membuktikan penyebab (enkripsi bisa ditunda ke Fase 1B)
-     b. NDK belum terpasang/gagal diunduh Gradle (cek `ls ~/Android/Sdk/ndk`); bisa pasang manual: `sdkmanager "ndk;<versi yang diminta log>"`
-     c. Kegagalan unduh dependensi Gradle (timeout jaringan) — cukup ulangi build
-2. Setelah build sukses → **checkpoint Fase 0 ke pemilik proyek** (aturan alur kerja), baru mulai Fase 1
+### BELUM selesai (pending — kerjakan saat lanjut)
+1. **Checkpoint Fase 1 LENGKAP ke pemilik proyek.** Uji manual di perangkat Android wajib sebelum lanjut: PIN/biometrik/auto-lock, notifikasi terjadwal, dark mode, font scaling besar, keyboard tidak menutup input, layar kecil.
+2. Setelah disetujui → **Fase 2 Finara AI MVP** (`activeAppPhase = fase2`): interface `AIProviderAdapter` 11 method §55, adapter OpenAI-compatible, API key secure storage §45, model discovery+cache §29, searchable picker §31, default/favorit/manual §30/§33/§34, chat streaming + system prompt §46, riwayat percakapan §47, izin data §44 + FinancialContextBuilder + DataSanitizer, tombol "Tanyakan Hasil Ini ke AI" §43, error handling §48, `MockAIAdapter` utk test
 
 ## Setup lingkungan di Codespace (Linux, tanpa sudo tidak masalah kecuali clang)
 
@@ -78,7 +111,7 @@ cd <repo> && flutter pub get && flutter gen-l10n && flutter analyze && flutter t
 
 ## Rencana per fase (ringkas — detail di percakapan/spesifikasi)
 
-### Fase 1 — Core Financial MVP (berikutnya setelah build APK beres)
+### Fase 1 — Core Financial MVP (berikutnya setelah checkpoint Fase 0 disetujui)
 Urutan pengerjaan:
 1. **1A Mesin perhitungan (pure Dart, `lib/domain/services/`)** — `AllocationEngine` Tahap 0–5 (§12 spesifikasi); preset 2 tingkat (§13: Standard Hybrid 40/30/30 + Bibit/Stockbit 70/30, Investor Fokus 25/50/25 + 50/50, Pelajar 45/15/40 + 80/20, Konservatif 60/20/20 + 85/15, Custom); pembulatan floor+residual (§18: floor Investasi & DANA → Jago residual; floor Stockbit → Bibit residual); sub-alokasi Jago 2 metode (§14, rasio 5:4, blokir jika langganan > alokasi); langganan + ledger cadangan tahunan (§15, `biayaTahunan ~/ 12`, sisa ke kontribusi terakhir); dana darurat (§16); jadwal DANA harian/mingguan (§17, sisa integer ke periode terakhir); `AllocationValidator` semua invarian §53 setelah pembulatan, Selisih Belum Dialokasikan wajib Rp0. Unit test §60 + fuzz test invarian seed tetap.
 2. **1B Data layer (`lib/data/`)** — skema Drift subset F1 (§54): MonthlyAllocation+Revision immutable (status draf/dikonfirmasi/dikunci/direvisi), IncomeSource, MandatoryExpense, BudgetFundingAssignment (sumber anggaran ≠ kanal pembayaran), ExpenseRealization, Subscription+ReserveLedger, EmergencyFundTarget/Contribution, OtherSavingsContribution, InvestmentPlatformAllocation, ChecklistItem, Reminder, AppSettings; repositories; enkripsi sqlite3mc (PRAGMA key dari flutter_secure_storage); test integrasi in-memory.

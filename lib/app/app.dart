@@ -4,14 +4,57 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../design_system/theme/finara_theme.dart';
 import '../l10n/app_localizations.dart';
+import 'providers.dart';
 import 'router.dart';
 import 'theme_mode_controller.dart';
 
-class FinaraApp extends ConsumerWidget {
+class FinaraApp extends ConsumerStatefulWidget {
   const FinaraApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<FinaraApp> createState() => _FinaraAppState();
+}
+
+class _FinaraAppState extends ConsumerState<FinaraApp>
+    with WidgetsBindingObserver {
+  static const _batasAutoLock = Duration(minutes: 1);
+  DateTime? _ditinggalPada;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      _ditinggalPada = DateTime.now();
+    } else if (state == AppLifecycleState.resumed) {
+      _cekAutoLock();
+    }
+  }
+
+  Future<void> _cekAutoLock() async {
+    final ditinggal = _ditinggalPada;
+    _ditinggalPada = null;
+    if (ditinggal == null ||
+        DateTime.now().difference(ditinggal) < _batasAutoLock) {
+      return;
+    }
+    if (await ref.read(pinManagerProvider).adaPin()) {
+      ref.read(routerProvider).go(FinaraRoutes.kunci);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final router = ref.watch(routerProvider);
     final themeMode = ref.watch(themeModeProvider);
 
