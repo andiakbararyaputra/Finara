@@ -1,0 +1,42 @@
+{
+  "@@locale": "id",
+  "appName": "Finara",
+  "appTagline": "Setiap rupiah punya arah.",
+  "appDescription": "Finara membantu mengatur penghasilan, pengeluaran, tabungan, investasi, dan tujuan keuangan dalam satu aplikasi.",
+
+  "navBeranda": "Beranda",
+  "navHitung": "Hitung",
+  "navFinaraAi": "Finara AI",
+  "navProgres": "Progres",
+  "navRiwayat": "Riwayat",
+
+  "pengaturan": "Pengaturan",
+  "tema": "Tema",
+  "temaTerang": "Terang",
+  "temaGelap": "Gelap",
+  "temaSistem": "Ikuti sistem",
+
+  "belumTersedia": "Belum tersedia",
+  "tidakTersedia": "Tidak tersedia",
+  "rencana": "Rencana",
+  "aktual": "Aktual",
+  "estimasi": "Estimasi",
+  "anggaran": "Anggaran",
+
+  "hitungAlokasi": "Hitung Alokasi",
+  "tanyaFinaraAi": "Tanya Finara AI",
+
+  "berandaKosongJudul": "Belum ada alokasi bulan ini",
+  "berandaKosongPesan": "Mulai dengan menghitung alokasi penghasilan bulan ini agar setiap rupiah punya arah.",
+  "hitungKosongJudul": "Siap menghitung alokasi",
+  "hitungKosongPesan": "Masukkan penghasilan dan pengeluaran wajib untuk membagi dana secara otomatis. Fitur ini sedang disiapkan pada fase pengembangan berikutnya.",
+  "progresKosongJudul": "Belum ada data progres",
+  "progresKosongPesan": "Progres dana darurat dan checklist akan tampil setelah alokasi pertama dibuat.",
+  "riwayatKosongJudul": "Belum ada riwayat",
+  "riwayatKosongPesan": "Setiap alokasi yang disimpan akan tercatat di sini beserta revisinya.",
+
+  "cobaLagi": "Coba lagi",
+  "terjadiKesalahan": "Terjadi kesalahan",
+
+  "disclaimerUtama": "Finara membantu melakukan simulasi dan perencanaan keuangan. Finara bukan bank, bukan penasihat keuangan, dan tidak menjamin keuntungan investasi. Selalu periksa kembali informasi sebelum mengambil keputusan keuangan."
+}

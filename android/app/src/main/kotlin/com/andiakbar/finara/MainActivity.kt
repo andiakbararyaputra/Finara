@@ -1,0 +1,5 @@
+package com.andiakbar.finara
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity : FlutterActivity()
