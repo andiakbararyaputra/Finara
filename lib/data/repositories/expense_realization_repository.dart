@@ -50,6 +50,22 @@ class ExpenseRealizationRepository {
         .get();
   }
 
+  /// Semua realisasi dalam satu bulan kalender (berdasarkan tanggal
+  /// transaksi), terbaru dulu.
+  Future<List<ExpenseRealization>> perBulan(int tahun, int bulan) {
+    final awal = DateTime(tahun, bulan);
+    final akhir = DateTime(tahun, bulan + 1);
+    return (_db.select(_db.expenseRealizations)
+          ..where((t) =>
+              t.transactionDate.isBiggerOrEqualValue(awal) &
+              t.transactionDate.isSmallerThanValue(akhir))
+          ..orderBy([
+            (t) => OrderingTerm.desc(t.transactionDate),
+            (t) => OrderingTerm.desc(t.id),
+          ]))
+        .get();
+  }
+
   /// Total realisasi per sumber anggaran pada satu revisi.
   Future<int> totalPerSumber(int revisiId, BudgetSource sumber) async {
     final jumlah = _db.expenseRealizations.amount.sum();

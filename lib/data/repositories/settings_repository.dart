@@ -12,6 +12,7 @@ abstract final class SettingKeys {
   static const onboardingSelesai = 'onboardingSelesai'; // true | false
   static const biometrikAktif = 'biometrikAktif'; // true | false
   static const retensiChatHari = 'retensiChatHari'; // '0' = selamanya
+  static const autoLockMenit = 'autoLockMenit'; // menit, default 5
 }
 
 class SettingsRepository {

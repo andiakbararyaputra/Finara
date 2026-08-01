@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../data/repositories/settings_repository.dart';
 import '../design_system/theme/finara_theme.dart';
 import '../l10n/app_localizations.dart';
 import 'providers.dart';
@@ -17,7 +18,7 @@ class FinaraApp extends ConsumerStatefulWidget {
 
 class _FinaraAppState extends ConsumerState<FinaraApp>
     with WidgetsBindingObserver {
-  static const _batasAutoLock = Duration(minutes: 1);
+  static const _autoLockMenitDefault = 5;
   DateTime? _ditinggalPada;
 
   @override
@@ -44,8 +45,13 @@ class _FinaraAppState extends ConsumerState<FinaraApp>
   Future<void> _cekAutoLock() async {
     final ditinggal = _ditinggalPada;
     _ditinggalPada = null;
-    if (ditinggal == null ||
-        DateTime.now().difference(ditinggal) < _batasAutoLock) {
+    if (ditinggal == null) return;
+    final nilai = await ref
+        .read(settingsRepositoryProvider)
+        .baca(SettingKeys.autoLockMenit);
+    final batas =
+        Duration(minutes: int.tryParse(nilai ?? '') ?? _autoLockMenitDefault);
+    if (DateTime.now().difference(ditinggal) < batas) {
       return;
     }
     if (await ref.read(pinManagerProvider).adaPin()) {

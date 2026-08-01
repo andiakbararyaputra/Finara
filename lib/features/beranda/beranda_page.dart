@@ -155,6 +155,8 @@ class _BerandaIsi extends ConsumerWidget {
           ],
         ),
         const SizedBox(height: FinaraSpacing.md),
+        const _CardPengeluaranBulanIni(),
+        const SizedBox(height: FinaraSpacing.md),
         FinaraCard(
           onTap: () => context.go('${FinaraRoutes.riwayat}/$revisiId'),
           child: Column(
@@ -182,6 +184,80 @@ class _BerandaIsi extends ConsumerWidget {
           label: Text(l10n.hitungAlokasi),
         ),
       ],
+    );
+  }
+}
+
+class _CardPengeluaranBulanIni extends ConsumerWidget {
+  const _CardPengeluaranBulanIni();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final realisasi = ref.watch(realisasiBulanIniProvider).value ?? const [];
+    final total = realisasi.fold<int>(0, (a, r) => a + r.amount);
+    final terbaru = realisasi.take(3).toList();
+
+    return FinaraCard(
+      onTap: () => context.push(FinaraRoutes.catatPengeluaran),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              CircleAvatar(
+                radius: 14,
+                backgroundColor: FinaraColors.dana.withValues(alpha: 0.14),
+                child: const Icon(Icons.payments_outlined,
+                    size: 16, color: FinaraColors.dana),
+              ),
+              const SizedBox(width: FinaraSpacing.sm),
+              Expanded(
+                child: Text(l10n.pengeluaranBulanIni,
+                    style: theme.textTheme.bodyMedium),
+              ),
+              AmountText(total, style: theme.textTheme.titleMedium),
+            ],
+          ),
+          if (terbaru.isNotEmpty) ...[
+            const SizedBox(height: FinaraSpacing.sm),
+            for (final r in terbaru)
+              Padding(
+                padding: const EdgeInsets.only(top: FinaraSpacing.xs),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        '${DateFormat('d MMM', 'id_ID').format(r.transactionDate)}'
+                        '${r.userNotes?.isNotEmpty == true ? ' · ${r.userNotes}' : ''}',
+                        style: theme.textTheme.bodySmall!.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    AmountText(r.amount, style: theme.textTheme.bodySmall),
+                  ],
+                ),
+              ),
+          ] else ...[
+            const SizedBox(height: FinaraSpacing.xs),
+            Text(l10n.belumAdaRealisasi,
+                style: theme.textTheme.bodySmall!.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant)),
+          ],
+          const SizedBox(height: FinaraSpacing.sm),
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton.icon(
+              onPressed: () => context.push(FinaraRoutes.catatPengeluaran),
+              icon: const Icon(Icons.add_rounded, size: 18),
+              label: Text(l10n.catatPengeluaran),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

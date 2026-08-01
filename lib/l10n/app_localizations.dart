@@ -2020,6 +2020,138 @@ abstract class AppLocalizations {
   /// **'Belum ada realisasi tercatat'**
   String get belumAdaRealisasi;
 
+  /// No description provided for @pengeluaranBulanIni.
+  ///
+  /// In id, this message translates to:
+  /// **'Pengeluaran Bulan Ini'**
+  String get pengeluaranBulanIni;
+
+  /// No description provided for @totalTercatat.
+  ///
+  /// In id, this message translates to:
+  /// **'Total tercatat'**
+  String get totalTercatat;
+
+  /// No description provided for @catatPengeluaranDesc.
+  ///
+  /// In id, this message translates to:
+  /// **'Catat pengeluaran yang terjadi bulan ini agar sisa anggaran jajan dan skor kesehatan finansial tetap akurat.'**
+  String get catatPengeluaranDesc;
+
+  /// No description provided for @pengeluaranTersimpan.
+  ///
+  /// In id, this message translates to:
+  /// **'Pengeluaran tersimpan'**
+  String get pengeluaranTersimpan;
+
+  /// No description provided for @hapusPengeluaranTanya.
+  ///
+  /// In id, this message translates to:
+  /// **'Hapus catatan pengeluaran ini?'**
+  String get hapusPengeluaranTanya;
+
+  /// No description provided for @autoLockSetelah.
+  ///
+  /// In id, this message translates to:
+  /// **'Kunci otomatis setelah'**
+  String get autoLockSetelah;
+
+  /// No description provided for @autoLockMenitOpsi.
+  ///
+  /// In id, this message translates to:
+  /// **'{menit} menit'**
+  String autoLockMenitOpsi(int menit);
+
+  /// No description provided for @descPenghasilanUtama.
+  ///
+  /// In id, this message translates to:
+  /// **'Gaji atau pemasukan rutin utama yang kamu terima bulan ini.'**
+  String get descPenghasilanUtama;
+
+  /// No description provided for @descKasPegangan.
+  ///
+  /// In id, this message translates to:
+  /// **'Uang yang disisihkan sebagai kas pegangan di BRImo; tidak ikut dibagi ke alokasi.'**
+  String get descKasPegangan;
+
+  /// No description provided for @descPenghasilanTambahan.
+  ///
+  /// In id, this message translates to:
+  /// **'Pemasukan tidak rutin seperti bonus, THR, atau hasil proyek sampingan.'**
+  String get descPenghasilanTambahan;
+
+  /// No description provided for @descPengeluaranWajib.
+  ///
+  /// In id, this message translates to:
+  /// **'Tagihan dan kebutuhan yang harus dibayar tiap bulan, misalnya kos, listrik, dan internet.'**
+  String get descPengeluaranWajib;
+
+  /// No description provided for @descPilihPreset.
+  ///
+  /// In id, this message translates to:
+  /// **'Preset menentukan pembagian dana bersih ke Bank Jago, Investasi, dan DANA. Pilih Custom untuk mengatur persentase sendiri.'**
+  String get descPilihPreset;
+
+  /// No description provided for @descKartuInvestasi.
+  ///
+  /// In id, this message translates to:
+  /// **'Bagian investasi dibagi ke Bibit (reksa dana) dan Stockbit (saham). Matikan Stockbit bila bulan ini seluruhnya ke Bibit.'**
+  String get descKartuInvestasi;
+
+  /// No description provided for @descMetodeSubJago.
+  ///
+  /// In id, this message translates to:
+  /// **'Cara membagi bagian Bank Jago ke kantong Pengeluaran Wajib dan kantong Langganan.'**
+  String get descMetodeSubJago;
+
+  /// No description provided for @descPembulatan.
+  ///
+  /// In id, this message translates to:
+  /// **'Membulatkan angka alokasi supaya nominal transfer lebih rapi dan mudah diingat.'**
+  String get descPembulatan;
+
+  /// No description provided for @descFrekuensiDana.
+  ///
+  /// In id, this message translates to:
+  /// **'Seberapa sering kamu ingin melakukan top-up saldo DANA dari alokasi bulan ini.'**
+  String get descFrekuensiDana;
+
+  /// No description provided for @descSkorKesehatan.
+  ///
+  /// In id, this message translates to:
+  /// **'Skor 0–100 yang merangkum kondisi keuanganmu dari beberapa komponen; makin tinggi makin sehat.'**
+  String get descSkorKesehatan;
+
+  /// No description provided for @descDanaDarurat.
+  ///
+  /// In id, this message translates to:
+  /// **'Kemajuan tabungan dana darurat dibandingkan target yang kamu tetapkan.'**
+  String get descDanaDarurat;
+
+  /// No description provided for @descSavingsRate.
+  ///
+  /// In id, this message translates to:
+  /// **'Persentase pendapatan yang direncanakan untuk ditabung dan diinvestasikan bulan ini.'**
+  String get descSavingsRate;
+
+  /// No description provided for @descInvestasiGabungan.
+  ///
+  /// In id, this message translates to:
+  /// **'Realisasi setoran investasi (Bibit + Stockbit) dibandingkan rencana bulan ini.'**
+  String get descInvestasiGabungan;
+
+  /// No description provided for @descChecklistProgres.
+  ///
+  /// In id, this message translates to:
+  /// **'Daftar transfer yang perlu kamu eksekusi sesuai hasil alokasi bulan ini.'**
+  String get descChecklistProgres;
+
+  /// No description provided for @descPerbandingan.
+  ///
+  /// In id, this message translates to:
+  /// **'Perubahan alokasi bulan ini dibandingkan bulan sebelumnya.'**
+  String get descPerbandingan;
+
   /// No description provided for @kelolaLangganan.
   ///
   /// In id, this message translates to:

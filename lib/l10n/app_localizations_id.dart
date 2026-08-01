@@ -1035,6 +1035,90 @@ class AppLocalizationsId extends AppLocalizations {
   String get belumAdaRealisasi => 'Belum ada realisasi tercatat';
 
   @override
+  String get pengeluaranBulanIni => 'Pengeluaran Bulan Ini';
+
+  @override
+  String get totalTercatat => 'Total tercatat';
+
+  @override
+  String get catatPengeluaranDesc =>
+      'Catat pengeluaran yang terjadi bulan ini agar sisa anggaran jajan dan skor kesehatan finansial tetap akurat.';
+
+  @override
+  String get pengeluaranTersimpan => 'Pengeluaran tersimpan';
+
+  @override
+  String get hapusPengeluaranTanya => 'Hapus catatan pengeluaran ini?';
+
+  @override
+  String get autoLockSetelah => 'Kunci otomatis setelah';
+
+  @override
+  String autoLockMenitOpsi(int menit) {
+    return '$menit menit';
+  }
+
+  @override
+  String get descPenghasilanUtama =>
+      'Gaji atau pemasukan rutin utama yang kamu terima bulan ini.';
+
+  @override
+  String get descKasPegangan =>
+      'Uang yang disisihkan sebagai kas pegangan di BRImo; tidak ikut dibagi ke alokasi.';
+
+  @override
+  String get descPenghasilanTambahan =>
+      'Pemasukan tidak rutin seperti bonus, THR, atau hasil proyek sampingan.';
+
+  @override
+  String get descPengeluaranWajib =>
+      'Tagihan dan kebutuhan yang harus dibayar tiap bulan, misalnya kos, listrik, dan internet.';
+
+  @override
+  String get descPilihPreset =>
+      'Preset menentukan pembagian dana bersih ke Bank Jago, Investasi, dan DANA. Pilih Custom untuk mengatur persentase sendiri.';
+
+  @override
+  String get descKartuInvestasi =>
+      'Bagian investasi dibagi ke Bibit (reksa dana) dan Stockbit (saham). Matikan Stockbit bila bulan ini seluruhnya ke Bibit.';
+
+  @override
+  String get descMetodeSubJago =>
+      'Cara membagi bagian Bank Jago ke kantong Pengeluaran Wajib dan kantong Langganan.';
+
+  @override
+  String get descPembulatan =>
+      'Membulatkan angka alokasi supaya nominal transfer lebih rapi dan mudah diingat.';
+
+  @override
+  String get descFrekuensiDana =>
+      'Seberapa sering kamu ingin melakukan top-up saldo DANA dari alokasi bulan ini.';
+
+  @override
+  String get descSkorKesehatan =>
+      'Skor 0–100 yang merangkum kondisi keuanganmu dari beberapa komponen; makin tinggi makin sehat.';
+
+  @override
+  String get descDanaDarurat =>
+      'Kemajuan tabungan dana darurat dibandingkan target yang kamu tetapkan.';
+
+  @override
+  String get descSavingsRate =>
+      'Persentase pendapatan yang direncanakan untuk ditabung dan diinvestasikan bulan ini.';
+
+  @override
+  String get descInvestasiGabungan =>
+      'Realisasi setoran investasi (Bibit + Stockbit) dibandingkan rencana bulan ini.';
+
+  @override
+  String get descChecklistProgres =>
+      'Daftar transfer yang perlu kamu eksekusi sesuai hasil alokasi bulan ini.';
+
+  @override
+  String get descPerbandingan =>
+      'Perubahan alokasi bulan ini dibandingkan bulan sebelumnya.';
+
+  @override
   String get kelolaLangganan => 'Kelola Langganan';
 
   @override

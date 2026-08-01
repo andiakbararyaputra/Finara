@@ -77,6 +77,15 @@ final realisasiPerRevisiProvider =
       .perRevisi(revisiId);
 });
 
+/// Realisasi pengeluaran bulan kalender berjalan (fitur Catat Pengeluaran).
+final realisasiBulanIniProvider =
+    FutureProvider<List<ExpenseRealization>>((ref) {
+  final kini = DateTime.now();
+  return ref
+      .watch(expenseRealizationRepositoryProvider)
+      .perBulan(kini.year, kini.month);
+});
+
 /// Sisa anggaran DANA; null berarti belum ada realisasi (bukan 0).
 final sisaAnggaranDanaProvider =
     FutureProvider.family<int?, ({int revisiId, int alokasiDana})>(

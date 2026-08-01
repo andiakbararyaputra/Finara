@@ -168,6 +168,10 @@ class _CardSkor extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(l10n.skorKesehatan, style: theme.textTheme.titleMedium),
+          const SizedBox(height: FinaraSpacing.xs),
+          Text(l10n.descSkorKesehatan,
+              style: theme.textTheme.bodySmall!
+                  .copyWith(color: theme.colorScheme.onSurfaceVariant)),
           const SizedBox(height: FinaraSpacing.sm),
           if (skor.skor == null)
             Text(l10n.skorTidakTersedia, style: theme.textTheme.bodySmall)
@@ -284,12 +288,17 @@ class _CardSavingsRate extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
     final rencanaBp = ref.watch(savingsRateRencanaProvider).value;
 
     return FinaraCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(l10n.descSavingsRate,
+              style: theme.textTheme.bodySmall!
+                  .copyWith(color: theme.colorScheme.onSurfaceVariant)),
+          const SizedBox(height: FinaraSpacing.xs),
           _BarisNilai(
               l10n.savingsRateRencana,
               rencanaBp == null
@@ -322,6 +331,10 @@ class _CardPerbandingan extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(l10n.perbandinganBulanan, style: theme.textTheme.titleMedium),
+          const SizedBox(height: FinaraSpacing.xs),
+          Text(l10n.descPerbandingan,
+              style: theme.textTheme.bodySmall!
+                  .copyWith(color: theme.colorScheme.onSurfaceVariant)),
           const SizedBox(height: FinaraSpacing.sm),
           for (final e in entries)
             Padding(
@@ -408,6 +421,10 @@ class _CardInvestasiGabungan extends ConsumerWidget {
               ),
             ],
           ),
+          Text(l10n.descInvestasiGabungan,
+              style: theme.textTheme.bodySmall!
+                  .copyWith(color: theme.colorScheme.onSurfaceVariant)),
+          const SizedBox(height: FinaraSpacing.xs),
           if (revisi != null) ...[
             _BarisNilai('${l10n.bagianInvestasi} — ${l10n.rencana}',
                 formatRupiah(revisi.totalAlokasiInvestasi)),
@@ -493,6 +510,10 @@ class _CardDanaDarurat extends StatelessWidget {
               ),
             ],
           ),
+          Text(l10n.descDanaDarurat,
+              style: theme.textTheme.bodySmall!
+                  .copyWith(color: theme.colorScheme.onSurfaceVariant)),
+          const SizedBox(height: FinaraSpacing.sm),
           if (progres != null) ...[
             LinearProgressIndicator(
               value: progres,
@@ -536,6 +557,10 @@ class _CardChecklist extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(l10n.progresChecklist, style: theme.textTheme.titleMedium),
+          const SizedBox(height: FinaraSpacing.xs),
+          Text(l10n.descChecklistProgres,
+              style: theme.textTheme.bodySmall!
+                  .copyWith(color: theme.colorScheme.onSurfaceVariant)),
           const SizedBox(height: FinaraSpacing.sm),
           LinearProgressIndicator(
             value: checklist.isEmpty ? 0 : selesai / checklist.length,

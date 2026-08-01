@@ -17,6 +17,7 @@ import '../features/langganan/langganan_page.dart';
 import '../features/onboarding/onboarding_page.dart';
 import '../features/onboarding/splash_page.dart';
 import '../features/pengaturan/pengaturan_page.dart';
+import '../features/pengeluaran/catat_pengeluaran_page.dart';
 import '../features/progres/progres_page.dart';
 import '../features/riwayat/riwayat_detail_page.dart';
 import '../features/riwayat/riwayat_page.dart';
@@ -43,6 +44,7 @@ abstract final class FinaraRoutes {
   static const String danaPlus = '/dana-plus';
   static const String investasiAktual = '/investasi-aktual';
   static const String imporBibit = '/impor-bibit';
+  static const String catatPengeluaran = '/catat-pengeluaran';
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -92,6 +94,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: FinaraRoutes.imporBibit,
         builder: (context, state) => const ImporBibitPage(),
+      ),
+      GoRoute(
+        path: FinaraRoutes.catatPengeluaran,
+        builder: (context, state) => const CatatPengeluaranPage(),
       ),
       GoRoute(
         path: FinaraRoutes.aiPengaturan,

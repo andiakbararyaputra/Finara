@@ -130,6 +130,12 @@
   - Visual: hero card gradien emerald di Beranda + ikon mini card; header 4 card Hasil dgn avatar ikon warna platform; skor kesehatan jadi ring melingkar berwarna kategori; splash & onboarding ikon dalam lingkaran gradien/soft; avatar bulan di daftar Riwayat
   - Audit: analyze 0 issue, 178/178 test, tanpa print/TODO; versi disamakan 0.1.0 (pubspec + Pengaturan)
   - **RILIS v0.1.0 (pre-release)**: `flutter build apk --release` (76 MB universal, signing debug — belum utk Play Store), https://github.com/andiakbararyaputra/Finara/releases/tag/v0.1.0 ; seluruh release uji-fase1..4 + tag DIHAPUS sesuai permintaan
+- **Batch 1 v0.2.0 (2026-08-01):**
+  - Ikon aplikasi baru: dompet + uang + koin "Rp" (rekreasi gambar referensi, ¥→Rp) — dirender vektor via `test/tools/generate_icon_test.dart` (CustomPaint→PNG, package:image); mipmap semua dpi + adaptive icon v26 (foreground + background #F7F9F8); master `finara-icon-1024.png`
+  - Halaman Catat Pengeluaran (`/catat-pengeluaran`): daftar realisasi bulan kalender berjalan (`perBulan` di ExpenseRealizationRepository, `realisasiBulanIniProvider`), tambah/hapus entri, total tercatat + sisa anggaran DANA; card "Pengeluaran Bulan Ini" di Beranda (total + 3 entri terakhir)
+  - Deskripsi penjelas: helperText input & dropdown di alur Hitung (penghasilan, kas, preset, investasi, sub-Jago, pembulatan, frekuensi DANA) + subtitle tiap card Progres (skor, dana darurat, savings rate, investasi gabungan, checklist, perbandingan) — 16 key ARB baru `desc*`
+  - Auto-lock jadi pilihan di Pengaturan → Keamanan (1/5/15/30 menit, default 5; `SettingKeys.autoLockMenit`), aktif hanya bila PIN terpasang
+  - Test +2 (pengeluaran_flow) + 1 generator ikon — total **181/181 lulus**, analyze 0 issue, APK debug OK
 
 ### BELUM selesai (pending — kerjakan saat lanjut)
 1. Menuju rilis produksi (v1.0.0 / Play Store): keystore & signing release sendiri, ikon aplikasi & splash native asli (bukan ikon Material), `--split-per-abi` atau app bundle, acceptance §61 penuh, uji perangkat menyeluruh.

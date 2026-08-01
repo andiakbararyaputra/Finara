@@ -91,7 +91,7 @@ class PengaturanPage extends ConsumerWidget {
                 contentPadding: EdgeInsets.zero,
                 leading: const Icon(Icons.info_outline_rounded),
                 title: Text(l10n.versiAplikasi),
-                subtitle: const Text('0.1.0'),
+                subtitle: const Text('0.2.0'),
               ),
               const SizedBox(height: FinaraSpacing.md),
               Text(
@@ -156,6 +156,7 @@ class _SectionKeamanan extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final adaPin = ref.watch(_statusPinProvider).value ?? false;
     final biometrik = ref.watch(_biometrikProvider).value ?? false;
+    final autoLockMenit = ref.watch(_autoLockMenitProvider).value ?? 5;
 
     return Column(
       children: [
@@ -191,6 +192,30 @@ class _SectionKeamanan extends ConsumerWidget {
                       .tulis(SettingKeys.biometrikAktif, '$v');
                   ref.invalidate(_biometrikProvider);
                 },
+        ),
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          leading: const Icon(Icons.timer_outlined),
+          title: Text(l10n.autoLockSetelah),
+          enabled: adaPin,
+          trailing: DropdownButton<int>(
+            value: autoLockMenit,
+            underline: const SizedBox.shrink(),
+            items: [
+              for (final m in const [1, 5, 15, 30])
+                DropdownMenuItem(
+                    value: m, child: Text(l10n.autoLockMenitOpsi(m))),
+            ],
+            onChanged: !adaPin
+                ? null
+                : (v) async {
+                    if (v == null) return;
+                    await ref
+                        .read(settingsRepositoryProvider)
+                        .tulis(SettingKeys.autoLockMenit, '$v');
+                    ref.invalidate(_autoLockMenitProvider);
+                  },
+          ),
         ),
       ],
     );
@@ -263,4 +288,11 @@ final _biometrikProvider = FutureProvider<bool>((ref) async {
       .watch(settingsRepositoryProvider)
       .baca(SettingKeys.biometrikAktif);
   return nilai == 'true';
+});
+
+final _autoLockMenitProvider = FutureProvider<int>((ref) async {
+  final nilai = await ref
+      .watch(settingsRepositoryProvider)
+      .baca(SettingKeys.autoLockMenit);
+  return int.tryParse(nilai ?? '') ?? 5;
 });

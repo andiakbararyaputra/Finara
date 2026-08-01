@@ -159,6 +159,7 @@ class _LangkahPendapatan extends ConsumerWidget {
         _InputRupiah(
           label: l10n.penghasilanUtama,
           nilaiAwal: state.penghasilanUtama,
+          helper: l10n.descPenghasilanUtama,
           errorText: state.penghasilanUtama != null &&
                   (state.penghasilanUtama ?? 0) <= 0
               ? l10n.penghasilanUtamaWajib
@@ -169,6 +170,7 @@ class _LangkahPendapatan extends ConsumerWidget {
         _InputRupiah(
           label: l10n.kasPeganganBrimo,
           nilaiAwal: state.kasPeganganBrimo,
+          helper: l10n.descKasPegangan,
           onChanged: (v) => ctrl.setKasPegangan(v ?? 0),
         ),
         const SizedBox(height: FinaraSpacing.xl),
@@ -186,6 +188,10 @@ class _LangkahPendapatan extends ConsumerWidget {
             ),
           ],
         ),
+        Text(l10n.descPenghasilanTambahan,
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant)),
+        const SizedBox(height: FinaraSpacing.sm),
         for (var i = 0; i < state.penghasilanTambahan.length; i++)
           _ItemTile(
             nama: state.penghasilanTambahan[i].nama,
@@ -302,6 +308,10 @@ class _LangkahPengeluaran extends ConsumerWidget {
             ),
           ],
         ),
+        Text(l10n.descPengeluaranWajib,
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant)),
+        const SizedBox(height: FinaraSpacing.sm),
         for (var i = 0; i < state.pengeluaranWajib.length; i++)
           _ItemTile(
             nama: state.pengeluaranWajib[i].nama,
@@ -431,6 +441,10 @@ class _LangkahPembagian extends ConsumerWidget {
       padding: const EdgeInsets.all(FinaraSpacing.lg),
       children: [
         Text(l10n.pilihPreset, style: theme.textTheme.titleMedium),
+        const SizedBox(height: FinaraSpacing.xs),
+        Text(l10n.descPilihPreset,
+            style: theme.textTheme.bodySmall!
+                .copyWith(color: theme.colorScheme.onSurfaceVariant)),
         const SizedBox(height: FinaraSpacing.sm),
         Wrap(
           spacing: FinaraSpacing.sm,
@@ -474,6 +488,10 @@ class _LangkahPembagian extends ConsumerWidget {
         ),
         const Divider(height: FinaraSpacing.xxl),
         Text(l10n.kartuInvestasi, style: theme.textTheme.titleMedium),
+        const SizedBox(height: FinaraSpacing.xs),
+        Text(l10n.descKartuInvestasi,
+            style: theme.textTheme.bodySmall!
+                .copyWith(color: theme.colorScheme.onSurfaceVariant)),
         const SizedBox(height: FinaraSpacing.sm),
         SwitchListTile(
           contentPadding: EdgeInsets.zero,
@@ -506,7 +524,11 @@ class _LangkahPembagian extends ConsumerWidget {
         const Divider(height: FinaraSpacing.xxl),
         DropdownButtonFormField<JagoSubAllocationMethod>(
           initialValue: state.metodeSubJago,
-          decoration: InputDecoration(labelText: l10n.metodeSubJago),
+          decoration: InputDecoration(
+            labelText: l10n.metodeSubJago,
+            helperText: l10n.descMetodeSubJago,
+            helperMaxLines: 3,
+          ),
           items: [
             DropdownMenuItem(
                 value: JagoSubAllocationMethod.persentaseTetap,
@@ -521,7 +543,11 @@ class _LangkahPembagian extends ConsumerWidget {
         const SizedBox(height: FinaraSpacing.lg),
         DropdownButtonFormField<RoundingOption>(
           initialValue: state.pembulatan,
-          decoration: InputDecoration(labelText: l10n.pembulatan),
+          decoration: InputDecoration(
+            labelText: l10n.pembulatan,
+            helperText: l10n.descPembulatan,
+            helperMaxLines: 3,
+          ),
           items: [
             DropdownMenuItem(
                 value: RoundingOption.tanpa, child: Text(l10n.pembulatanTanpa)),
@@ -540,7 +566,11 @@ class _LangkahPembagian extends ConsumerWidget {
         const SizedBox(height: FinaraSpacing.lg),
         DropdownButtonFormField<DanaTopUpFrequency>(
           initialValue: state.frekuensiTopUpDana,
-          decoration: InputDecoration(labelText: l10n.frekuensiTopUpDana),
+          decoration: InputDecoration(
+            labelText: l10n.frekuensiTopUpDana,
+            helperText: l10n.descFrekuensiDana,
+            helperMaxLines: 3,
+          ),
           items: [
             DropdownMenuItem(
                 value: DanaTopUpFrequency.harian,
@@ -662,11 +692,13 @@ class _InputRupiah extends StatelessWidget {
     required this.onChanged,
     this.nilaiAwal,
     this.errorText,
+    this.helper,
   });
 
   final String label;
   final int? nilaiAwal;
   final String? errorText;
+  final String? helper;
   final ValueChanged<int?> onChanged;
 
   @override
@@ -677,6 +709,8 @@ class _InputRupiah extends StatelessWidget {
         labelText: label,
         prefixText: 'Rp',
         errorText: errorText,
+        helperText: helper,
+        helperMaxLines: 3,
       ),
       keyboardType: TextInputType.number,
       inputFormatters: const [RupiahInputFormatter()],
