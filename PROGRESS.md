@@ -17,7 +17,7 @@
   - UI Bahasa Indonesia via ARB id-only: `lib/l10n/app_id.arb` → `flutter gen-l10n`
   - Business logic HANYA di service Dart murni (deterministik, teruji tanpa UI), bukan di widget
 
-## Status saat ini (Fase 1–4 LENGKAP ✅ · RILIS v0.1.0 pre-release diterbitkan)
+## Status saat ini (Fase 1–4 LENGKAP ✅ · RILIS v0.2.0 pre-release diterbitkan)
 
 ### Selesai
 - Proyek Flutter dibuat di root workspace (project-name `finara`, applicationId `com.andiakbar.finara`, platform Android saja)
@@ -136,6 +136,7 @@
   - Deskripsi penjelas: helperText input & dropdown di alur Hitung (penghasilan, kas, preset, investasi, sub-Jago, pembulatan, frekuensi DANA) + subtitle tiap card Progres (skor, dana darurat, savings rate, investasi gabungan, checklist, perbandingan) — 16 key ARB baru `desc*`
   - Auto-lock jadi pilihan di Pengaturan → Keamanan (1/5/15/30 menit, default 5; `SettingKeys.autoLockMenit`), aktif hanya bila PIN terpasang
   - Test +2 (pengeluaran_flow) + 1 generator ikon — total **181/181 lulus**, analyze 0 issue, APK debug OK
+  - **RILIS v0.2.0 (pre-release)**: versi 0.2.0+2, `flutter build apk --release` (76.3 MB, signing debug), https://github.com/andiakbararyaputra/Finara/releases/tag/v0.2.0
 
 ### BELUM selesai (pending — kerjakan saat lanjut)
 1. Menuju rilis produksi (v1.0.0 / Play Store): keystore & signing release sendiri, ikon aplikasi & splash native asli (bukan ikon Material), `--split-per-abi` atau app bundle, acceptance §61 penuh, uji perangkat menyeluruh.
