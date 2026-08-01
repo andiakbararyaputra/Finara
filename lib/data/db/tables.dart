@@ -6,8 +6,11 @@ library;
 
 import 'package:drift/drift.dart';
 
+import '../../domain/ai/ai_models.dart';
+import '../../domain/models/ai_enums.dart';
 import '../../domain/models/allocation_input.dart';
 import '../../domain/models/finance_enums.dart';
+import '../../domain/services/dana_split_service.dart';
 
 class MonthlyAllocations extends Table {
   IntColumn get id => integer().autoIncrement()();
@@ -240,4 +243,166 @@ class AppSettings extends Table {
 
   @override
   Set<Column> get primaryKey => {kunci};
+}
+
+/// Konfigurasi provider AI (§27, §38). API key TIDAK disimpan di sini —
+/// hanya di secure storage dengan kunci `ai_api_key_<id>` (§45).
+class AiProviderConfigurations extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get nama => text()();
+  TextColumn get baseUrl => text()();
+  TextColumn get chatPath =>
+      text().withDefault(const Constant('/chat/completions'))();
+  TextColumn get modelsPath =>
+      text().withDefault(const Constant('/models'))();
+  IntColumn get timeoutDetik => integer().withDefault(const Constant(60))();
+  BoolColumn get streamingAktif =>
+      boolean().withDefault(const Constant(true))();
+  TextColumn get modelDefault => text().nullable()();
+  TextColumn get izinData => textEnum<AIDataScope>()();
+  TextColumn get allowedMode => textEnum<AllowedModelsMode>()
+      .withDefault(const Constant('izinkanSemua'))();
+  TextColumn get fallbackModel1 => text().nullable()();
+  TextColumn get fallbackModel2 => text().nullable()();
+  DateTimeColumn get dibuatPada => dateTime()();
+}
+
+/// Model per provider (§30, §33–§34): hasil discovery atau input manual.
+class AiModels extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get providerId =>
+      integer().references(AiProviderConfigurations, #id)();
+  TextColumn get modelId => text()();
+  TextColumn get displayName => text().nullable()();
+  BoolColumn get favorit => boolean().withDefault(const Constant(false))();
+  BoolColumn get manual => boolean().withDefault(const Constant(false))();
+  BoolColumn get diblokir => boolean().withDefault(const Constant(false))();
+  BoolColumn get diizinkan => boolean().withDefault(const Constant(false))();
+
+  /// Status kemampuan (§32): unknown/claimed/verified/unsupported.
+  TextColumn get statusChat => textEnum<CapabilityStatus>()
+      .withDefault(const Constant('unknown'))();
+  TextColumn get statusStreaming => textEnum<CapabilityStatus>()
+      .withDefault(const Constant('unknown'))();
+
+  /// Harga per 1 juta token, diisi pengguna (§39); null = tak tersedia.
+  IntColumn get hargaInputPerJuta => integer().nullable()();
+  IntColumn get hargaOutputPerJuta => integer().nullable()();
+  DateTimeColumn get terakhirDipakai => dateTime().nullable()();
+
+  @override
+  List<Set<Column>> get uniqueKeys => [
+        {providerId, modelId},
+      ];
+}
+
+/// Cache daftar model mentah per provider (§29).
+class ModelListCaches extends Table {
+  IntColumn get providerId =>
+      integer().references(AiProviderConfigurations, #id)();
+  TextColumn get jsonModel => text()();
+  DateTimeColumn get diambilPada => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {providerId};
+}
+
+/// Percakapan Finara AI (§47), lokal saja.
+class ChatConversations extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get judul => text()();
+  IntColumn get providerId =>
+      integer().references(AiProviderConfigurations, #id)();
+  TextColumn get modelId => text()();
+  DateTimeColumn get dibuatPada => dateTime()();
+  DateTimeColumn get diperbaruiPada => dateTime()();
+}
+
+class ChatMessages extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get conversationId =>
+      integer().references(ChatConversations, #id)();
+  TextColumn get role => text()(); // system | user | assistant
+  TextColumn get content => text()();
+  DateTimeColumn get dibuatPada => dateTime()();
+}
+
+/// Konfigurasi DANA+ (§88, §97) — baris terbaru menang.
+/// Tingkat reward & batas WAJIB dari pengguna, tidak pernah di-hard-code.
+class DanaPlusConfigurations extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get availability => textEnum<DanaPlusAvailability>()();
+  TextColumn get defaultSplitMode => textEnum<DanaSplitMode>()();
+  TextColumn get executionStrategy => textEnum<DanaExecutionStrategy>()();
+  IntColumn get persenBiasaBp => integer().withDefault(const Constant(5000))();
+  IntColumn get bufferBiasa => integer().withDefault(const Constant(0))();
+  IntColumn get targetPlus => integer().withDefault(const Constant(0))();
+  IntColumn get batasPlus => integer().nullable()();
+  IntColumn get tingkatRewardBp => integer().nullable()();
+  TextColumn get periodeReward => textEnum<RewardRatePeriod>()
+      .withDefault(const Constant('perTahun'))();
+  DateTimeColumn get diperbaruiPada => dateTime()();
+}
+
+/// Ledger saldo DANA per periode (§94, §97) — unik per (tahun, bulan).
+class DanaBalanceLedgers extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get tahun => integer()();
+  IntColumn get bulan => integer()();
+  IntColumn get saldoAwalBiasa => integer()();
+  IntColumn get saldoAwalPlus => integer()();
+  IntColumn get topUpKeBiasa => integer()();
+  IntColumn get pindahKePlus => integer()();
+  IntColumn get pindahDariPlus => integer()();
+  IntColumn get pengeluaranBiasa => integer()();
+  IntColumn get pengeluaranPlus => integer()();
+  IntColumn get rewardAktual => integer()();
+  IntColumn get saldoAkhirBiasa => integer()();
+  IntColumn get saldoAkhirPlus => integer()();
+  DateTimeColumn get dibuatPada => dateTime()();
+
+  @override
+  List<Set<Column>> get uniqueKeys => [
+        {tahun, bulan},
+      ];
+}
+
+/// Data aktual investasi per platform per periode (§116, sumber manual).
+/// Nilai tak diketahui = null, bukan nol (§53).
+class InvestmentActuals extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get platform => textEnum<InvestmentPlatform>()();
+  IntColumn get tahun => integer()();
+  IntColumn get bulan => integer()();
+  IntColumn get depositEksternal => integer().nullable()();
+  IntColumn get penarikan => integer().nullable()();
+  IntColumn get pembelianBersih => integer().nullable()();
+  IntColumn get penjualanBersih => integer().nullable()();
+  IntColumn get saldoRdnAwal => integer().nullable()();
+  IntColumn get saldoRdnAkhir => integer().nullable()();
+  IntColumn get biaya => integer().nullable()();
+  IntColumn get dividen => integer().nullable()();
+  IntColumn get nilaiPortofolio => integer().nullable()();
+  IntColumn get modalInvestasi => integer().nullable()();
+  TextColumn get verifikasi => textEnum<VerificationStatus>()();
+  TextColumn get catatan => text().nullable()();
+  DateTimeColumn get diperbaruiPada => dateTime()();
+
+  @override
+  List<Set<Column>> get uniqueKeys => [
+        {platform, tahun, bulan},
+      ];
+}
+
+/// Riwayat impor laporan (§80): fingerprint anti-duplikat §73.
+/// File asli TIDAK disimpan (§78 default) — hanya hasil terstruktur.
+class ImportedReports extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get platform => textEnum<InvestmentPlatform>()();
+  TextColumn get jenis => text()(); // statementBibit (MVP)
+  IntColumn get tahun => integer().nullable()();
+  IntColumn get bulan => integer().nullable()();
+  TextColumn get fileHash => text().unique()();
+  TextColumn get namaFile => text()();
+  DateTimeColumn get diimporPada => dateTime()();
 }

@@ -12,6 +12,6 @@ enum AppPhase {
 }
 
 /// Fase aktif build saat ini; dinaikkan saat fase berikutnya dirilis.
-const AppPhase activeAppPhase = AppPhase.fase1;
+const AppPhase activeAppPhase = AppPhase.fase2;
 
 final appPhaseProvider = Provider<AppPhase>((ref) => activeAppPhase);

@@ -24,6 +24,7 @@ class HitungState {
     this.danaBp = 3000,
     this.bibitBp = 7000,
     this.stockbitBp = 3000,
+    this.stockbitAktif = true,
     this.pembulatan = RoundingOption.tanpa,
     this.frekuensiTopUpDana = DanaTopUpFrequency.mingguan,
     this.metodeSubJago = JagoSubAllocationMethod.persentaseTetap,
@@ -41,6 +42,9 @@ class HitungState {
   final int danaBp;
   final int bibitBp;
   final int stockbitBp;
+
+  /// §106: nonaktif → Bibit 100% / Stockbit 0% (§12 Tahap 3).
+  final bool stockbitAktif;
   final RoundingOption pembulatan;
   final DanaTopUpFrequency frekuensiTopUpDana;
   final JagoSubAllocationMethod metodeSubJago;
@@ -80,6 +84,7 @@ class HitungState {
     int? danaBp,
     int? bibitBp,
     int? stockbitBp,
+    bool? stockbitAktif,
     RoundingOption? pembulatan,
     DanaTopUpFrequency? frekuensiTopUpDana,
     JagoSubAllocationMethod? metodeSubJago,
@@ -95,6 +100,7 @@ class HitungState {
       danaBp: danaBp ?? this.danaBp,
       bibitBp: bibitBp ?? this.bibitBp,
       stockbitBp: stockbitBp ?? this.stockbitBp,
+      stockbitAktif: stockbitAktif ?? this.stockbitAktif,
       pembulatan: pembulatan ?? this.pembulatan,
       frekuensiTopUpDana: frekuensiTopUpDana ?? this.frekuensiTopUpDana,
       metodeSubJago: metodeSubJago ?? this.metodeSubJago,
@@ -169,8 +175,8 @@ class HitungController extends Notifier<HitungState> {
         jagoBp: preset.jagoBp,
         investasiBp: preset.investasiBp,
         danaBp: preset.danaBp,
-        bibitBp: preset.bibitBp,
-        stockbitBp: preset.stockbitBp,
+        bibitBp: state.stockbitAktif ? preset.bibitBp : 10000,
+        stockbitBp: state.stockbitAktif ? preset.stockbitBp : 0,
       );
 
   void setCustomUtama({int? jagoBp, int? investasiBp, int? danaBp}) =>
@@ -187,6 +193,22 @@ class HitungController extends Notifier<HitungState> {
         bibitBp: bibitBp,
         stockbitBp: stockbitBp,
       );
+
+  /// §106: nonaktif → Bibit 100%/Stockbit 0%; aktif kembali → pulihkan
+  /// pembagian preset atau default 70/30.
+  void setStockbitAktif({required bool aktif}) {
+    if (!aktif) {
+      state = state.copyWith(
+          stockbitAktif: false, bibitBp: 10000, stockbitBp: 0);
+    } else {
+      final preset = state.preset;
+      state = state.copyWith(
+        stockbitAktif: true,
+        bibitBp: preset?.bibitBp ?? 7000,
+        stockbitBp: preset?.stockbitBp ?? 3000,
+      );
+    }
+  }
 
   void setPembulatan(RoundingOption opsi) =>
       state = state.copyWith(pembulatan: opsi);
@@ -230,6 +252,7 @@ class HitungController extends Notifier<HitungState> {
       danaBp: danaBp,
       bibitBp: bibitBp,
       stockbitBp: stockbitBp,
+      stockbitAktif: stockbitBp > 0,
       pembulatan: pembulatan,
       metodeSubJago: metodeSubJago,
       frekuensiTopUpDana: frekuensiTopUpDana,

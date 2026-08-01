@@ -83,7 +83,7 @@ void main() {
     return (db, pin);
   }
 
-  testWidgets('pengguna baru diarahkan ke onboarding 3 halaman tanpa AI',
+  testWidgets('pengguna baru diarahkan ke onboarding 4 halaman dengan AI',
       (tester) async {
     await pumpApp(tester, onboardingSelesai: false);
 
@@ -95,23 +95,26 @@ void main() {
 
     await tester.tap(find.text('Berikutnya'));
     await tester.pumpAndSettle();
+    expect(find.text('Dapatkan bantuan dari AI'), findsOneWidget);
+
+    await tester.tap(find.text('Berikutnya'));
+    await tester.pumpAndSettle();
     expect(find.text('Data tetap dalam kendali Anda'), findsOneWidget);
-    expect(find.textContaining('AI'), findsNothing);
 
     await tester.tap(find.text('Mulai Gunakan Finara'));
     await tester.pumpAndSettle();
     expect(find.text('Belum ada alokasi bulan ini'), findsOneWidget);
   });
 
-  testWidgets('menampilkan 4 menu navigasi Fase 1 tanpa Finara AI',
+  testWidgets('menampilkan 5 menu navigasi Fase 2 termasuk Finara AI',
       (tester) async {
     await pumpApp(tester);
 
     expect(find.text('Beranda'), findsWidgets);
     expect(find.text('Hitung'), findsWidgets);
+    expect(find.text('Finara AI'), findsWidgets);
     expect(find.text('Progres'), findsWidgets);
     expect(find.text('Riwayat'), findsWidgets);
-    expect(find.text('Finara AI'), findsNothing);
   });
 
   testWidgets('beranda menampilkan empty state dan tombol Hitung Alokasi',
@@ -205,7 +208,7 @@ void main() {
     // Beranda kini menampilkan data.
     await tester.tap(find.text('Beranda'));
     await tester.pumpAndSettle();
-    expect(find.text('Total Pendapatan'), findsOneWidget);
+    expect(find.text('Total Pendapatan — Rencana'), findsOneWidget);
     expect(find.text('Rp10.000.000'), findsOneWidget);
   });
 
@@ -277,6 +280,9 @@ void main() {
 
     await tester.tap(find.byIcon(Icons.settings_outlined));
     await tester.pumpAndSettle();
+    await tester.dragUntilVisible(find.text('Hapus seluruh data'),
+        find.byType(ListView), const Offset(0, -300));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Hapus seluruh data'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Hapus'));
@@ -306,5 +312,43 @@ void main() {
     await tester.tap(find.text('Buka Kunci'));
     await tester.pumpAndSettle();
     expect(find.text('Belum ada alokasi bulan ini'), findsOneWidget);
+  });
+
+  testWidgets('Stockbit dinonaktifkan: Bibit 100%, tanpa item RDN (§106)',
+      (tester) async {
+    await pumpApp(tester);
+
+    await tester.tap(find.text('Hitung Alokasi'));
+    await tester.pumpAndSettle();
+    await tester.enterText(
+        find.widgetWithText(TextFormField, 'Penghasilan Utama'), '10000000');
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Lanjut'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Lanjut'));
+    await tester.pumpAndSettle();
+
+    // Matikan alokasi Stockbit bulan ini.
+    await tester.dragUntilVisible(
+        find.text('Alokasikan ke Stockbit bulan ini'),
+        find.byType(ListView),
+        const Offset(0, -200));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Alokasikan ke Stockbit bulan ini'));
+    await tester.pumpAndSettle();
+    expect(find.text('Seluruh Total Alokasi Investasi masuk ke Bibit.'),
+        findsOneWidget);
+
+    await tester.tap(find.widgetWithText(FilledButton, 'Hitung'));
+    await tester.pumpAndSettle();
+
+    // Hasil: tanpa sub-card Stockbit; Bibit = seluruh investasi (2.910.000).
+    await tester.dragUntilVisible(
+        find.text('Total Alokasi Investasi — Rencana'),
+        find.byType(ListView),
+        const Offset(0, -300));
+    await tester.pumpAndSettle();
+    expect(find.text('Alokasi Stockbit — Rencana'), findsNothing);
+    expect(find.text('Rp2.910.000'), findsWidgets);
   });
 }

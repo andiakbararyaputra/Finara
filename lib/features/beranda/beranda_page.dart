@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../../app/data_providers.dart';
 import '../../app/router.dart';
+import '../../design_system/tokens/finara_colors.dart';
 import '../../design_system/tokens/finara_spacing.dart';
 import '../../design_system/widgets/amount_text.dart';
 import '../../design_system/widgets/empty_state.dart';
@@ -94,14 +95,40 @@ class _BerandaIsi extends ConsumerWidget {
     return ListView(
       padding: const EdgeInsets.all(FinaraSpacing.lg),
       children: [
-        FinaraCard(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        // Hero pendapatan: satu-satunya blok bergradien di halaman (§4).
+        Container(
+          padding: const EdgeInsets.all(FinaraSpacing.xl),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [FinaraColors.emerald, FinaraColors.emeraldDark],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(FinaraRadius.lg),
+          ),
+          child: Row(
             children: [
-              Text(l10n.totalPendapatan,
-                  style: theme.textTheme.bodyMedium),
-              AmountText(revisi.totalPendapatan,
-                  style: theme.textTheme.headlineMedium),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${l10n.totalPendapatan} — ${l10n.rencana}',
+                      style: theme.textTheme.bodyMedium!
+                          .copyWith(color: Colors.white70),
+                    ),
+                    const SizedBox(height: FinaraSpacing.xs),
+                    AmountText(
+                      revisi.totalPendapatan,
+                      style: theme.textTheme.headlineMedium!
+                          .copyWith(fontWeight: FontWeight.w700),
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(Icons.account_balance_wallet_rounded,
+                  size: 44, color: Colors.white38),
             ],
           ),
         ),
@@ -109,30 +136,20 @@ class _BerandaIsi extends ConsumerWidget {
         Row(
           children: [
             Expanded(
-              child: FinaraCard(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(l10n.totalPengeluaranWajib,
-                        style: theme.textTheme.bodySmall),
-                    AmountText(revisi.totalPengeluaranWajib,
-                        style: theme.textTheme.titleLarge),
-                  ],
-                ),
+              child: _InfoMini(
+                ikon: Icons.receipt_long_outlined,
+                warna: FinaraColors.bankJago,
+                label: l10n.totalPengeluaranWajib,
+                nominal: revisi.totalPengeluaranWajib,
               ),
             ),
             const SizedBox(width: FinaraSpacing.md),
             Expanded(
-              child: FinaraCard(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('${l10n.kartuInvestasi} — ${l10n.rencana}',
-                        style: theme.textTheme.bodySmall),
-                    AmountText(revisi.totalAlokasiInvestasi,
-                        style: theme.textTheme.titleLarge),
-                  ],
-                ),
+              child: _InfoMini(
+                ikon: Icons.trending_up_rounded,
+                warna: FinaraColors.stockbit,
+                label: '${l10n.kartuInvestasi} — ${l10n.rencana}',
+                nominal: revisi.totalAlokasiInvestasi,
               ),
             ),
           ],
@@ -165,6 +182,43 @@ class _BerandaIsi extends ConsumerWidget {
           label: Text(l10n.hitungAlokasi),
         ),
       ],
+    );
+  }
+}
+
+class _InfoMini extends StatelessWidget {
+  const _InfoMini({
+    required this.ikon,
+    required this.warna,
+    required this.label,
+    required this.nominal,
+  });
+
+  final IconData ikon;
+  final Color warna;
+  final String label;
+  final int nominal;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return FinaraCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CircleAvatar(
+            radius: 14,
+            backgroundColor: warna.withValues(alpha: 0.14),
+            child: Icon(ikon, size: 16, color: warna),
+          ),
+          const SizedBox(height: FinaraSpacing.sm),
+          Text(label,
+              style: theme.textTheme.bodySmall,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis),
+          AmountText(nominal, style: theme.textTheme.titleLarge),
+        ],
+      ),
     );
   }
 }

@@ -66,6 +66,12 @@ class PengaturanPage extends ConsumerWidget {
               ),
               ListTile(
                 contentPadding: EdgeInsets.zero,
+                leading: const Icon(Icons.account_balance_wallet_outlined),
+                title: Text(l10n.danaPlusJudul),
+                onTap: () => context.push(FinaraRoutes.danaPlus),
+              ),
+              ListTile(
+                contentPadding: EdgeInsets.zero,
                 leading: const Icon(Icons.slideshow_outlined),
                 title: Text(l10n.lihatOnboarding),
                 onTap: () => context.push(FinaraRoutes.onboarding),
@@ -85,7 +91,7 @@ class PengaturanPage extends ConsumerWidget {
                 contentPadding: EdgeInsets.zero,
                 leading: const Icon(Icons.info_outline_rounded),
                 title: Text(l10n.versiAplikasi),
-                subtitle: const Text('1.0.0'),
+                subtitle: const Text('0.1.0'),
               ),
               const SizedBox(height: FinaraSpacing.md),
               Text(

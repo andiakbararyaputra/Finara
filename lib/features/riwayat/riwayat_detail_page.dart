@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../app/data_providers.dart';
 import '../../app/providers.dart';
 import '../../app/router.dart';
 import '../../core/money.dart';
+import '../../data/services/export_service.dart';
 import '../../design_system/tokens/finara_spacing.dart';
 import '../../design_system/widgets/amount_text.dart';
 import '../../design_system/widgets/empty_state.dart';
@@ -226,6 +229,9 @@ class _MenuAksi extends ConsumerWidget {
     return PopupMenuButton<String>(
       onSelected: (aksi) => switch (aksi) {
         'edit' || 'duplikasi' => _keHitung(context, ref),
+        'salin' => _salinTeks(context),
+        'bagikan' => _bagikan(context),
+        'pdf' => _eksporPdf(context),
         _ => _konfirmasiHapus(context, ref),
       },
       itemBuilder: (context) => [
@@ -233,9 +239,66 @@ class _MenuAksi extends ConsumerWidget {
           value: draf ? 'edit' : 'duplikasi',
           child: Text(draf ? l10n.editDraf : l10n.duplikasiKeHitung),
         ),
+        PopupMenuItem(value: 'salin', child: Text(l10n.salinSebagaiTeks)),
+        PopupMenuItem(value: 'bagikan', child: Text(l10n.bagikan)),
+        PopupMenuItem(value: 'pdf', child: Text(l10n.eksporPdf)),
         PopupMenuItem(value: 'hapus', child: Text(l10n.hapusBulanIni)),
       ],
     );
+  }
+
+  /// Ekspor teks branding Finara (§50) — tanpa kredensial.
+  String _teksEkspor(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final r = detail.revisi;
+    final bulan = DateFormat('MMMM yyyy', 'id_ID')
+        .format(DateTime(detail.bulan.tahun, detail.bulan.bulan));
+    return '''
+Finara — ${l10n.appTagline}
+${l10n.hasilAlokasi} $bulan (${l10n.revisiKe(r.nomorRevisi)}, ${l10n.rencana})
+
+${l10n.totalPendapatan}: ${formatRupiah(r.totalPendapatan)}
+${l10n.kasPeganganBrimo}: ${formatRupiah(r.kasPeganganBrimo)}
+${l10n.totalPengeluaranWajib}: ${formatRupiah(r.totalPengeluaranWajib)}
+${l10n.danaBersih}: ${formatRupiah(r.danaBersih)}
+${l10n.totalTransferAwalJago}: ${formatRupiah(r.totalDanaMasukJago)}
+${l10n.totalAlokasiInvestasiRencana}: ${formatRupiah(r.totalAlokasiInvestasi)}
+- ${l10n.bagianBibit}: ${formatRupiah(r.alokasiBibit)}
+- ${l10n.bagianStockbit}: ${formatRupiah(r.alokasiStockbit)}
+${l10n.totalAlokasiDanaRencana}: ${formatRupiah(r.alokasiDana)}''';
+  }
+
+  Future<void> _salinTeks(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
+    await Clipboard.setData(ClipboardData(text: _teksEkspor(context)));
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(l10n.hasilTersalin)));
+  }
+
+  Future<void> _bagikan(BuildContext context) async {
+    final teks = _teksEkspor(context);
+    try {
+      await SharePlus.instance.share(ShareParams(text: teks));
+    } catch (_) {
+      // Plugin share tidak tersedia (mis. test) — abaikan.
+    }
+  }
+
+  Future<void> _eksporPdf(BuildContext context) async {
+    const service = ExportService();
+    final judul = DateFormat('MMMM yyyy', 'id_ID')
+        .format(DateTime(detail.bulan.tahun, detail.bulan.bulan));
+    try {
+      final bytes =
+          await service.buatPdf(judulBulan: judul, revisi: detail.revisi);
+      final path = await service.simpanSementara(
+          'finara-alokasi-${detail.bulan.tahun}-${detail.bulan.bulan}.pdf',
+          bytes);
+      await SharePlus.instance.share(ShareParams(files: [XFile(path)]));
+    } catch (_) {
+      // Plugin share/path tidak tersedia (mis. test) — abaikan.
+    }
   }
 
   Future<void> _keHitung(BuildContext context, WidgetRef ref) async {

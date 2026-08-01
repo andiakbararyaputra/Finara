@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../app/data_providers.dart';
+import '../../app/phase_config.dart';
 import '../../app/providers.dart';
 import '../../app/router.dart';
 import '../../core/basis_points.dart';
@@ -15,8 +16,13 @@ import '../../design_system/tokens/finara_spacing.dart';
 import '../../design_system/widgets/amount_text.dart';
 import '../../design_system/widgets/finara_card.dart';
 import '../../design_system/widgets/layout_widgets.dart';
+import '../../domain/ai/financial_context_builder.dart';
+import '../../domain/models/ai_enums.dart';
 import '../../domain/models/allocation_result.dart';
+import '../../domain/services/dana_split_service.dart';
 import '../../l10n/app_localizations.dart';
+import '../dana_plus/dana_plus_page.dart';
+import '../finara_ai/ai_providers.dart';
 import '../hitung/hitung_controller.dart';
 
 /// Hasil alokasi: donut ringkasan §20 + 4 card §19 + simpan ke riwayat.
@@ -50,6 +56,14 @@ class HasilPage extends ConsumerWidget {
               _CardInvestasi(hasil: hasil),
               const SizedBox(height: FinaraSpacing.md),
               _CardDana(hasil: hasil),
+              if (ref.watch(appPhaseProvider).isAtLeast(AppPhase.fase2)) ...[
+                const SizedBox(height: FinaraSpacing.lg),
+                OutlinedButton.icon(
+                  icon: const Icon(Icons.smart_toy_outlined),
+                  label: Text(l10n.tanyakanHasilIniKeAi),
+                  onPressed: () => _tanyaAi(context, ref),
+                ),
+              ],
               const SizedBox(height: FinaraSpacing.xxl),
             ],
           ),
@@ -63,6 +77,92 @@ class HasilPage extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _tanyaAi(BuildContext context, WidgetRef ref) async {
+    final l10n = AppLocalizations.of(context)!;
+    final provider = await ref.read(providerAiAktifProvider.future);
+    if (!context.mounted) return;
+    if (provider == null) {
+      await context.push(FinaraRoutes.aiPengaturan);
+      return;
+    }
+    if (provider.izinData == AIDataScope.tanpaAkses) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.izinDataDiperlukan)));
+      return;
+    }
+    if (provider.modelDefault == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.errModelTidakTersedia)));
+      return;
+    }
+
+    final hasil = args.hasil;
+    final konteks = const FinancialContextBuilder().bangunKonteksAlokasi(
+      tahun: args.input.tahun,
+      bulan: args.input.bulan,
+      totalPendapatan: hasil.totalPendapatan,
+      kasPeganganBrimo: hasil.kasPeganganBrimo,
+      totalPengeluaranWajib: hasil.totalPengeluaranWajib,
+      totalDanaMasukJago: hasil.totalDanaMasukJago,
+      danaBersih: hasil.danaBersih,
+      alokasiJago: hasil.alokasiJago,
+      totalAlokasiInvestasi: hasil.totalAlokasiInvestasi,
+      alokasiBibit: hasil.alokasiBibit,
+      alokasiStockbit: hasil.alokasiStockbit,
+      alokasiDana: hasil.alokasiDana,
+      subJagoLangganan: hasil.subAlokasiJago.kebutuhanLangganan,
+      subJagoDanaDarurat: hasil.subAlokasiJago.danaDarurat,
+      subJagoOperasional: hasil.subAlokasiJago.danaOperasional,
+      namaPreset: args.namaPreset,
+    );
+
+    // Persetujuan eksplisit sebelum data dikirim (§43–§44).
+    final setuju = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.tanyakanHasilIniKeAi),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(l10n.konteksAkanDikirim),
+                const SizedBox(height: FinaraSpacing.md),
+                Text(konteks,
+                    style: Theme.of(dialogContext).textTheme.bodySmall),
+              ],
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: Text(l10n.batal),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: Text(l10n.kirimDanTanya),
+          ),
+        ],
+      ),
+    );
+    if (setuju != true || !context.mounted) return;
+
+    final chatRepo = ref.read(chatRepositoryProvider);
+    final convId = await chatRepo.buatPercakapan(
+      judul: l10n.tanyakanHasilIniKeAi,
+      providerId: provider.id,
+      modelId: provider.modelDefault!,
+    );
+    await chatRepo.tambahPesan(
+        conversationId: convId, role: 'user', content: konteks);
+    ref.invalidate(daftarPercakapanProvider);
+    if (!context.mounted) return;
+    await context.push('${FinaraRoutes.aiChat}/$convId');
   }
 
   Future<void> _simpan(BuildContext context, WidgetRef ref) async {
@@ -184,7 +284,9 @@ class _CardBrimo extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _JudulCard(l10n.kartuBrimo, l10n.kasPeganganRencana),
+          _JudulCard(l10n.kartuBrimo, l10n.kasPeganganRencana,
+              ikon: Icons.account_balance_rounded,
+              warna: FinaraColors.brimo),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -217,7 +319,8 @@ class _CardJago extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _JudulCard(l10n.kartuJago, l10n.totalTransferAwalJago),
+          _JudulCard(l10n.kartuJago, l10n.totalTransferAwalJago,
+              ikon: Icons.savings_rounded, warna: FinaraColors.bankJago),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -260,7 +363,9 @@ class _CardInvestasi extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _JudulCard(l10n.kartuInvestasi, l10n.totalAlokasiInvestasiRencana),
+          _JudulCard(l10n.kartuInvestasi, l10n.totalAlokasiInvestasiRencana,
+              ikon: Icons.trending_up_rounded,
+              warna: FinaraColors.stockbit),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -351,21 +456,41 @@ class _SubCardInvestasi extends StatelessWidget {
   }
 }
 
-class _CardDana extends StatelessWidget {
+class _CardDana extends ConsumerWidget {
   const _CardDana({required this.hasil});
 
   final AllocationResult hasil;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final jadwal = hasil.jadwalDana;
+    // Pembagian DANA+ target bulanan (§92) bila dikonfigurasi aktif.
+    final config = ref.watch(danaPlusConfigProvider).value;
+    DanaSplitResult? split;
+    if (config != null &&
+        config.availability == DanaPlusAvailability.menggunakan &&
+        hasil.alokasiDana > 0) {
+      split = const DanaSplitService().hitung(DanaSplitInput(
+        danaDasarPembagian: hasil.alokasiDana,
+        mode: config.defaultSplitMode,
+        persenBiasaBp: config.persenBiasaBp,
+        nominalBufferBiasa: config.bufferBiasa,
+        targetNominalPlus: config.targetPlus,
+        sisaAnggaranAktual: hasil.alokasiDana,
+        // Target bulanan penuh: horizon Smart Liquidity 7 dari 30 hari.
+        hariTersisaPeriode: 30,
+        batasDanaPlus: config.batasPlus,
+      ));
+    }
     return FinaraCard(
       accentColor: FinaraColors.dana,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _JudulCard(l10n.kartuDana, l10n.totalAlokasiDanaRencana),
+          _JudulCard(l10n.kartuDana, l10n.totalAlokasiDanaRencana,
+              ikon: Icons.qr_code_scanner_rounded,
+              warna: FinaraColors.dana),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -374,6 +499,11 @@ class _CardDana extends StatelessWidget {
             ],
           ),
           const Divider(height: FinaraSpacing.xl),
+          if (split != null) ...[
+            _BarisNominal(l10n.saldoDanaBiasa, split.saldoBiasa),
+            _BarisNominal(l10n.saldoDanaPlus, split.saldoPlus),
+            const Divider(height: FinaraSpacing.xl),
+          ],
           _BarisNominal(
               l10n.anggaranHarianDasar, jadwal.uangJajanHarianDasar),
           if (jadwal.jadwalTopUp.isNotEmpty)
@@ -409,23 +539,38 @@ class _CardDana extends StatelessWidget {
 }
 
 class _JudulCard extends StatelessWidget {
-  const _JudulCard(this.platform, this.subjudul);
+  const _JudulCard(this.platform, this.subjudul,
+      {required this.ikon, required this.warna});
 
   final String platform;
   final String subjudul;
+  final IconData ikon;
+  final Color warna;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.only(bottom: FinaraSpacing.xs),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      padding: const EdgeInsets.only(bottom: FinaraSpacing.sm),
+      child: Row(
         children: [
-          Text(platform, style: theme.textTheme.titleMedium),
-          Text(subjudul,
-              style: theme.textTheme.bodySmall!
-                  .copyWith(color: theme.colorScheme.onSurfaceVariant)),
+          CircleAvatar(
+            radius: 16,
+            backgroundColor: warna.withValues(alpha: 0.14),
+            child: Icon(ikon, size: 18, color: warna),
+          ),
+          const SizedBox(width: FinaraSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(platform, style: theme.textTheme.titleMedium),
+                Text(subjudul,
+                    style: theme.textTheme.bodySmall!
+                        .copyWith(color: theme.colorScheme.onSurfaceVariant)),
+              ],
+            ),
+          ),
         ],
       ),
     );

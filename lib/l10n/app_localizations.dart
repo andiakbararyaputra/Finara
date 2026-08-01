@@ -304,6 +304,18 @@ abstract class AppLocalizations {
   /// **'Tentukan target dan pantau perkembangan dana darurat setiap bulan.'**
   String get onboarding2Isi;
 
+  /// No description provided for @onboardingAiJudul.
+  ///
+  /// In id, this message translates to:
+  /// **'Dapatkan bantuan dari AI'**
+  String get onboardingAiJudul;
+
+  /// No description provided for @onboardingAiIsi.
+  ///
+  /// In id, this message translates to:
+  /// **'Tanyakan hasil alokasi dan pelajari strategi keuangan melalui Finara AI.'**
+  String get onboardingAiIsi;
+
   /// No description provided for @onboarding3Judul.
   ///
   /// In id, this message translates to:
@@ -531,6 +543,18 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Stockbit'**
   String get bagianStockbit;
+
+  /// No description provided for @aktifkanStockbit.
+  ///
+  /// In id, this message translates to:
+  /// **'Alokasikan ke Stockbit bulan ini'**
+  String get aktifkanStockbit;
+
+  /// No description provided for @stockbitNonaktifInfo.
+  ///
+  /// In id, this message translates to:
+  /// **'Seluruh Total Alokasi Investasi masuk ke Bibit.'**
+  String get stockbitNonaktifInfo;
 
   /// No description provided for @totalPersen.
   ///
@@ -1012,6 +1036,876 @@ abstract class AppLocalizations {
   /// **'Progres Dana Darurat'**
   String get progresDanaDarurat;
 
+  /// No description provided for @skorKesehatan.
+  ///
+  /// In id, this message translates to:
+  /// **'Financial Health Score'**
+  String get skorKesehatan;
+
+  /// No description provided for @skorTidakTersedia.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada data untuk menghitung skor'**
+  String get skorTidakTersedia;
+
+  /// No description provided for @kelengkapanData.
+  ///
+  /// In id, this message translates to:
+  /// **'Kelengkapan data {persen}'**
+  String kelengkapanData(String persen);
+
+  /// No description provided for @kategoriPerluPerhatian.
+  ///
+  /// In id, this message translates to:
+  /// **'Perlu perhatian'**
+  String get kategoriPerluPerhatian;
+
+  /// No description provided for @kategoriCukupBerisiko.
+  ///
+  /// In id, this message translates to:
+  /// **'Cukup berisiko'**
+  String get kategoriCukupBerisiko;
+
+  /// No description provided for @kategoriCukupSehat.
+  ///
+  /// In id, this message translates to:
+  /// **'Cukup sehat'**
+  String get kategoriCukupSehat;
+
+  /// No description provided for @kategoriSangatSehat.
+  ///
+  /// In id, this message translates to:
+  /// **'Sangat sehat'**
+  String get kategoriSangatSehat;
+
+  /// No description provided for @basisRencana.
+  ///
+  /// In id, this message translates to:
+  /// **'Basis: rencana'**
+  String get basisRencana;
+
+  /// No description provided for @basisAktual.
+  ///
+  /// In id, this message translates to:
+  /// **'Basis: aktual'**
+  String get basisAktual;
+
+  /// No description provided for @kompDanaDarurat.
+  ///
+  /// In id, this message translates to:
+  /// **'Kecukupan dana darurat'**
+  String get kompDanaDarurat;
+
+  /// No description provided for @kompRasioWajib.
+  ///
+  /// In id, this message translates to:
+  /// **'Rasio pengeluaran wajib'**
+  String get kompRasioWajib;
+
+  /// No description provided for @kompRasioCicilan.
+  ///
+  /// In id, this message translates to:
+  /// **'Rasio cicilan'**
+  String get kompRasioCicilan;
+
+  /// No description provided for @kompKonsistensiInvestasi.
+  ///
+  /// In id, this message translates to:
+  /// **'Konsistensi investasi'**
+  String get kompKonsistensiInvestasi;
+
+  /// No description provided for @kompRasioUangJajan.
+  ///
+  /// In id, this message translates to:
+  /// **'Rasio uang jajan'**
+  String get kompRasioUangJajan;
+
+  /// No description provided for @kompChecklist.
+  ///
+  /// In id, this message translates to:
+  /// **'Penyelesaian checklist'**
+  String get kompChecklist;
+
+  /// No description provided for @poinDariBobot.
+  ///
+  /// In id, this message translates to:
+  /// **'{poin}/{bobot}'**
+  String poinDariBobot(int poin, int bobot);
+
+  /// No description provided for @savingsRateRencana.
+  ///
+  /// In id, this message translates to:
+  /// **'Savings Rate — Rencana'**
+  String get savingsRateRencana;
+
+  /// No description provided for @savingsRateAktual.
+  ///
+  /// In id, this message translates to:
+  /// **'Savings Rate — Aktual'**
+  String get savingsRateAktual;
+
+  /// No description provided for @perbandinganBulanan.
+  ///
+  /// In id, this message translates to:
+  /// **'Perbandingan bulanan'**
+  String get perbandinganBulanan;
+
+  /// No description provided for @simulasi.
+  ///
+  /// In id, this message translates to:
+  /// **'Simulasi'**
+  String get simulasi;
+
+  /// No description provided for @bagaimanaJika.
+  ///
+  /// In id, this message translates to:
+  /// **'Bagaimana Jika'**
+  String get bagaimanaJika;
+
+  /// No description provided for @simulasiCatatan.
+  ///
+  /// In id, this message translates to:
+  /// **'Perubahan simulasi tidak mengubah data utama.'**
+  String get simulasiCatatan;
+
+  /// No description provided for @sebelum.
+  ///
+  /// In id, this message translates to:
+  /// **'Sebelum'**
+  String get sebelum;
+
+  /// No description provided for @sesudah.
+  ///
+  /// In id, this message translates to:
+  /// **'Sesudah'**
+  String get sesudah;
+
+  /// No description provided for @investasiPerTahun.
+  ///
+  /// In id, this message translates to:
+  /// **'Investasi per tahun'**
+  String get investasiPerTahun;
+
+  /// No description provided for @muatDariBulanAktif.
+  ///
+  /// In id, this message translates to:
+  /// **'Dimuat dari alokasi bulan aktif'**
+  String get muatDariBulanAktif;
+
+  /// No description provided for @salinSebagaiTeks.
+  ///
+  /// In id, this message translates to:
+  /// **'Salin sebagai teks'**
+  String get salinSebagaiTeks;
+
+  /// No description provided for @bagikan.
+  ///
+  /// In id, this message translates to:
+  /// **'Bagikan'**
+  String get bagikan;
+
+  /// No description provided for @hasilTersalin.
+  ///
+  /// In id, this message translates to:
+  /// **'Hasil disalin'**
+  String get hasilTersalin;
+
+  /// No description provided for @tambahProvider.
+  ///
+  /// In id, this message translates to:
+  /// **'Tambah penyedia'**
+  String get tambahProvider;
+
+  /// No description provided for @pilihProvider.
+  ///
+  /// In id, this message translates to:
+  /// **'Pilih penyedia'**
+  String get pilihProvider;
+
+  /// No description provided for @allowedModels.
+  ///
+  /// In id, this message translates to:
+  /// **'Model yang diizinkan'**
+  String get allowedModels;
+
+  /// No description provided for @modeIzinkanSemua.
+  ///
+  /// In id, this message translates to:
+  /// **'Izinkan semua model'**
+  String get modeIzinkanSemua;
+
+  /// No description provided for @modeHanyaTertentu.
+  ///
+  /// In id, this message translates to:
+  /// **'Hanya model tertentu'**
+  String get modeHanyaTertentu;
+
+  /// No description provided for @modeHanyaFavorit.
+  ///
+  /// In id, this message translates to:
+  /// **'Hanya model favorit'**
+  String get modeHanyaFavorit;
+
+  /// No description provided for @blokirModel.
+  ///
+  /// In id, this message translates to:
+  /// **'Blokir model'**
+  String get blokirModel;
+
+  /// No description provided for @bukaBlokirModel.
+  ///
+  /// In id, this message translates to:
+  /// **'Buka blokir'**
+  String get bukaBlokirModel;
+
+  /// No description provided for @masukkanAllowlist.
+  ///
+  /// In id, this message translates to:
+  /// **'Masukkan daftar izin'**
+  String get masukkanAllowlist;
+
+  /// No description provided for @keluarkanAllowlist.
+  ///
+  /// In id, this message translates to:
+  /// **'Keluarkan dari daftar izin'**
+  String get keluarkanAllowlist;
+
+  /// No description provided for @tesModel.
+  ///
+  /// In id, this message translates to:
+  /// **'Tes Model'**
+  String get tesModel;
+
+  /// No description provided for @tesStreaming.
+  ///
+  /// In id, this message translates to:
+  /// **'Tes Streaming'**
+  String get tesStreaming;
+
+  /// No description provided for @statusUnknown.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum terverifikasi'**
+  String get statusUnknown;
+
+  /// No description provided for @statusClaimed.
+  ///
+  /// In id, this message translates to:
+  /// **'Diklaim'**
+  String get statusClaimed;
+
+  /// No description provided for @statusVerified.
+  ///
+  /// In id, this message translates to:
+  /// **'Terverifikasi'**
+  String get statusVerified;
+
+  /// No description provided for @statusUnsupported.
+  ///
+  /// In id, this message translates to:
+  /// **'Tidak didukung'**
+  String get statusUnsupported;
+
+  /// No description provided for @fallbackModel1.
+  ///
+  /// In id, this message translates to:
+  /// **'Model cadangan pertama'**
+  String get fallbackModel1;
+
+  /// No description provided for @fallbackModel2.
+  ///
+  /// In id, this message translates to:
+  /// **'Model cadangan kedua'**
+  String get fallbackModel2;
+
+  /// No description provided for @tanpaFallback.
+  ///
+  /// In id, this message translates to:
+  /// **'Tanpa fallback'**
+  String get tanpaFallback;
+
+  /// No description provided for @beralihKeCadangan.
+  ///
+  /// In id, this message translates to:
+  /// **'Beralih ke model cadangan {model}'**
+  String beralihKeCadangan(String model);
+
+  /// No description provided for @aturHarga.
+  ///
+  /// In id, this message translates to:
+  /// **'Atur harga token'**
+  String get aturHarga;
+
+  /// No description provided for @hargaInputPerJuta.
+  ///
+  /// In id, this message translates to:
+  /// **'Harga input per 1 juta token'**
+  String get hargaInputPerJuta;
+
+  /// No description provided for @hargaOutputPerJuta.
+  ///
+  /// In id, this message translates to:
+  /// **'Harga output per 1 juta token'**
+  String get hargaOutputPerJuta;
+
+  /// No description provided for @estimasiBiayaTerakhir.
+  ///
+  /// In id, this message translates to:
+  /// **'Estimasi permintaan terakhir: ±{token} token · {biaya}'**
+  String estimasiBiayaTerakhir(int token, String biaya);
+
+  /// No description provided for @disclaimerBiaya.
+  ///
+  /// In id, this message translates to:
+  /// **'Estimasi dapat berbeda dari tagihan penyedia.'**
+  String get disclaimerBiaya;
+
+  /// No description provided for @retensiChat.
+  ///
+  /// In id, this message translates to:
+  /// **'Retensi riwayat percakapan'**
+  String get retensiChat;
+
+  /// No description provided for @retensiSelamanya.
+  ///
+  /// In id, this message translates to:
+  /// **'Simpan sampai dihapus'**
+  String get retensiSelamanya;
+
+  /// No description provided for @retensiHari.
+  ///
+  /// In id, this message translates to:
+  /// **'Hapus otomatis setelah {hari} hari'**
+  String retensiHari(int hari);
+
+  /// No description provided for @hapusSemuaPercakapan.
+  ///
+  /// In id, this message translates to:
+  /// **'Hapus semua percakapan'**
+  String get hapusSemuaPercakapan;
+
+  /// No description provided for @eksporCsv.
+  ///
+  /// In id, this message translates to:
+  /// **'Ekspor CSV'**
+  String get eksporCsv;
+
+  /// No description provided for @eksporPdf.
+  ///
+  /// In id, this message translates to:
+  /// **'Ekspor PDF'**
+  String get eksporPdf;
+
+  /// No description provided for @danaPlusJudul.
+  ///
+  /// In id, this message translates to:
+  /// **'DANA dan DANA+'**
+  String get danaPlusJudul;
+
+  /// No description provided for @statusDanaPlus.
+  ///
+  /// In id, this message translates to:
+  /// **'Status penggunaan DANA+'**
+  String get statusDanaPlus;
+
+  /// No description provided for @dpMenggunakan.
+  ///
+  /// In id, this message translates to:
+  /// **'Saya menggunakan DANA+'**
+  String get dpMenggunakan;
+
+  /// No description provided for @dpBelumMenggunakan.
+  ///
+  /// In id, this message translates to:
+  /// **'Saya belum menggunakan DANA+'**
+  String get dpBelumMenggunakan;
+
+  /// No description provided for @dpTidakTersedia.
+  ///
+  /// In id, this message translates to:
+  /// **'Fitur DANA+ belum tersedia di akun saya'**
+  String get dpTidakTersedia;
+
+  /// No description provided for @dpTidakIngin.
+  ///
+  /// In id, this message translates to:
+  /// **'Saya tidak ingin menggunakan DANA+'**
+  String get dpTidakIngin;
+
+  /// No description provided for @modePembagian.
+  ///
+  /// In id, this message translates to:
+  /// **'Mode pembagian'**
+  String get modePembagian;
+
+  /// No description provided for @modeSmartLiquidity.
+  ///
+  /// In id, this message translates to:
+  /// **'Smart Liquidity (disarankan)'**
+  String get modeSmartLiquidity;
+
+  /// No description provided for @modePersentase.
+  ///
+  /// In id, this message translates to:
+  /// **'Persentase'**
+  String get modePersentase;
+
+  /// No description provided for @modeNominalBiasa.
+  ///
+  /// In id, this message translates to:
+  /// **'Nominal tetap DANA Biasa'**
+  String get modeNominalBiasa;
+
+  /// No description provided for @modeNominalPlus.
+  ///
+  /// In id, this message translates to:
+  /// **'Nominal tetap DANA+'**
+  String get modeNominalPlus;
+
+  /// No description provided for @modeManual.
+  ///
+  /// In id, this message translates to:
+  /// **'Manual'**
+  String get modeManual;
+
+  /// No description provided for @strategiEksekusi.
+  ///
+  /// In id, this message translates to:
+  /// **'Strategi eksekusi top-up'**
+  String get strategiEksekusi;
+
+  /// No description provided for @strategiSekaligus.
+  ///
+  /// In id, this message translates to:
+  /// **'Top-up sekaligus lalu bagi'**
+  String get strategiSekaligus;
+
+  /// No description provided for @strategiPerTopUp.
+  ///
+  /// In id, this message translates to:
+  /// **'Bagi setiap top-up'**
+  String get strategiPerTopUp;
+
+  /// No description provided for @strategiSmartPerTopUp.
+  ///
+  /// In id, this message translates to:
+  /// **'Hitung ulang Smart Liquidity per top-up'**
+  String get strategiSmartPerTopUp;
+
+  /// No description provided for @persenBiasa.
+  ///
+  /// In id, this message translates to:
+  /// **'Persentase DANA Biasa'**
+  String get persenBiasa;
+
+  /// No description provided for @bufferBiasa.
+  ///
+  /// In id, this message translates to:
+  /// **'Nominal buffer DANA Biasa'**
+  String get bufferBiasa;
+
+  /// No description provided for @targetPlusLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Target nominal DANA+'**
+  String get targetPlusLabel;
+
+  /// No description provided for @batasPlusLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Batas saldo DANA+ (opsional)'**
+  String get batasPlusLabel;
+
+  /// No description provided for @tingkatReward.
+  ///
+  /// In id, this message translates to:
+  /// **'Estimasi reward (%, opsional)'**
+  String get tingkatReward;
+
+  /// No description provided for @periodeReward.
+  ///
+  /// In id, this message translates to:
+  /// **'Satuan tingkat'**
+  String get periodeReward;
+
+  /// No description provided for @perHari.
+  ///
+  /// In id, this message translates to:
+  /// **'Per hari'**
+  String get perHari;
+
+  /// No description provided for @perBulan.
+  ///
+  /// In id, this message translates to:
+  /// **'Per bulan'**
+  String get perBulan;
+
+  /// No description provided for @perTahun.
+  ///
+  /// In id, this message translates to:
+  /// **'Per tahun'**
+  String get perTahun;
+
+  /// No description provided for @saldoDanaBiasa.
+  ///
+  /// In id, this message translates to:
+  /// **'Saldo DANA Biasa'**
+  String get saldoDanaBiasa;
+
+  /// No description provided for @saldoDanaPlus.
+  ///
+  /// In id, this message translates to:
+  /// **'Saldo DANA+'**
+  String get saldoDanaPlus;
+
+  /// No description provided for @danaPlusNonaktifInfo.
+  ///
+  /// In id, this message translates to:
+  /// **'Seluruh dana DANA yang dieksekusi ditempatkan pada Saldo DANA Biasa.'**
+  String get danaPlusNonaktifInfo;
+
+  /// No description provided for @kelebihanBatasInfo.
+  ///
+  /// In id, this message translates to:
+  /// **'Target pemindahan ke DANA+ melebihi ruang saldo berdasarkan batas yang Anda masukkan. Selisih tetap berada pada Saldo DANA Biasa.'**
+  String get kelebihanBatasInfo;
+
+  /// No description provided for @simulasiReward.
+  ///
+  /// In id, this message translates to:
+  /// **'Simulasi pertumbuhan DANA+'**
+  String get simulasiReward;
+
+  /// No description provided for @estimasiPertumbuhan.
+  ///
+  /// In id, this message translates to:
+  /// **'Estimasi pertumbuhan 12 periode'**
+  String get estimasiPertumbuhan;
+
+  /// No description provided for @disclaimerReward.
+  ///
+  /// In id, this message translates to:
+  /// **'Perhitungan ini hanya simulasi berdasarkan tingkat yang Anda masukkan. Reward, ketentuan, batas saldo, dan ketersediaan DANA+ dapat berubah mengikuti kebijakan penyedia.'**
+  String get disclaimerReward;
+
+  /// No description provided for @catatLedgerDana.
+  ///
+  /// In id, this message translates to:
+  /// **'Catat ledger DANA bulan ini'**
+  String get catatLedgerDana;
+
+  /// No description provided for @saldoAwal.
+  ///
+  /// In id, this message translates to:
+  /// **'Saldo awal'**
+  String get saldoAwal;
+
+  /// No description provided for @topUpKeBiasa.
+  ///
+  /// In id, this message translates to:
+  /// **'Top-up ke DANA Biasa'**
+  String get topUpKeBiasa;
+
+  /// No description provided for @pindahKePlus.
+  ///
+  /// In id, this message translates to:
+  /// **'Pemindahan ke DANA+'**
+  String get pindahKePlus;
+
+  /// No description provided for @pindahDariPlus.
+  ///
+  /// In id, this message translates to:
+  /// **'Pemindahan keluar dari DANA+'**
+  String get pindahDariPlus;
+
+  /// No description provided for @pengeluaranDari.
+  ///
+  /// In id, this message translates to:
+  /// **'Pengeluaran dari {kantong}'**
+  String pengeluaranDari(String kantong);
+
+  /// No description provided for @rewardAktual.
+  ///
+  /// In id, this message translates to:
+  /// **'Reward aktual'**
+  String get rewardAktual;
+
+  /// No description provided for @saldoAkhir.
+  ///
+  /// In id, this message translates to:
+  /// **'Saldo akhir'**
+  String get saldoAkhir;
+
+  /// No description provided for @realisasiPindahPlus.
+  ///
+  /// In id, this message translates to:
+  /// **'Realisasi pemindahan ke DANA+'**
+  String get realisasiPindahPlus;
+
+  /// No description provided for @tarikDariPlusJudul.
+  ///
+  /// In id, this message translates to:
+  /// **'Pindahkan dari DANA+ ke DANA Biasa'**
+  String get tarikDariPlusJudul;
+
+  /// No description provided for @tarikDariPlusTolak.
+  ///
+  /// In id, this message translates to:
+  /// **'Nominal melebihi saldo DANA+ tercatat. Catat saldo DANA+ pada ledger terlebih dahulu.'**
+  String get tarikDariPlusTolak;
+
+  /// No description provided for @catat.
+  ///
+  /// In id, this message translates to:
+  /// **'Catat'**
+  String get catat;
+
+  /// No description provided for @pemindahanTercatat.
+  ///
+  /// In id, this message translates to:
+  /// **'Pemindahan tercatat di ledger bulan ini'**
+  String get pemindahanTercatat;
+
+  /// No description provided for @investasiAktual.
+  ///
+  /// In id, this message translates to:
+  /// **'Investasi Aktual'**
+  String get investasiAktual;
+
+  /// No description provided for @catatInvestasiAktual.
+  ///
+  /// In id, this message translates to:
+  /// **'Catat Investasi Aktual'**
+  String get catatInvestasiAktual;
+
+  /// No description provided for @platformLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Platform'**
+  String get platformLabel;
+
+  /// No description provided for @depositEksternal.
+  ///
+  /// In id, this message translates to:
+  /// **'Deposit eksternal ke RDN'**
+  String get depositEksternal;
+
+  /// No description provided for @penarikanRdn.
+  ///
+  /// In id, this message translates to:
+  /// **'Penarikan dari RDN'**
+  String get penarikanRdn;
+
+  /// No description provided for @pembelianBersih.
+  ///
+  /// In id, this message translates to:
+  /// **'Total pembelian (bersih)'**
+  String get pembelianBersih;
+
+  /// No description provided for @penjualanBersih.
+  ///
+  /// In id, this message translates to:
+  /// **'Total penjualan (bersih)'**
+  String get penjualanBersih;
+
+  /// No description provided for @saldoRdnAwal.
+  ///
+  /// In id, this message translates to:
+  /// **'Saldo RDN awal'**
+  String get saldoRdnAwal;
+
+  /// No description provided for @saldoRdnAkhir.
+  ///
+  /// In id, this message translates to:
+  /// **'Saldo RDN akhir'**
+  String get saldoRdnAkhir;
+
+  /// No description provided for @biayaTransaksi.
+  ///
+  /// In id, this message translates to:
+  /// **'Biaya transaksi'**
+  String get biayaTransaksi;
+
+  /// No description provided for @dividen.
+  ///
+  /// In id, this message translates to:
+  /// **'Dividen'**
+  String get dividen;
+
+  /// No description provided for @nilaiPortofolio.
+  ///
+  /// In id, this message translates to:
+  /// **'Nilai portofolio'**
+  String get nilaiPortofolio;
+
+  /// No description provided for @modalInvestasi.
+  ///
+  /// In id, this message translates to:
+  /// **'Modal investasi'**
+  String get modalInvestasi;
+
+  /// No description provided for @tandaiTerverifikasi.
+  ///
+  /// In id, this message translates to:
+  /// **'Tandai terverifikasi'**
+  String get tandaiTerverifikasi;
+
+  /// No description provided for @dimasukkanManual.
+  ///
+  /// In id, this message translates to:
+  /// **'Dimasukkan manual'**
+  String get dimasukkanManual;
+
+  /// No description provided for @investasiGabungan.
+  ///
+  /// In id, this message translates to:
+  /// **'Investasi Gabungan'**
+  String get investasiGabungan;
+
+  /// No description provided for @realisasiKontribusiGabungan.
+  ///
+  /// In id, this message translates to:
+  /// **'Realisasi kontribusi gabungan'**
+  String get realisasiKontribusiGabungan;
+
+  /// No description provided for @realisasiKontribusiBibit.
+  ///
+  /// In id, this message translates to:
+  /// **'Realisasi kontribusi Bibit'**
+  String get realisasiKontribusiBibit;
+
+  /// No description provided for @realisasiPendanaanStockbit.
+  ///
+  /// In id, this message translates to:
+  /// **'Realisasi Pendanaan Stockbit'**
+  String get realisasiPendanaanStockbit;
+
+  /// No description provided for @realisasiPembelianStockbit.
+  ///
+  /// In id, this message translates to:
+  /// **'Realisasi pembelian Stockbit (penggunaan dana)'**
+  String get realisasiPembelianStockbit;
+
+  /// No description provided for @statusBelumTercapai.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum tercapai'**
+  String get statusBelumTercapai;
+
+  /// No description provided for @statusMendekatiTarget.
+  ///
+  /// In id, this message translates to:
+  /// **'Mendekati target'**
+  String get statusMendekatiTarget;
+
+  /// No description provided for @statusSesuaiTarget.
+  ///
+  /// In id, this message translates to:
+  /// **'Sesuai target'**
+  String get statusSesuaiTarget;
+
+  /// No description provided for @statusMelebihiTarget.
+  ///
+  /// In id, this message translates to:
+  /// **'Melebihi target'**
+  String get statusMelebihiTarget;
+
+  /// No description provided for @statusTidakDapatDibandingkan.
+  ///
+  /// In id, this message translates to:
+  /// **'Tidak dapat dibandingkan'**
+  String get statusTidakDapatDibandingkan;
+
+  /// No description provided for @imporLaporanBibit.
+  ///
+  /// In id, this message translates to:
+  /// **'Impor Laporan Bibit'**
+  String get imporLaporanBibit;
+
+  /// No description provided for @pilihPdf.
+  ///
+  /// In id, this message translates to:
+  /// **'Pilih PDF'**
+  String get pilihPdf;
+
+  /// No description provided for @lihatRiwayatImpor.
+  ///
+  /// In id, this message translates to:
+  /// **'Riwayat impor'**
+  String get lihatRiwayatImpor;
+
+  /// No description provided for @sedangMembacaDokumen.
+  ///
+  /// In id, this message translates to:
+  /// **'Membaca dokumen…'**
+  String get sedangMembacaDokumen;
+
+  /// No description provided for @jenisTidakDikenali.
+  ///
+  /// In id, this message translates to:
+  /// **'Finara belum dapat memastikan jenis laporan ini. Periksa nilai di bawah secara manual.'**
+  String get jenisTidakDikenali;
+
+  /// No description provided for @dokumenDuplikat.
+  ///
+  /// In id, this message translates to:
+  /// **'Laporan atau transaksi serupa sudah pernah diimpor.'**
+  String get dokumenDuplikat;
+
+  /// No description provided for @periodeLaporan.
+  ///
+  /// In id, this message translates to:
+  /// **'Periode laporan (bulan/tahun)'**
+  String get periodeLaporan;
+
+  /// No description provided for @confidenceTinggi.
+  ///
+  /// In id, this message translates to:
+  /// **'Terbaca dengan baik'**
+  String get confidenceTinggi;
+
+  /// No description provided for @confidenceRendah.
+  ///
+  /// In id, this message translates to:
+  /// **'Perlu diperiksa'**
+  String get confidenceRendah;
+
+  /// No description provided for @konfirmasiImpor.
+  ///
+  /// In id, this message translates to:
+  /// **'Konfirmasi Impor'**
+  String get konfirmasiImpor;
+
+  /// No description provided for @imporBerhasil.
+  ///
+  /// In id, this message translates to:
+  /// **'Laporan tersimpan sebagai data aktual Bibit'**
+  String get imporBerhasil;
+
+  /// No description provided for @gagalMembacaPdf.
+  ///
+  /// In id, this message translates to:
+  /// **'Dokumen tidak dapat dibaca. Coba file lain atau masukkan manual.'**
+  String get gagalMembacaPdf;
+
+  /// No description provided for @periodeWajib.
+  ///
+  /// In id, this message translates to:
+  /// **'Periode laporan wajib diisi'**
+  String get periodeWajib;
+
+  /// No description provided for @belumAdaImpor.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada laporan diimpor'**
+  String get belumAdaImpor;
+
+  /// No description provided for @hapusCatatanImpor.
+  ///
+  /// In id, this message translates to:
+  /// **'Hapus catatan impor'**
+  String get hapusCatatanImpor;
+
   /// No description provided for @kontribusiBulanIni.
   ///
   /// In id, this message translates to:
@@ -1353,6 +2247,360 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Tidak ada data bulan sebelumnya'**
   String get tidakAdaBulanSebelumnya;
+
+  /// No description provided for @aiBelumDikonfigurasi.
+  ///
+  /// In id, this message translates to:
+  /// **'Finara AI belum dikonfigurasi'**
+  String get aiBelumDikonfigurasi;
+
+  /// No description provided for @aiBelumDikonfigurasiPesan.
+  ///
+  /// In id, this message translates to:
+  /// **'Tambahkan penyedia AI dan API key Anda sendiri untuk mulai bertanya.'**
+  String get aiBelumDikonfigurasiPesan;
+
+  /// No description provided for @penyediaDanModel.
+  ///
+  /// In id, this message translates to:
+  /// **'Penyedia dan Model'**
+  String get penyediaDanModel;
+
+  /// No description provided for @namaKonfigurasi.
+  ///
+  /// In id, this message translates to:
+  /// **'Nama konfigurasi'**
+  String get namaKonfigurasi;
+
+  /// No description provided for @baseUrl.
+  ///
+  /// In id, this message translates to:
+  /// **'Base URL'**
+  String get baseUrl;
+
+  /// No description provided for @apiKey.
+  ///
+  /// In id, this message translates to:
+  /// **'API key'**
+  String get apiKey;
+
+  /// No description provided for @apiKeyTersimpan.
+  ///
+  /// In id, this message translates to:
+  /// **'API key tersimpan: {samaran}'**
+  String apiKeyTersimpan(String samaran);
+
+  /// No description provided for @ambilDaftarModel.
+  ///
+  /// In id, this message translates to:
+  /// **'Ambil Daftar Model'**
+  String get ambilDaftarModel;
+
+  /// No description provided for @muatUlangModel.
+  ///
+  /// In id, this message translates to:
+  /// **'Muat Ulang Model'**
+  String get muatUlangModel;
+
+  /// No description provided for @modelDitemukan.
+  ///
+  /// In id, this message translates to:
+  /// **'{jumlah} model ditemukan'**
+  String modelDitemukan(int jumlah);
+
+  /// No description provided for @belumAdaModel.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada model. Ambil daftar model atau tambahkan manual.'**
+  String get belumAdaModel;
+
+  /// No description provided for @tesKoneksi.
+  ///
+  /// In id, this message translates to:
+  /// **'Tes Koneksi'**
+  String get tesKoneksi;
+
+  /// No description provided for @koneksiBerhasil.
+  ///
+  /// In id, this message translates to:
+  /// **'Koneksi berhasil'**
+  String get koneksiBerhasil;
+
+  /// No description provided for @modelDefault.
+  ///
+  /// In id, this message translates to:
+  /// **'Model default'**
+  String get modelDefault;
+
+  /// No description provided for @jadikanDefault.
+  ///
+  /// In id, this message translates to:
+  /// **'Jadikan default'**
+  String get jadikanDefault;
+
+  /// No description provided for @favorit.
+  ///
+  /// In id, this message translates to:
+  /// **'Favorit'**
+  String get favorit;
+
+  /// No description provided for @tambahModelManual.
+  ///
+  /// In id, this message translates to:
+  /// **'Tambahkan Model Manual'**
+  String get tambahModelManual;
+
+  /// No description provided for @modelIdLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Model ID'**
+  String get modelIdLabel;
+
+  /// No description provided for @namaTampilan.
+  ///
+  /// In id, this message translates to:
+  /// **'Nama tampilan (opsional)'**
+  String get namaTampilan;
+
+  /// No description provided for @cariModel.
+  ///
+  /// In id, this message translates to:
+  /// **'Cari model'**
+  String get cariModel;
+
+  /// No description provided for @pilihModel.
+  ///
+  /// In id, this message translates to:
+  /// **'Pilih model'**
+  String get pilihModel;
+
+  /// No description provided for @izinDataAi.
+  ///
+  /// In id, this message translates to:
+  /// **'Izin data keuangan'**
+  String get izinDataAi;
+
+  /// No description provided for @izinTanpaAkses.
+  ///
+  /// In id, this message translates to:
+  /// **'Tanpa akses data keuangan'**
+  String get izinTanpaAkses;
+
+  /// No description provided for @izinBulanAktif.
+  ///
+  /// In id, this message translates to:
+  /// **'Akses bulan aktif'**
+  String get izinBulanAktif;
+
+  /// No description provided for @izinTigaBulan.
+  ///
+  /// In id, this message translates to:
+  /// **'Akses tiga bulan terakhir'**
+  String get izinTigaBulan;
+
+  /// No description provided for @izinEnamBulan.
+  ///
+  /// In id, this message translates to:
+  /// **'Akses enam bulan terakhir'**
+  String get izinEnamBulan;
+
+  /// No description provided for @hapusProvider.
+  ///
+  /// In id, this message translates to:
+  /// **'Hapus penyedia'**
+  String get hapusProvider;
+
+  /// No description provided for @hapusProviderPesan.
+  ///
+  /// In id, this message translates to:
+  /// **'Konfigurasi, model, API key, dan seluruh percakapan penyedia ini akan dihapus.'**
+  String get hapusProviderPesan;
+
+  /// No description provided for @percakapanBaru.
+  ///
+  /// In id, this message translates to:
+  /// **'Percakapan Baru'**
+  String get percakapanBaru;
+
+  /// No description provided for @belumAdaPercakapan.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada percakapan'**
+  String get belumAdaPercakapan;
+
+  /// No description provided for @ketikPesan.
+  ///
+  /// In id, this message translates to:
+  /// **'Tulis pertanyaan…'**
+  String get ketikPesan;
+
+  /// No description provided for @hentikan.
+  ///
+  /// In id, this message translates to:
+  /// **'Hentikan'**
+  String get hentikan;
+
+  /// No description provided for @salinJawaban.
+  ///
+  /// In id, this message translates to:
+  /// **'Salin jawaban'**
+  String get salinJawaban;
+
+  /// No description provided for @jawabanTersalin.
+  ///
+  /// In id, this message translates to:
+  /// **'Jawaban disalin'**
+  String get jawabanTersalin;
+
+  /// No description provided for @hapusPercakapan.
+  ///
+  /// In id, this message translates to:
+  /// **'Hapus percakapan'**
+  String get hapusPercakapan;
+
+  /// No description provided for @disclaimerAi.
+  ///
+  /// In id, this message translates to:
+  /// **'Jawaban AI dapat tidak akurat. Periksa kembali informasi penting sebelum mengambil keputusan. Penggunaan API dan biaya mengikuti penyedia AI yang dipilih pengguna.'**
+  String get disclaimerAi;
+
+  /// No description provided for @chipAnalisisAlokasi.
+  ///
+  /// In id, this message translates to:
+  /// **'Analisis alokasi bulan ini'**
+  String get chipAnalisisAlokasi;
+
+  /// No description provided for @chipUangJajan.
+  ///
+  /// In id, this message translates to:
+  /// **'Apakah uang jajan saya terlalu besar?'**
+  String get chipUangJajan;
+
+  /// No description provided for @chipDanaDarurat.
+  ///
+  /// In id, this message translates to:
+  /// **'Bagaimana mempercepat dana darurat?'**
+  String get chipDanaDarurat;
+
+  /// No description provided for @chipInvestasi.
+  ///
+  /// In id, this message translates to:
+  /// **'Bagaimana membagi investasi antara Bibit dan Stockbit?'**
+  String get chipInvestasi;
+
+  /// No description provided for @tanyakanHasilIniKeAi.
+  ///
+  /// In id, this message translates to:
+  /// **'Tanyakan Hasil Ini ke AI'**
+  String get tanyakanHasilIniKeAi;
+
+  /// No description provided for @konteksAkanDikirim.
+  ///
+  /// In id, this message translates to:
+  /// **'Data berikut akan dikirim ke penyedia AI yang Anda konfigurasi. Lanjutkan?'**
+  String get konteksAkanDikirim;
+
+  /// No description provided for @kirimDanTanya.
+  ///
+  /// In id, this message translates to:
+  /// **'Kirim dan Tanya'**
+  String get kirimDanTanya;
+
+  /// No description provided for @izinDataDiperlukan.
+  ///
+  /// In id, this message translates to:
+  /// **'Penyedia ini belum diberi izin akses data keuangan. Ubah di Pengaturan Finara AI.'**
+  String get izinDataDiperlukan;
+
+  /// No description provided for @errApiKeyKosong.
+  ///
+  /// In id, this message translates to:
+  /// **'API key belum diisi'**
+  String get errApiKeyKosong;
+
+  /// No description provided for @errApiKeyDitolak.
+  ///
+  /// In id, this message translates to:
+  /// **'API key ditolak penyedia'**
+  String get errApiKeyDitolak;
+
+  /// No description provided for @errEndpointSalah.
+  ///
+  /// In id, this message translates to:
+  /// **'Endpoint tidak ditemukan — periksa Base URL'**
+  String get errEndpointSalah;
+
+  /// No description provided for @errModelTidakTersedia.
+  ///
+  /// In id, this message translates to:
+  /// **'Model tidak tersedia'**
+  String get errModelTidakTersedia;
+
+  /// No description provided for @errTidakAdaInternet.
+  ///
+  /// In id, this message translates to:
+  /// **'Tidak ada koneksi internet'**
+  String get errTidakAdaInternet;
+
+  /// No description provided for @errTimeout.
+  ///
+  /// In id, this message translates to:
+  /// **'Waktu tunggu habis'**
+  String get errTimeout;
+
+  /// No description provided for @errRateLimit.
+  ///
+  /// In id, this message translates to:
+  /// **'Terlalu banyak permintaan — coba lagi nanti'**
+  String get errRateLimit;
+
+  /// No description provided for @errKuotaHabis.
+  ///
+  /// In id, this message translates to:
+  /// **'Kuota penyedia habis'**
+  String get errKuotaHabis;
+
+  /// No description provided for @errResponsTidakValid.
+  ///
+  /// In id, this message translates to:
+  /// **'Respons penyedia tidak valid'**
+  String get errResponsTidakValid;
+
+  /// No description provided for @errResponsKosong.
+  ///
+  /// In id, this message translates to:
+  /// **'Respons kosong dari penyedia'**
+  String get errResponsKosong;
+
+  /// No description provided for @errKonteksTerlaluPanjang.
+  ///
+  /// In id, this message translates to:
+  /// **'Konteks terlalu panjang — kurangi konteks'**
+  String get errKonteksTerlaluPanjang;
+
+  /// No description provided for @errStreamingTerputus.
+  ///
+  /// In id, this message translates to:
+  /// **'Streaming terputus'**
+  String get errStreamingTerputus;
+
+  /// No description provided for @errParameterTidakDidukung.
+  ///
+  /// In id, this message translates to:
+  /// **'Parameter tidak didukung penyedia'**
+  String get errParameterTidakDidukung;
+
+  /// No description provided for @errModelOverload.
+  ///
+  /// In id, this message translates to:
+  /// **'Penyedia sedang sibuk — coba lagi'**
+  String get errModelOverload;
+
+  /// No description provided for @errTidakDiketahui.
+  ///
+  /// In id, this message translates to:
+  /// **'Terjadi kesalahan pada penyedia AI'**
+  String get errTidakDiketahui;
 
   /// No description provided for @tentang.
   ///

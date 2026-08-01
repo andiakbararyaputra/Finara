@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../app/phase_config.dart';
 import '../../app/providers.dart';
 import '../../app/router.dart';
 import '../../data/repositories/settings_repository.dart';
 import '../../design_system/tokens/finara_spacing.dart';
 import '../../l10n/app_localizations.dart';
 
-/// Onboarding Fase 1: 3 halaman tanpa halaman AI (§7).
+/// Onboarding (§7): maks 4 halaman; halaman AI hanya mulai Fase 2.
 class OnboardingPage extends ConsumerStatefulWidget {
   const OnboardingPage({super.key});
 
@@ -35,6 +36,9 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
       (Icons.pie_chart_outline_rounded, l10n.onboarding1Judul,
           l10n.onboarding1Isi),
       (Icons.savings_outlined, l10n.onboarding2Judul, l10n.onboarding2Isi),
+      if (ref.watch(appPhaseProvider).isAtLeast(AppPhase.fase2))
+        (Icons.smart_toy_outlined, l10n.onboardingAiJudul,
+            l10n.onboardingAiIsi),
       (Icons.lock_outline_rounded, l10n.onboarding3Judul, l10n.onboarding3Isi),
     ];
     final terakhir = _halaman == halaman.length - 1;
@@ -69,9 +73,18 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(icon,
-                                size: 96,
-                                color: theme.colorScheme.primary),
+                            Container(
+                              padding:
+                                  const EdgeInsets.all(FinaraSpacing.xxl),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: theme.colorScheme.primary
+                                    .withValues(alpha: 0.10),
+                              ),
+                              child: Icon(icon,
+                                  size: 72,
+                                  color: theme.colorScheme.primary),
+                            ),
                             const SizedBox(height: FinaraSpacing.xxl),
                             Text(judul,
                                 style: theme.textTheme.headlineSmall,

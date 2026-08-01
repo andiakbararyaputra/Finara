@@ -11,6 +11,7 @@ abstract final class SettingKeys {
   static const pembulatanDefault = 'pembulatanDefault'; // nama RoundingOption
   static const onboardingSelesai = 'onboardingSelesai'; // true | false
   static const biometrikAktif = 'biometrikAktif'; // true | false
+  static const retensiChatHari = 'retensiChatHari'; // '0' = selamanya
 }
 
 class SettingsRepository {

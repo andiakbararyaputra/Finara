@@ -475,23 +475,34 @@ class _LangkahPembagian extends ConsumerWidget {
         const Divider(height: FinaraSpacing.xxl),
         Text(l10n.kartuInvestasi, style: theme.textTheme.titleMedium),
         const SizedBox(height: FinaraSpacing.sm),
-        _BarisPersen(
-          label: l10n.bagianBibit,
-          bp: state.bibitBp,
-          custom: state.preset == null,
-          onChanged: (bp) => ctrl.setCustomInvestasi(bibitBp: bp),
+        SwitchListTile(
+          contentPadding: EdgeInsets.zero,
+          title: Text(l10n.aktifkanStockbit),
+          value: state.stockbitAktif,
+          onChanged: (v) => ctrl.setStockbitAktif(aktif: v),
         ),
-        _BarisPersen(
-          label: l10n.bagianStockbit,
-          bp: state.stockbitBp,
-          custom: state.preset == null,
-          onChanged: (bp) => ctrl.setCustomInvestasi(stockbitBp: bp),
-        ),
-        if (state.investasiBp > 0)
-          _IndikatorTotal(
-            totalBp: totalInvestasiBp,
-            valid: state.persentaseInvestasiValid,
+        if (!state.stockbitAktif)
+          Text(l10n.stockbitNonaktifInfo,
+              style: theme.textTheme.bodySmall)
+        else ...[
+          _BarisPersen(
+            label: l10n.bagianBibit,
+            bp: state.bibitBp,
+            custom: state.preset == null,
+            onChanged: (bp) => ctrl.setCustomInvestasi(bibitBp: bp),
           ),
+          _BarisPersen(
+            label: l10n.bagianStockbit,
+            bp: state.stockbitBp,
+            custom: state.preset == null,
+            onChanged: (bp) => ctrl.setCustomInvestasi(stockbitBp: bp),
+          ),
+          if (state.investasiBp > 0)
+            _IndikatorTotal(
+              totalBp: totalInvestasiBp,
+              valid: state.persentaseInvestasiValid,
+            ),
+        ],
         const Divider(height: FinaraSpacing.xxl),
         DropdownButtonFormField<JagoSubAllocationMethod>(
           initialValue: state.metodeSubJago,

@@ -8899,6 +8899,5758 @@ class AppSettingsCompanion extends UpdateCompanion<AppSetting> {
   }
 }
 
+class $AiProviderConfigurationsTable extends AiProviderConfigurations
+    with TableInfo<$AiProviderConfigurationsTable, AiProviderConfiguration> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $AiProviderConfigurationsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _namaMeta = const VerificationMeta('nama');
+  @override
+  late final GeneratedColumn<String> nama = GeneratedColumn<String>(
+    'nama',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _baseUrlMeta = const VerificationMeta(
+    'baseUrl',
+  );
+  @override
+  late final GeneratedColumn<String> baseUrl = GeneratedColumn<String>(
+    'base_url',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _chatPathMeta = const VerificationMeta(
+    'chatPath',
+  );
+  @override
+  late final GeneratedColumn<String> chatPath = GeneratedColumn<String>(
+    'chat_path',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('/chat/completions'),
+  );
+  static const VerificationMeta _modelsPathMeta = const VerificationMeta(
+    'modelsPath',
+  );
+  @override
+  late final GeneratedColumn<String> modelsPath = GeneratedColumn<String>(
+    'models_path',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('/models'),
+  );
+  static const VerificationMeta _timeoutDetikMeta = const VerificationMeta(
+    'timeoutDetik',
+  );
+  @override
+  late final GeneratedColumn<int> timeoutDetik = GeneratedColumn<int>(
+    'timeout_detik',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(60),
+  );
+  static const VerificationMeta _streamingAktifMeta = const VerificationMeta(
+    'streamingAktif',
+  );
+  @override
+  late final GeneratedColumn<bool> streamingAktif = GeneratedColumn<bool>(
+    'streaming_aktif',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("streaming_aktif" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _modelDefaultMeta = const VerificationMeta(
+    'modelDefault',
+  );
+  @override
+  late final GeneratedColumn<String> modelDefault = GeneratedColumn<String>(
+    'model_default',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<AIDataScope, String> izinData =
+      GeneratedColumn<String>(
+        'izin_data',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<AIDataScope>(
+        $AiProviderConfigurationsTable.$converterizinData,
+      );
+  @override
+  late final GeneratedColumnWithTypeConverter<AllowedModelsMode, String>
+  allowedMode =
+      GeneratedColumn<String>(
+        'allowed_mode',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+        defaultValue: const Constant('izinkanSemua'),
+      ).withConverter<AllowedModelsMode>(
+        $AiProviderConfigurationsTable.$converterallowedMode,
+      );
+  static const VerificationMeta _fallbackModel1Meta = const VerificationMeta(
+    'fallbackModel1',
+  );
+  @override
+  late final GeneratedColumn<String> fallbackModel1 = GeneratedColumn<String>(
+    'fallback_model1',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _fallbackModel2Meta = const VerificationMeta(
+    'fallbackModel2',
+  );
+  @override
+  late final GeneratedColumn<String> fallbackModel2 = GeneratedColumn<String>(
+    'fallback_model2',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _dibuatPadaMeta = const VerificationMeta(
+    'dibuatPada',
+  );
+  @override
+  late final GeneratedColumn<DateTime> dibuatPada = GeneratedColumn<DateTime>(
+    'dibuat_pada',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    nama,
+    baseUrl,
+    chatPath,
+    modelsPath,
+    timeoutDetik,
+    streamingAktif,
+    modelDefault,
+    izinData,
+    allowedMode,
+    fallbackModel1,
+    fallbackModel2,
+    dibuatPada,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'ai_provider_configurations';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<AiProviderConfiguration> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('nama')) {
+      context.handle(
+        _namaMeta,
+        nama.isAcceptableOrUnknown(data['nama']!, _namaMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_namaMeta);
+    }
+    if (data.containsKey('base_url')) {
+      context.handle(
+        _baseUrlMeta,
+        baseUrl.isAcceptableOrUnknown(data['base_url']!, _baseUrlMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_baseUrlMeta);
+    }
+    if (data.containsKey('chat_path')) {
+      context.handle(
+        _chatPathMeta,
+        chatPath.isAcceptableOrUnknown(data['chat_path']!, _chatPathMeta),
+      );
+    }
+    if (data.containsKey('models_path')) {
+      context.handle(
+        _modelsPathMeta,
+        modelsPath.isAcceptableOrUnknown(data['models_path']!, _modelsPathMeta),
+      );
+    }
+    if (data.containsKey('timeout_detik')) {
+      context.handle(
+        _timeoutDetikMeta,
+        timeoutDetik.isAcceptableOrUnknown(
+          data['timeout_detik']!,
+          _timeoutDetikMeta,
+        ),
+      );
+    }
+    if (data.containsKey('streaming_aktif')) {
+      context.handle(
+        _streamingAktifMeta,
+        streamingAktif.isAcceptableOrUnknown(
+          data['streaming_aktif']!,
+          _streamingAktifMeta,
+        ),
+      );
+    }
+    if (data.containsKey('model_default')) {
+      context.handle(
+        _modelDefaultMeta,
+        modelDefault.isAcceptableOrUnknown(
+          data['model_default']!,
+          _modelDefaultMeta,
+        ),
+      );
+    }
+    if (data.containsKey('fallback_model1')) {
+      context.handle(
+        _fallbackModel1Meta,
+        fallbackModel1.isAcceptableOrUnknown(
+          data['fallback_model1']!,
+          _fallbackModel1Meta,
+        ),
+      );
+    }
+    if (data.containsKey('fallback_model2')) {
+      context.handle(
+        _fallbackModel2Meta,
+        fallbackModel2.isAcceptableOrUnknown(
+          data['fallback_model2']!,
+          _fallbackModel2Meta,
+        ),
+      );
+    }
+    if (data.containsKey('dibuat_pada')) {
+      context.handle(
+        _dibuatPadaMeta,
+        dibuatPada.isAcceptableOrUnknown(data['dibuat_pada']!, _dibuatPadaMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_dibuatPadaMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  AiProviderConfiguration map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return AiProviderConfiguration(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      nama: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}nama'],
+      )!,
+      baseUrl: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}base_url'],
+      )!,
+      chatPath: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}chat_path'],
+      )!,
+      modelsPath: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}models_path'],
+      )!,
+      timeoutDetik: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}timeout_detik'],
+      )!,
+      streamingAktif: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}streaming_aktif'],
+      )!,
+      modelDefault: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}model_default'],
+      ),
+      izinData: $AiProviderConfigurationsTable.$converterizinData.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}izin_data'],
+        )!,
+      ),
+      allowedMode: $AiProviderConfigurationsTable.$converterallowedMode.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}allowed_mode'],
+        )!,
+      ),
+      fallbackModel1: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}fallback_model1'],
+      ),
+      fallbackModel2: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}fallback_model2'],
+      ),
+      dibuatPada: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}dibuat_pada'],
+      )!,
+    );
+  }
+
+  @override
+  $AiProviderConfigurationsTable createAlias(String alias) {
+    return $AiProviderConfigurationsTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<AIDataScope, String, String> $converterizinData =
+      const EnumNameConverter<AIDataScope>(AIDataScope.values);
+  static JsonTypeConverter2<AllowedModelsMode, String, String>
+  $converterallowedMode = const EnumNameConverter<AllowedModelsMode>(
+    AllowedModelsMode.values,
+  );
+}
+
+class AiProviderConfiguration extends DataClass
+    implements Insertable<AiProviderConfiguration> {
+  final int id;
+  final String nama;
+  final String baseUrl;
+  final String chatPath;
+  final String modelsPath;
+  final int timeoutDetik;
+  final bool streamingAktif;
+  final String? modelDefault;
+  final AIDataScope izinData;
+  final AllowedModelsMode allowedMode;
+  final String? fallbackModel1;
+  final String? fallbackModel2;
+  final DateTime dibuatPada;
+  const AiProviderConfiguration({
+    required this.id,
+    required this.nama,
+    required this.baseUrl,
+    required this.chatPath,
+    required this.modelsPath,
+    required this.timeoutDetik,
+    required this.streamingAktif,
+    this.modelDefault,
+    required this.izinData,
+    required this.allowedMode,
+    this.fallbackModel1,
+    this.fallbackModel2,
+    required this.dibuatPada,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['nama'] = Variable<String>(nama);
+    map['base_url'] = Variable<String>(baseUrl);
+    map['chat_path'] = Variable<String>(chatPath);
+    map['models_path'] = Variable<String>(modelsPath);
+    map['timeout_detik'] = Variable<int>(timeoutDetik);
+    map['streaming_aktif'] = Variable<bool>(streamingAktif);
+    if (!nullToAbsent || modelDefault != null) {
+      map['model_default'] = Variable<String>(modelDefault);
+    }
+    {
+      map['izin_data'] = Variable<String>(
+        $AiProviderConfigurationsTable.$converterizinData.toSql(izinData),
+      );
+    }
+    {
+      map['allowed_mode'] = Variable<String>(
+        $AiProviderConfigurationsTable.$converterallowedMode.toSql(allowedMode),
+      );
+    }
+    if (!nullToAbsent || fallbackModel1 != null) {
+      map['fallback_model1'] = Variable<String>(fallbackModel1);
+    }
+    if (!nullToAbsent || fallbackModel2 != null) {
+      map['fallback_model2'] = Variable<String>(fallbackModel2);
+    }
+    map['dibuat_pada'] = Variable<DateTime>(dibuatPada);
+    return map;
+  }
+
+  AiProviderConfigurationsCompanion toCompanion(bool nullToAbsent) {
+    return AiProviderConfigurationsCompanion(
+      id: Value(id),
+      nama: Value(nama),
+      baseUrl: Value(baseUrl),
+      chatPath: Value(chatPath),
+      modelsPath: Value(modelsPath),
+      timeoutDetik: Value(timeoutDetik),
+      streamingAktif: Value(streamingAktif),
+      modelDefault: modelDefault == null && nullToAbsent
+          ? const Value.absent()
+          : Value(modelDefault),
+      izinData: Value(izinData),
+      allowedMode: Value(allowedMode),
+      fallbackModel1: fallbackModel1 == null && nullToAbsent
+          ? const Value.absent()
+          : Value(fallbackModel1),
+      fallbackModel2: fallbackModel2 == null && nullToAbsent
+          ? const Value.absent()
+          : Value(fallbackModel2),
+      dibuatPada: Value(dibuatPada),
+    );
+  }
+
+  factory AiProviderConfiguration.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AiProviderConfiguration(
+      id: serializer.fromJson<int>(json['id']),
+      nama: serializer.fromJson<String>(json['nama']),
+      baseUrl: serializer.fromJson<String>(json['baseUrl']),
+      chatPath: serializer.fromJson<String>(json['chatPath']),
+      modelsPath: serializer.fromJson<String>(json['modelsPath']),
+      timeoutDetik: serializer.fromJson<int>(json['timeoutDetik']),
+      streamingAktif: serializer.fromJson<bool>(json['streamingAktif']),
+      modelDefault: serializer.fromJson<String?>(json['modelDefault']),
+      izinData: $AiProviderConfigurationsTable.$converterizinData.fromJson(
+        serializer.fromJson<String>(json['izinData']),
+      ),
+      allowedMode: $AiProviderConfigurationsTable.$converterallowedMode
+          .fromJson(serializer.fromJson<String>(json['allowedMode'])),
+      fallbackModel1: serializer.fromJson<String?>(json['fallbackModel1']),
+      fallbackModel2: serializer.fromJson<String?>(json['fallbackModel2']),
+      dibuatPada: serializer.fromJson<DateTime>(json['dibuatPada']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'nama': serializer.toJson<String>(nama),
+      'baseUrl': serializer.toJson<String>(baseUrl),
+      'chatPath': serializer.toJson<String>(chatPath),
+      'modelsPath': serializer.toJson<String>(modelsPath),
+      'timeoutDetik': serializer.toJson<int>(timeoutDetik),
+      'streamingAktif': serializer.toJson<bool>(streamingAktif),
+      'modelDefault': serializer.toJson<String?>(modelDefault),
+      'izinData': serializer.toJson<String>(
+        $AiProviderConfigurationsTable.$converterizinData.toJson(izinData),
+      ),
+      'allowedMode': serializer.toJson<String>(
+        $AiProviderConfigurationsTable.$converterallowedMode.toJson(
+          allowedMode,
+        ),
+      ),
+      'fallbackModel1': serializer.toJson<String?>(fallbackModel1),
+      'fallbackModel2': serializer.toJson<String?>(fallbackModel2),
+      'dibuatPada': serializer.toJson<DateTime>(dibuatPada),
+    };
+  }
+
+  AiProviderConfiguration copyWith({
+    int? id,
+    String? nama,
+    String? baseUrl,
+    String? chatPath,
+    String? modelsPath,
+    int? timeoutDetik,
+    bool? streamingAktif,
+    Value<String?> modelDefault = const Value.absent(),
+    AIDataScope? izinData,
+    AllowedModelsMode? allowedMode,
+    Value<String?> fallbackModel1 = const Value.absent(),
+    Value<String?> fallbackModel2 = const Value.absent(),
+    DateTime? dibuatPada,
+  }) => AiProviderConfiguration(
+    id: id ?? this.id,
+    nama: nama ?? this.nama,
+    baseUrl: baseUrl ?? this.baseUrl,
+    chatPath: chatPath ?? this.chatPath,
+    modelsPath: modelsPath ?? this.modelsPath,
+    timeoutDetik: timeoutDetik ?? this.timeoutDetik,
+    streamingAktif: streamingAktif ?? this.streamingAktif,
+    modelDefault: modelDefault.present ? modelDefault.value : this.modelDefault,
+    izinData: izinData ?? this.izinData,
+    allowedMode: allowedMode ?? this.allowedMode,
+    fallbackModel1: fallbackModel1.present
+        ? fallbackModel1.value
+        : this.fallbackModel1,
+    fallbackModel2: fallbackModel2.present
+        ? fallbackModel2.value
+        : this.fallbackModel2,
+    dibuatPada: dibuatPada ?? this.dibuatPada,
+  );
+  AiProviderConfiguration copyWithCompanion(
+    AiProviderConfigurationsCompanion data,
+  ) {
+    return AiProviderConfiguration(
+      id: data.id.present ? data.id.value : this.id,
+      nama: data.nama.present ? data.nama.value : this.nama,
+      baseUrl: data.baseUrl.present ? data.baseUrl.value : this.baseUrl,
+      chatPath: data.chatPath.present ? data.chatPath.value : this.chatPath,
+      modelsPath: data.modelsPath.present
+          ? data.modelsPath.value
+          : this.modelsPath,
+      timeoutDetik: data.timeoutDetik.present
+          ? data.timeoutDetik.value
+          : this.timeoutDetik,
+      streamingAktif: data.streamingAktif.present
+          ? data.streamingAktif.value
+          : this.streamingAktif,
+      modelDefault: data.modelDefault.present
+          ? data.modelDefault.value
+          : this.modelDefault,
+      izinData: data.izinData.present ? data.izinData.value : this.izinData,
+      allowedMode: data.allowedMode.present
+          ? data.allowedMode.value
+          : this.allowedMode,
+      fallbackModel1: data.fallbackModel1.present
+          ? data.fallbackModel1.value
+          : this.fallbackModel1,
+      fallbackModel2: data.fallbackModel2.present
+          ? data.fallbackModel2.value
+          : this.fallbackModel2,
+      dibuatPada: data.dibuatPada.present
+          ? data.dibuatPada.value
+          : this.dibuatPada,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AiProviderConfiguration(')
+          ..write('id: $id, ')
+          ..write('nama: $nama, ')
+          ..write('baseUrl: $baseUrl, ')
+          ..write('chatPath: $chatPath, ')
+          ..write('modelsPath: $modelsPath, ')
+          ..write('timeoutDetik: $timeoutDetik, ')
+          ..write('streamingAktif: $streamingAktif, ')
+          ..write('modelDefault: $modelDefault, ')
+          ..write('izinData: $izinData, ')
+          ..write('allowedMode: $allowedMode, ')
+          ..write('fallbackModel1: $fallbackModel1, ')
+          ..write('fallbackModel2: $fallbackModel2, ')
+          ..write('dibuatPada: $dibuatPada')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    nama,
+    baseUrl,
+    chatPath,
+    modelsPath,
+    timeoutDetik,
+    streamingAktif,
+    modelDefault,
+    izinData,
+    allowedMode,
+    fallbackModel1,
+    fallbackModel2,
+    dibuatPada,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AiProviderConfiguration &&
+          other.id == this.id &&
+          other.nama == this.nama &&
+          other.baseUrl == this.baseUrl &&
+          other.chatPath == this.chatPath &&
+          other.modelsPath == this.modelsPath &&
+          other.timeoutDetik == this.timeoutDetik &&
+          other.streamingAktif == this.streamingAktif &&
+          other.modelDefault == this.modelDefault &&
+          other.izinData == this.izinData &&
+          other.allowedMode == this.allowedMode &&
+          other.fallbackModel1 == this.fallbackModel1 &&
+          other.fallbackModel2 == this.fallbackModel2 &&
+          other.dibuatPada == this.dibuatPada);
+}
+
+class AiProviderConfigurationsCompanion
+    extends UpdateCompanion<AiProviderConfiguration> {
+  final Value<int> id;
+  final Value<String> nama;
+  final Value<String> baseUrl;
+  final Value<String> chatPath;
+  final Value<String> modelsPath;
+  final Value<int> timeoutDetik;
+  final Value<bool> streamingAktif;
+  final Value<String?> modelDefault;
+  final Value<AIDataScope> izinData;
+  final Value<AllowedModelsMode> allowedMode;
+  final Value<String?> fallbackModel1;
+  final Value<String?> fallbackModel2;
+  final Value<DateTime> dibuatPada;
+  const AiProviderConfigurationsCompanion({
+    this.id = const Value.absent(),
+    this.nama = const Value.absent(),
+    this.baseUrl = const Value.absent(),
+    this.chatPath = const Value.absent(),
+    this.modelsPath = const Value.absent(),
+    this.timeoutDetik = const Value.absent(),
+    this.streamingAktif = const Value.absent(),
+    this.modelDefault = const Value.absent(),
+    this.izinData = const Value.absent(),
+    this.allowedMode = const Value.absent(),
+    this.fallbackModel1 = const Value.absent(),
+    this.fallbackModel2 = const Value.absent(),
+    this.dibuatPada = const Value.absent(),
+  });
+  AiProviderConfigurationsCompanion.insert({
+    this.id = const Value.absent(),
+    required String nama,
+    required String baseUrl,
+    this.chatPath = const Value.absent(),
+    this.modelsPath = const Value.absent(),
+    this.timeoutDetik = const Value.absent(),
+    this.streamingAktif = const Value.absent(),
+    this.modelDefault = const Value.absent(),
+    required AIDataScope izinData,
+    this.allowedMode = const Value.absent(),
+    this.fallbackModel1 = const Value.absent(),
+    this.fallbackModel2 = const Value.absent(),
+    required DateTime dibuatPada,
+  }) : nama = Value(nama),
+       baseUrl = Value(baseUrl),
+       izinData = Value(izinData),
+       dibuatPada = Value(dibuatPada);
+  static Insertable<AiProviderConfiguration> custom({
+    Expression<int>? id,
+    Expression<String>? nama,
+    Expression<String>? baseUrl,
+    Expression<String>? chatPath,
+    Expression<String>? modelsPath,
+    Expression<int>? timeoutDetik,
+    Expression<bool>? streamingAktif,
+    Expression<String>? modelDefault,
+    Expression<String>? izinData,
+    Expression<String>? allowedMode,
+    Expression<String>? fallbackModel1,
+    Expression<String>? fallbackModel2,
+    Expression<DateTime>? dibuatPada,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (nama != null) 'nama': nama,
+      if (baseUrl != null) 'base_url': baseUrl,
+      if (chatPath != null) 'chat_path': chatPath,
+      if (modelsPath != null) 'models_path': modelsPath,
+      if (timeoutDetik != null) 'timeout_detik': timeoutDetik,
+      if (streamingAktif != null) 'streaming_aktif': streamingAktif,
+      if (modelDefault != null) 'model_default': modelDefault,
+      if (izinData != null) 'izin_data': izinData,
+      if (allowedMode != null) 'allowed_mode': allowedMode,
+      if (fallbackModel1 != null) 'fallback_model1': fallbackModel1,
+      if (fallbackModel2 != null) 'fallback_model2': fallbackModel2,
+      if (dibuatPada != null) 'dibuat_pada': dibuatPada,
+    });
+  }
+
+  AiProviderConfigurationsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? nama,
+    Value<String>? baseUrl,
+    Value<String>? chatPath,
+    Value<String>? modelsPath,
+    Value<int>? timeoutDetik,
+    Value<bool>? streamingAktif,
+    Value<String?>? modelDefault,
+    Value<AIDataScope>? izinData,
+    Value<AllowedModelsMode>? allowedMode,
+    Value<String?>? fallbackModel1,
+    Value<String?>? fallbackModel2,
+    Value<DateTime>? dibuatPada,
+  }) {
+    return AiProviderConfigurationsCompanion(
+      id: id ?? this.id,
+      nama: nama ?? this.nama,
+      baseUrl: baseUrl ?? this.baseUrl,
+      chatPath: chatPath ?? this.chatPath,
+      modelsPath: modelsPath ?? this.modelsPath,
+      timeoutDetik: timeoutDetik ?? this.timeoutDetik,
+      streamingAktif: streamingAktif ?? this.streamingAktif,
+      modelDefault: modelDefault ?? this.modelDefault,
+      izinData: izinData ?? this.izinData,
+      allowedMode: allowedMode ?? this.allowedMode,
+      fallbackModel1: fallbackModel1 ?? this.fallbackModel1,
+      fallbackModel2: fallbackModel2 ?? this.fallbackModel2,
+      dibuatPada: dibuatPada ?? this.dibuatPada,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (nama.present) {
+      map['nama'] = Variable<String>(nama.value);
+    }
+    if (baseUrl.present) {
+      map['base_url'] = Variable<String>(baseUrl.value);
+    }
+    if (chatPath.present) {
+      map['chat_path'] = Variable<String>(chatPath.value);
+    }
+    if (modelsPath.present) {
+      map['models_path'] = Variable<String>(modelsPath.value);
+    }
+    if (timeoutDetik.present) {
+      map['timeout_detik'] = Variable<int>(timeoutDetik.value);
+    }
+    if (streamingAktif.present) {
+      map['streaming_aktif'] = Variable<bool>(streamingAktif.value);
+    }
+    if (modelDefault.present) {
+      map['model_default'] = Variable<String>(modelDefault.value);
+    }
+    if (izinData.present) {
+      map['izin_data'] = Variable<String>(
+        $AiProviderConfigurationsTable.$converterizinData.toSql(izinData.value),
+      );
+    }
+    if (allowedMode.present) {
+      map['allowed_mode'] = Variable<String>(
+        $AiProviderConfigurationsTable.$converterallowedMode.toSql(
+          allowedMode.value,
+        ),
+      );
+    }
+    if (fallbackModel1.present) {
+      map['fallback_model1'] = Variable<String>(fallbackModel1.value);
+    }
+    if (fallbackModel2.present) {
+      map['fallback_model2'] = Variable<String>(fallbackModel2.value);
+    }
+    if (dibuatPada.present) {
+      map['dibuat_pada'] = Variable<DateTime>(dibuatPada.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AiProviderConfigurationsCompanion(')
+          ..write('id: $id, ')
+          ..write('nama: $nama, ')
+          ..write('baseUrl: $baseUrl, ')
+          ..write('chatPath: $chatPath, ')
+          ..write('modelsPath: $modelsPath, ')
+          ..write('timeoutDetik: $timeoutDetik, ')
+          ..write('streamingAktif: $streamingAktif, ')
+          ..write('modelDefault: $modelDefault, ')
+          ..write('izinData: $izinData, ')
+          ..write('allowedMode: $allowedMode, ')
+          ..write('fallbackModel1: $fallbackModel1, ')
+          ..write('fallbackModel2: $fallbackModel2, ')
+          ..write('dibuatPada: $dibuatPada')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $AiModelsTable extends AiModels with TableInfo<$AiModelsTable, AiModel> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $AiModelsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _providerIdMeta = const VerificationMeta(
+    'providerId',
+  );
+  @override
+  late final GeneratedColumn<int> providerId = GeneratedColumn<int>(
+    'provider_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES ai_provider_configurations (id)',
+    ),
+  );
+  static const VerificationMeta _modelIdMeta = const VerificationMeta(
+    'modelId',
+  );
+  @override
+  late final GeneratedColumn<String> modelId = GeneratedColumn<String>(
+    'model_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _displayNameMeta = const VerificationMeta(
+    'displayName',
+  );
+  @override
+  late final GeneratedColumn<String> displayName = GeneratedColumn<String>(
+    'display_name',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _favoritMeta = const VerificationMeta(
+    'favorit',
+  );
+  @override
+  late final GeneratedColumn<bool> favorit = GeneratedColumn<bool>(
+    'favorit',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("favorit" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _manualMeta = const VerificationMeta('manual');
+  @override
+  late final GeneratedColumn<bool> manual = GeneratedColumn<bool>(
+    'manual',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("manual" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _diblokirMeta = const VerificationMeta(
+    'diblokir',
+  );
+  @override
+  late final GeneratedColumn<bool> diblokir = GeneratedColumn<bool>(
+    'diblokir',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("diblokir" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _diizinkanMeta = const VerificationMeta(
+    'diizinkan',
+  );
+  @override
+  late final GeneratedColumn<bool> diizinkan = GeneratedColumn<bool>(
+    'diizinkan',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("diizinkan" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<CapabilityStatus, String>
+  statusChat = GeneratedColumn<String>(
+    'status_chat',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('unknown'),
+  ).withConverter<CapabilityStatus>($AiModelsTable.$converterstatusChat);
+  @override
+  late final GeneratedColumnWithTypeConverter<CapabilityStatus, String>
+  statusStreaming = GeneratedColumn<String>(
+    'status_streaming',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('unknown'),
+  ).withConverter<CapabilityStatus>($AiModelsTable.$converterstatusStreaming);
+  static const VerificationMeta _hargaInputPerJutaMeta = const VerificationMeta(
+    'hargaInputPerJuta',
+  );
+  @override
+  late final GeneratedColumn<int> hargaInputPerJuta = GeneratedColumn<int>(
+    'harga_input_per_juta',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _hargaOutputPerJutaMeta =
+      const VerificationMeta('hargaOutputPerJuta');
+  @override
+  late final GeneratedColumn<int> hargaOutputPerJuta = GeneratedColumn<int>(
+    'harga_output_per_juta',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _terakhirDipakaiMeta = const VerificationMeta(
+    'terakhirDipakai',
+  );
+  @override
+  late final GeneratedColumn<DateTime> terakhirDipakai =
+      GeneratedColumn<DateTime>(
+        'terakhir_dipakai',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    providerId,
+    modelId,
+    displayName,
+    favorit,
+    manual,
+    diblokir,
+    diizinkan,
+    statusChat,
+    statusStreaming,
+    hargaInputPerJuta,
+    hargaOutputPerJuta,
+    terakhirDipakai,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'ai_models';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<AiModel> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('provider_id')) {
+      context.handle(
+        _providerIdMeta,
+        providerId.isAcceptableOrUnknown(data['provider_id']!, _providerIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_providerIdMeta);
+    }
+    if (data.containsKey('model_id')) {
+      context.handle(
+        _modelIdMeta,
+        modelId.isAcceptableOrUnknown(data['model_id']!, _modelIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_modelIdMeta);
+    }
+    if (data.containsKey('display_name')) {
+      context.handle(
+        _displayNameMeta,
+        displayName.isAcceptableOrUnknown(
+          data['display_name']!,
+          _displayNameMeta,
+        ),
+      );
+    }
+    if (data.containsKey('favorit')) {
+      context.handle(
+        _favoritMeta,
+        favorit.isAcceptableOrUnknown(data['favorit']!, _favoritMeta),
+      );
+    }
+    if (data.containsKey('manual')) {
+      context.handle(
+        _manualMeta,
+        manual.isAcceptableOrUnknown(data['manual']!, _manualMeta),
+      );
+    }
+    if (data.containsKey('diblokir')) {
+      context.handle(
+        _diblokirMeta,
+        diblokir.isAcceptableOrUnknown(data['diblokir']!, _diblokirMeta),
+      );
+    }
+    if (data.containsKey('diizinkan')) {
+      context.handle(
+        _diizinkanMeta,
+        diizinkan.isAcceptableOrUnknown(data['diizinkan']!, _diizinkanMeta),
+      );
+    }
+    if (data.containsKey('harga_input_per_juta')) {
+      context.handle(
+        _hargaInputPerJutaMeta,
+        hargaInputPerJuta.isAcceptableOrUnknown(
+          data['harga_input_per_juta']!,
+          _hargaInputPerJutaMeta,
+        ),
+      );
+    }
+    if (data.containsKey('harga_output_per_juta')) {
+      context.handle(
+        _hargaOutputPerJutaMeta,
+        hargaOutputPerJuta.isAcceptableOrUnknown(
+          data['harga_output_per_juta']!,
+          _hargaOutputPerJutaMeta,
+        ),
+      );
+    }
+    if (data.containsKey('terakhir_dipakai')) {
+      context.handle(
+        _terakhirDipakaiMeta,
+        terakhirDipakai.isAcceptableOrUnknown(
+          data['terakhir_dipakai']!,
+          _terakhirDipakaiMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  List<Set<GeneratedColumn>> get uniqueKeys => [
+    {providerId, modelId},
+  ];
+  @override
+  AiModel map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return AiModel(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      providerId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}provider_id'],
+      )!,
+      modelId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}model_id'],
+      )!,
+      displayName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}display_name'],
+      ),
+      favorit: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}favorit'],
+      )!,
+      manual: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}manual'],
+      )!,
+      diblokir: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}diblokir'],
+      )!,
+      diizinkan: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}diizinkan'],
+      )!,
+      statusChat: $AiModelsTable.$converterstatusChat.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}status_chat'],
+        )!,
+      ),
+      statusStreaming: $AiModelsTable.$converterstatusStreaming.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}status_streaming'],
+        )!,
+      ),
+      hargaInputPerJuta: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}harga_input_per_juta'],
+      ),
+      hargaOutputPerJuta: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}harga_output_per_juta'],
+      ),
+      terakhirDipakai: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}terakhir_dipakai'],
+      ),
+    );
+  }
+
+  @override
+  $AiModelsTable createAlias(String alias) {
+    return $AiModelsTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<CapabilityStatus, String, String>
+  $converterstatusChat = const EnumNameConverter<CapabilityStatus>(
+    CapabilityStatus.values,
+  );
+  static JsonTypeConverter2<CapabilityStatus, String, String>
+  $converterstatusStreaming = const EnumNameConverter<CapabilityStatus>(
+    CapabilityStatus.values,
+  );
+}
+
+class AiModel extends DataClass implements Insertable<AiModel> {
+  final int id;
+  final int providerId;
+  final String modelId;
+  final String? displayName;
+  final bool favorit;
+  final bool manual;
+  final bool diblokir;
+  final bool diizinkan;
+
+  /// Status kemampuan (§32): unknown/claimed/verified/unsupported.
+  final CapabilityStatus statusChat;
+  final CapabilityStatus statusStreaming;
+
+  /// Harga per 1 juta token, diisi pengguna (§39); null = tak tersedia.
+  final int? hargaInputPerJuta;
+  final int? hargaOutputPerJuta;
+  final DateTime? terakhirDipakai;
+  const AiModel({
+    required this.id,
+    required this.providerId,
+    required this.modelId,
+    this.displayName,
+    required this.favorit,
+    required this.manual,
+    required this.diblokir,
+    required this.diizinkan,
+    required this.statusChat,
+    required this.statusStreaming,
+    this.hargaInputPerJuta,
+    this.hargaOutputPerJuta,
+    this.terakhirDipakai,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['provider_id'] = Variable<int>(providerId);
+    map['model_id'] = Variable<String>(modelId);
+    if (!nullToAbsent || displayName != null) {
+      map['display_name'] = Variable<String>(displayName);
+    }
+    map['favorit'] = Variable<bool>(favorit);
+    map['manual'] = Variable<bool>(manual);
+    map['diblokir'] = Variable<bool>(diblokir);
+    map['diizinkan'] = Variable<bool>(diizinkan);
+    {
+      map['status_chat'] = Variable<String>(
+        $AiModelsTable.$converterstatusChat.toSql(statusChat),
+      );
+    }
+    {
+      map['status_streaming'] = Variable<String>(
+        $AiModelsTable.$converterstatusStreaming.toSql(statusStreaming),
+      );
+    }
+    if (!nullToAbsent || hargaInputPerJuta != null) {
+      map['harga_input_per_juta'] = Variable<int>(hargaInputPerJuta);
+    }
+    if (!nullToAbsent || hargaOutputPerJuta != null) {
+      map['harga_output_per_juta'] = Variable<int>(hargaOutputPerJuta);
+    }
+    if (!nullToAbsent || terakhirDipakai != null) {
+      map['terakhir_dipakai'] = Variable<DateTime>(terakhirDipakai);
+    }
+    return map;
+  }
+
+  AiModelsCompanion toCompanion(bool nullToAbsent) {
+    return AiModelsCompanion(
+      id: Value(id),
+      providerId: Value(providerId),
+      modelId: Value(modelId),
+      displayName: displayName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(displayName),
+      favorit: Value(favorit),
+      manual: Value(manual),
+      diblokir: Value(diblokir),
+      diizinkan: Value(diizinkan),
+      statusChat: Value(statusChat),
+      statusStreaming: Value(statusStreaming),
+      hargaInputPerJuta: hargaInputPerJuta == null && nullToAbsent
+          ? const Value.absent()
+          : Value(hargaInputPerJuta),
+      hargaOutputPerJuta: hargaOutputPerJuta == null && nullToAbsent
+          ? const Value.absent()
+          : Value(hargaOutputPerJuta),
+      terakhirDipakai: terakhirDipakai == null && nullToAbsent
+          ? const Value.absent()
+          : Value(terakhirDipakai),
+    );
+  }
+
+  factory AiModel.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AiModel(
+      id: serializer.fromJson<int>(json['id']),
+      providerId: serializer.fromJson<int>(json['providerId']),
+      modelId: serializer.fromJson<String>(json['modelId']),
+      displayName: serializer.fromJson<String?>(json['displayName']),
+      favorit: serializer.fromJson<bool>(json['favorit']),
+      manual: serializer.fromJson<bool>(json['manual']),
+      diblokir: serializer.fromJson<bool>(json['diblokir']),
+      diizinkan: serializer.fromJson<bool>(json['diizinkan']),
+      statusChat: $AiModelsTable.$converterstatusChat.fromJson(
+        serializer.fromJson<String>(json['statusChat']),
+      ),
+      statusStreaming: $AiModelsTable.$converterstatusStreaming.fromJson(
+        serializer.fromJson<String>(json['statusStreaming']),
+      ),
+      hargaInputPerJuta: serializer.fromJson<int?>(json['hargaInputPerJuta']),
+      hargaOutputPerJuta: serializer.fromJson<int?>(json['hargaOutputPerJuta']),
+      terakhirDipakai: serializer.fromJson<DateTime?>(json['terakhirDipakai']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'providerId': serializer.toJson<int>(providerId),
+      'modelId': serializer.toJson<String>(modelId),
+      'displayName': serializer.toJson<String?>(displayName),
+      'favorit': serializer.toJson<bool>(favorit),
+      'manual': serializer.toJson<bool>(manual),
+      'diblokir': serializer.toJson<bool>(diblokir),
+      'diizinkan': serializer.toJson<bool>(diizinkan),
+      'statusChat': serializer.toJson<String>(
+        $AiModelsTable.$converterstatusChat.toJson(statusChat),
+      ),
+      'statusStreaming': serializer.toJson<String>(
+        $AiModelsTable.$converterstatusStreaming.toJson(statusStreaming),
+      ),
+      'hargaInputPerJuta': serializer.toJson<int?>(hargaInputPerJuta),
+      'hargaOutputPerJuta': serializer.toJson<int?>(hargaOutputPerJuta),
+      'terakhirDipakai': serializer.toJson<DateTime?>(terakhirDipakai),
+    };
+  }
+
+  AiModel copyWith({
+    int? id,
+    int? providerId,
+    String? modelId,
+    Value<String?> displayName = const Value.absent(),
+    bool? favorit,
+    bool? manual,
+    bool? diblokir,
+    bool? diizinkan,
+    CapabilityStatus? statusChat,
+    CapabilityStatus? statusStreaming,
+    Value<int?> hargaInputPerJuta = const Value.absent(),
+    Value<int?> hargaOutputPerJuta = const Value.absent(),
+    Value<DateTime?> terakhirDipakai = const Value.absent(),
+  }) => AiModel(
+    id: id ?? this.id,
+    providerId: providerId ?? this.providerId,
+    modelId: modelId ?? this.modelId,
+    displayName: displayName.present ? displayName.value : this.displayName,
+    favorit: favorit ?? this.favorit,
+    manual: manual ?? this.manual,
+    diblokir: diblokir ?? this.diblokir,
+    diizinkan: diizinkan ?? this.diizinkan,
+    statusChat: statusChat ?? this.statusChat,
+    statusStreaming: statusStreaming ?? this.statusStreaming,
+    hargaInputPerJuta: hargaInputPerJuta.present
+        ? hargaInputPerJuta.value
+        : this.hargaInputPerJuta,
+    hargaOutputPerJuta: hargaOutputPerJuta.present
+        ? hargaOutputPerJuta.value
+        : this.hargaOutputPerJuta,
+    terakhirDipakai: terakhirDipakai.present
+        ? terakhirDipakai.value
+        : this.terakhirDipakai,
+  );
+  AiModel copyWithCompanion(AiModelsCompanion data) {
+    return AiModel(
+      id: data.id.present ? data.id.value : this.id,
+      providerId: data.providerId.present
+          ? data.providerId.value
+          : this.providerId,
+      modelId: data.modelId.present ? data.modelId.value : this.modelId,
+      displayName: data.displayName.present
+          ? data.displayName.value
+          : this.displayName,
+      favorit: data.favorit.present ? data.favorit.value : this.favorit,
+      manual: data.manual.present ? data.manual.value : this.manual,
+      diblokir: data.diblokir.present ? data.diblokir.value : this.diblokir,
+      diizinkan: data.diizinkan.present ? data.diizinkan.value : this.diizinkan,
+      statusChat: data.statusChat.present
+          ? data.statusChat.value
+          : this.statusChat,
+      statusStreaming: data.statusStreaming.present
+          ? data.statusStreaming.value
+          : this.statusStreaming,
+      hargaInputPerJuta: data.hargaInputPerJuta.present
+          ? data.hargaInputPerJuta.value
+          : this.hargaInputPerJuta,
+      hargaOutputPerJuta: data.hargaOutputPerJuta.present
+          ? data.hargaOutputPerJuta.value
+          : this.hargaOutputPerJuta,
+      terakhirDipakai: data.terakhirDipakai.present
+          ? data.terakhirDipakai.value
+          : this.terakhirDipakai,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AiModel(')
+          ..write('id: $id, ')
+          ..write('providerId: $providerId, ')
+          ..write('modelId: $modelId, ')
+          ..write('displayName: $displayName, ')
+          ..write('favorit: $favorit, ')
+          ..write('manual: $manual, ')
+          ..write('diblokir: $diblokir, ')
+          ..write('diizinkan: $diizinkan, ')
+          ..write('statusChat: $statusChat, ')
+          ..write('statusStreaming: $statusStreaming, ')
+          ..write('hargaInputPerJuta: $hargaInputPerJuta, ')
+          ..write('hargaOutputPerJuta: $hargaOutputPerJuta, ')
+          ..write('terakhirDipakai: $terakhirDipakai')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    providerId,
+    modelId,
+    displayName,
+    favorit,
+    manual,
+    diblokir,
+    diizinkan,
+    statusChat,
+    statusStreaming,
+    hargaInputPerJuta,
+    hargaOutputPerJuta,
+    terakhirDipakai,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AiModel &&
+          other.id == this.id &&
+          other.providerId == this.providerId &&
+          other.modelId == this.modelId &&
+          other.displayName == this.displayName &&
+          other.favorit == this.favorit &&
+          other.manual == this.manual &&
+          other.diblokir == this.diblokir &&
+          other.diizinkan == this.diizinkan &&
+          other.statusChat == this.statusChat &&
+          other.statusStreaming == this.statusStreaming &&
+          other.hargaInputPerJuta == this.hargaInputPerJuta &&
+          other.hargaOutputPerJuta == this.hargaOutputPerJuta &&
+          other.terakhirDipakai == this.terakhirDipakai);
+}
+
+class AiModelsCompanion extends UpdateCompanion<AiModel> {
+  final Value<int> id;
+  final Value<int> providerId;
+  final Value<String> modelId;
+  final Value<String?> displayName;
+  final Value<bool> favorit;
+  final Value<bool> manual;
+  final Value<bool> diblokir;
+  final Value<bool> diizinkan;
+  final Value<CapabilityStatus> statusChat;
+  final Value<CapabilityStatus> statusStreaming;
+  final Value<int?> hargaInputPerJuta;
+  final Value<int?> hargaOutputPerJuta;
+  final Value<DateTime?> terakhirDipakai;
+  const AiModelsCompanion({
+    this.id = const Value.absent(),
+    this.providerId = const Value.absent(),
+    this.modelId = const Value.absent(),
+    this.displayName = const Value.absent(),
+    this.favorit = const Value.absent(),
+    this.manual = const Value.absent(),
+    this.diblokir = const Value.absent(),
+    this.diizinkan = const Value.absent(),
+    this.statusChat = const Value.absent(),
+    this.statusStreaming = const Value.absent(),
+    this.hargaInputPerJuta = const Value.absent(),
+    this.hargaOutputPerJuta = const Value.absent(),
+    this.terakhirDipakai = const Value.absent(),
+  });
+  AiModelsCompanion.insert({
+    this.id = const Value.absent(),
+    required int providerId,
+    required String modelId,
+    this.displayName = const Value.absent(),
+    this.favorit = const Value.absent(),
+    this.manual = const Value.absent(),
+    this.diblokir = const Value.absent(),
+    this.diizinkan = const Value.absent(),
+    this.statusChat = const Value.absent(),
+    this.statusStreaming = const Value.absent(),
+    this.hargaInputPerJuta = const Value.absent(),
+    this.hargaOutputPerJuta = const Value.absent(),
+    this.terakhirDipakai = const Value.absent(),
+  }) : providerId = Value(providerId),
+       modelId = Value(modelId);
+  static Insertable<AiModel> custom({
+    Expression<int>? id,
+    Expression<int>? providerId,
+    Expression<String>? modelId,
+    Expression<String>? displayName,
+    Expression<bool>? favorit,
+    Expression<bool>? manual,
+    Expression<bool>? diblokir,
+    Expression<bool>? diizinkan,
+    Expression<String>? statusChat,
+    Expression<String>? statusStreaming,
+    Expression<int>? hargaInputPerJuta,
+    Expression<int>? hargaOutputPerJuta,
+    Expression<DateTime>? terakhirDipakai,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (providerId != null) 'provider_id': providerId,
+      if (modelId != null) 'model_id': modelId,
+      if (displayName != null) 'display_name': displayName,
+      if (favorit != null) 'favorit': favorit,
+      if (manual != null) 'manual': manual,
+      if (diblokir != null) 'diblokir': diblokir,
+      if (diizinkan != null) 'diizinkan': diizinkan,
+      if (statusChat != null) 'status_chat': statusChat,
+      if (statusStreaming != null) 'status_streaming': statusStreaming,
+      if (hargaInputPerJuta != null) 'harga_input_per_juta': hargaInputPerJuta,
+      if (hargaOutputPerJuta != null)
+        'harga_output_per_juta': hargaOutputPerJuta,
+      if (terakhirDipakai != null) 'terakhir_dipakai': terakhirDipakai,
+    });
+  }
+
+  AiModelsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? providerId,
+    Value<String>? modelId,
+    Value<String?>? displayName,
+    Value<bool>? favorit,
+    Value<bool>? manual,
+    Value<bool>? diblokir,
+    Value<bool>? diizinkan,
+    Value<CapabilityStatus>? statusChat,
+    Value<CapabilityStatus>? statusStreaming,
+    Value<int?>? hargaInputPerJuta,
+    Value<int?>? hargaOutputPerJuta,
+    Value<DateTime?>? terakhirDipakai,
+  }) {
+    return AiModelsCompanion(
+      id: id ?? this.id,
+      providerId: providerId ?? this.providerId,
+      modelId: modelId ?? this.modelId,
+      displayName: displayName ?? this.displayName,
+      favorit: favorit ?? this.favorit,
+      manual: manual ?? this.manual,
+      diblokir: diblokir ?? this.diblokir,
+      diizinkan: diizinkan ?? this.diizinkan,
+      statusChat: statusChat ?? this.statusChat,
+      statusStreaming: statusStreaming ?? this.statusStreaming,
+      hargaInputPerJuta: hargaInputPerJuta ?? this.hargaInputPerJuta,
+      hargaOutputPerJuta: hargaOutputPerJuta ?? this.hargaOutputPerJuta,
+      terakhirDipakai: terakhirDipakai ?? this.terakhirDipakai,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (providerId.present) {
+      map['provider_id'] = Variable<int>(providerId.value);
+    }
+    if (modelId.present) {
+      map['model_id'] = Variable<String>(modelId.value);
+    }
+    if (displayName.present) {
+      map['display_name'] = Variable<String>(displayName.value);
+    }
+    if (favorit.present) {
+      map['favorit'] = Variable<bool>(favorit.value);
+    }
+    if (manual.present) {
+      map['manual'] = Variable<bool>(manual.value);
+    }
+    if (diblokir.present) {
+      map['diblokir'] = Variable<bool>(diblokir.value);
+    }
+    if (diizinkan.present) {
+      map['diizinkan'] = Variable<bool>(diizinkan.value);
+    }
+    if (statusChat.present) {
+      map['status_chat'] = Variable<String>(
+        $AiModelsTable.$converterstatusChat.toSql(statusChat.value),
+      );
+    }
+    if (statusStreaming.present) {
+      map['status_streaming'] = Variable<String>(
+        $AiModelsTable.$converterstatusStreaming.toSql(statusStreaming.value),
+      );
+    }
+    if (hargaInputPerJuta.present) {
+      map['harga_input_per_juta'] = Variable<int>(hargaInputPerJuta.value);
+    }
+    if (hargaOutputPerJuta.present) {
+      map['harga_output_per_juta'] = Variable<int>(hargaOutputPerJuta.value);
+    }
+    if (terakhirDipakai.present) {
+      map['terakhir_dipakai'] = Variable<DateTime>(terakhirDipakai.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AiModelsCompanion(')
+          ..write('id: $id, ')
+          ..write('providerId: $providerId, ')
+          ..write('modelId: $modelId, ')
+          ..write('displayName: $displayName, ')
+          ..write('favorit: $favorit, ')
+          ..write('manual: $manual, ')
+          ..write('diblokir: $diblokir, ')
+          ..write('diizinkan: $diizinkan, ')
+          ..write('statusChat: $statusChat, ')
+          ..write('statusStreaming: $statusStreaming, ')
+          ..write('hargaInputPerJuta: $hargaInputPerJuta, ')
+          ..write('hargaOutputPerJuta: $hargaOutputPerJuta, ')
+          ..write('terakhirDipakai: $terakhirDipakai')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ModelListCachesTable extends ModelListCaches
+    with TableInfo<$ModelListCachesTable, ModelListCache> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ModelListCachesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _providerIdMeta = const VerificationMeta(
+    'providerId',
+  );
+  @override
+  late final GeneratedColumn<int> providerId = GeneratedColumn<int>(
+    'provider_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES ai_provider_configurations (id)',
+    ),
+  );
+  static const VerificationMeta _jsonModelMeta = const VerificationMeta(
+    'jsonModel',
+  );
+  @override
+  late final GeneratedColumn<String> jsonModel = GeneratedColumn<String>(
+    'json_model',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _diambilPadaMeta = const VerificationMeta(
+    'diambilPada',
+  );
+  @override
+  late final GeneratedColumn<DateTime> diambilPada = GeneratedColumn<DateTime>(
+    'diambil_pada',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [providerId, jsonModel, diambilPada];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'model_list_caches';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ModelListCache> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('provider_id')) {
+      context.handle(
+        _providerIdMeta,
+        providerId.isAcceptableOrUnknown(data['provider_id']!, _providerIdMeta),
+      );
+    }
+    if (data.containsKey('json_model')) {
+      context.handle(
+        _jsonModelMeta,
+        jsonModel.isAcceptableOrUnknown(data['json_model']!, _jsonModelMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_jsonModelMeta);
+    }
+    if (data.containsKey('diambil_pada')) {
+      context.handle(
+        _diambilPadaMeta,
+        diambilPada.isAcceptableOrUnknown(
+          data['diambil_pada']!,
+          _diambilPadaMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_diambilPadaMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {providerId};
+  @override
+  ModelListCache map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ModelListCache(
+      providerId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}provider_id'],
+      )!,
+      jsonModel: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}json_model'],
+      )!,
+      diambilPada: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}diambil_pada'],
+      )!,
+    );
+  }
+
+  @override
+  $ModelListCachesTable createAlias(String alias) {
+    return $ModelListCachesTable(attachedDatabase, alias);
+  }
+}
+
+class ModelListCache extends DataClass implements Insertable<ModelListCache> {
+  final int providerId;
+  final String jsonModel;
+  final DateTime diambilPada;
+  const ModelListCache({
+    required this.providerId,
+    required this.jsonModel,
+    required this.diambilPada,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['provider_id'] = Variable<int>(providerId);
+    map['json_model'] = Variable<String>(jsonModel);
+    map['diambil_pada'] = Variable<DateTime>(diambilPada);
+    return map;
+  }
+
+  ModelListCachesCompanion toCompanion(bool nullToAbsent) {
+    return ModelListCachesCompanion(
+      providerId: Value(providerId),
+      jsonModel: Value(jsonModel),
+      diambilPada: Value(diambilPada),
+    );
+  }
+
+  factory ModelListCache.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ModelListCache(
+      providerId: serializer.fromJson<int>(json['providerId']),
+      jsonModel: serializer.fromJson<String>(json['jsonModel']),
+      diambilPada: serializer.fromJson<DateTime>(json['diambilPada']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'providerId': serializer.toJson<int>(providerId),
+      'jsonModel': serializer.toJson<String>(jsonModel),
+      'diambilPada': serializer.toJson<DateTime>(diambilPada),
+    };
+  }
+
+  ModelListCache copyWith({
+    int? providerId,
+    String? jsonModel,
+    DateTime? diambilPada,
+  }) => ModelListCache(
+    providerId: providerId ?? this.providerId,
+    jsonModel: jsonModel ?? this.jsonModel,
+    diambilPada: diambilPada ?? this.diambilPada,
+  );
+  ModelListCache copyWithCompanion(ModelListCachesCompanion data) {
+    return ModelListCache(
+      providerId: data.providerId.present
+          ? data.providerId.value
+          : this.providerId,
+      jsonModel: data.jsonModel.present ? data.jsonModel.value : this.jsonModel,
+      diambilPada: data.diambilPada.present
+          ? data.diambilPada.value
+          : this.diambilPada,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ModelListCache(')
+          ..write('providerId: $providerId, ')
+          ..write('jsonModel: $jsonModel, ')
+          ..write('diambilPada: $diambilPada')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(providerId, jsonModel, diambilPada);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ModelListCache &&
+          other.providerId == this.providerId &&
+          other.jsonModel == this.jsonModel &&
+          other.diambilPada == this.diambilPada);
+}
+
+class ModelListCachesCompanion extends UpdateCompanion<ModelListCache> {
+  final Value<int> providerId;
+  final Value<String> jsonModel;
+  final Value<DateTime> diambilPada;
+  const ModelListCachesCompanion({
+    this.providerId = const Value.absent(),
+    this.jsonModel = const Value.absent(),
+    this.diambilPada = const Value.absent(),
+  });
+  ModelListCachesCompanion.insert({
+    this.providerId = const Value.absent(),
+    required String jsonModel,
+    required DateTime diambilPada,
+  }) : jsonModel = Value(jsonModel),
+       diambilPada = Value(diambilPada);
+  static Insertable<ModelListCache> custom({
+    Expression<int>? providerId,
+    Expression<String>? jsonModel,
+    Expression<DateTime>? diambilPada,
+  }) {
+    return RawValuesInsertable({
+      if (providerId != null) 'provider_id': providerId,
+      if (jsonModel != null) 'json_model': jsonModel,
+      if (diambilPada != null) 'diambil_pada': diambilPada,
+    });
+  }
+
+  ModelListCachesCompanion copyWith({
+    Value<int>? providerId,
+    Value<String>? jsonModel,
+    Value<DateTime>? diambilPada,
+  }) {
+    return ModelListCachesCompanion(
+      providerId: providerId ?? this.providerId,
+      jsonModel: jsonModel ?? this.jsonModel,
+      diambilPada: diambilPada ?? this.diambilPada,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (providerId.present) {
+      map['provider_id'] = Variable<int>(providerId.value);
+    }
+    if (jsonModel.present) {
+      map['json_model'] = Variable<String>(jsonModel.value);
+    }
+    if (diambilPada.present) {
+      map['diambil_pada'] = Variable<DateTime>(diambilPada.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ModelListCachesCompanion(')
+          ..write('providerId: $providerId, ')
+          ..write('jsonModel: $jsonModel, ')
+          ..write('diambilPada: $diambilPada')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ChatConversationsTable extends ChatConversations
+    with TableInfo<$ChatConversationsTable, ChatConversation> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ChatConversationsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _judulMeta = const VerificationMeta('judul');
+  @override
+  late final GeneratedColumn<String> judul = GeneratedColumn<String>(
+    'judul',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _providerIdMeta = const VerificationMeta(
+    'providerId',
+  );
+  @override
+  late final GeneratedColumn<int> providerId = GeneratedColumn<int>(
+    'provider_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES ai_provider_configurations (id)',
+    ),
+  );
+  static const VerificationMeta _modelIdMeta = const VerificationMeta(
+    'modelId',
+  );
+  @override
+  late final GeneratedColumn<String> modelId = GeneratedColumn<String>(
+    'model_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _dibuatPadaMeta = const VerificationMeta(
+    'dibuatPada',
+  );
+  @override
+  late final GeneratedColumn<DateTime> dibuatPada = GeneratedColumn<DateTime>(
+    'dibuat_pada',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _diperbaruiPadaMeta = const VerificationMeta(
+    'diperbaruiPada',
+  );
+  @override
+  late final GeneratedColumn<DateTime> diperbaruiPada =
+      GeneratedColumn<DateTime>(
+        'diperbarui_pada',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    judul,
+    providerId,
+    modelId,
+    dibuatPada,
+    diperbaruiPada,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'chat_conversations';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ChatConversation> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('judul')) {
+      context.handle(
+        _judulMeta,
+        judul.isAcceptableOrUnknown(data['judul']!, _judulMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_judulMeta);
+    }
+    if (data.containsKey('provider_id')) {
+      context.handle(
+        _providerIdMeta,
+        providerId.isAcceptableOrUnknown(data['provider_id']!, _providerIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_providerIdMeta);
+    }
+    if (data.containsKey('model_id')) {
+      context.handle(
+        _modelIdMeta,
+        modelId.isAcceptableOrUnknown(data['model_id']!, _modelIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_modelIdMeta);
+    }
+    if (data.containsKey('dibuat_pada')) {
+      context.handle(
+        _dibuatPadaMeta,
+        dibuatPada.isAcceptableOrUnknown(data['dibuat_pada']!, _dibuatPadaMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_dibuatPadaMeta);
+    }
+    if (data.containsKey('diperbarui_pada')) {
+      context.handle(
+        _diperbaruiPadaMeta,
+        diperbaruiPada.isAcceptableOrUnknown(
+          data['diperbarui_pada']!,
+          _diperbaruiPadaMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_diperbaruiPadaMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ChatConversation map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ChatConversation(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      judul: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}judul'],
+      )!,
+      providerId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}provider_id'],
+      )!,
+      modelId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}model_id'],
+      )!,
+      dibuatPada: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}dibuat_pada'],
+      )!,
+      diperbaruiPada: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}diperbarui_pada'],
+      )!,
+    );
+  }
+
+  @override
+  $ChatConversationsTable createAlias(String alias) {
+    return $ChatConversationsTable(attachedDatabase, alias);
+  }
+}
+
+class ChatConversation extends DataClass
+    implements Insertable<ChatConversation> {
+  final int id;
+  final String judul;
+  final int providerId;
+  final String modelId;
+  final DateTime dibuatPada;
+  final DateTime diperbaruiPada;
+  const ChatConversation({
+    required this.id,
+    required this.judul,
+    required this.providerId,
+    required this.modelId,
+    required this.dibuatPada,
+    required this.diperbaruiPada,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['judul'] = Variable<String>(judul);
+    map['provider_id'] = Variable<int>(providerId);
+    map['model_id'] = Variable<String>(modelId);
+    map['dibuat_pada'] = Variable<DateTime>(dibuatPada);
+    map['diperbarui_pada'] = Variable<DateTime>(diperbaruiPada);
+    return map;
+  }
+
+  ChatConversationsCompanion toCompanion(bool nullToAbsent) {
+    return ChatConversationsCompanion(
+      id: Value(id),
+      judul: Value(judul),
+      providerId: Value(providerId),
+      modelId: Value(modelId),
+      dibuatPada: Value(dibuatPada),
+      diperbaruiPada: Value(diperbaruiPada),
+    );
+  }
+
+  factory ChatConversation.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ChatConversation(
+      id: serializer.fromJson<int>(json['id']),
+      judul: serializer.fromJson<String>(json['judul']),
+      providerId: serializer.fromJson<int>(json['providerId']),
+      modelId: serializer.fromJson<String>(json['modelId']),
+      dibuatPada: serializer.fromJson<DateTime>(json['dibuatPada']),
+      diperbaruiPada: serializer.fromJson<DateTime>(json['diperbaruiPada']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'judul': serializer.toJson<String>(judul),
+      'providerId': serializer.toJson<int>(providerId),
+      'modelId': serializer.toJson<String>(modelId),
+      'dibuatPada': serializer.toJson<DateTime>(dibuatPada),
+      'diperbaruiPada': serializer.toJson<DateTime>(diperbaruiPada),
+    };
+  }
+
+  ChatConversation copyWith({
+    int? id,
+    String? judul,
+    int? providerId,
+    String? modelId,
+    DateTime? dibuatPada,
+    DateTime? diperbaruiPada,
+  }) => ChatConversation(
+    id: id ?? this.id,
+    judul: judul ?? this.judul,
+    providerId: providerId ?? this.providerId,
+    modelId: modelId ?? this.modelId,
+    dibuatPada: dibuatPada ?? this.dibuatPada,
+    diperbaruiPada: diperbaruiPada ?? this.diperbaruiPada,
+  );
+  ChatConversation copyWithCompanion(ChatConversationsCompanion data) {
+    return ChatConversation(
+      id: data.id.present ? data.id.value : this.id,
+      judul: data.judul.present ? data.judul.value : this.judul,
+      providerId: data.providerId.present
+          ? data.providerId.value
+          : this.providerId,
+      modelId: data.modelId.present ? data.modelId.value : this.modelId,
+      dibuatPada: data.dibuatPada.present
+          ? data.dibuatPada.value
+          : this.dibuatPada,
+      diperbaruiPada: data.diperbaruiPada.present
+          ? data.diperbaruiPada.value
+          : this.diperbaruiPada,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ChatConversation(')
+          ..write('id: $id, ')
+          ..write('judul: $judul, ')
+          ..write('providerId: $providerId, ')
+          ..write('modelId: $modelId, ')
+          ..write('dibuatPada: $dibuatPada, ')
+          ..write('diperbaruiPada: $diperbaruiPada')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, judul, providerId, modelId, dibuatPada, diperbaruiPada);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ChatConversation &&
+          other.id == this.id &&
+          other.judul == this.judul &&
+          other.providerId == this.providerId &&
+          other.modelId == this.modelId &&
+          other.dibuatPada == this.dibuatPada &&
+          other.diperbaruiPada == this.diperbaruiPada);
+}
+
+class ChatConversationsCompanion extends UpdateCompanion<ChatConversation> {
+  final Value<int> id;
+  final Value<String> judul;
+  final Value<int> providerId;
+  final Value<String> modelId;
+  final Value<DateTime> dibuatPada;
+  final Value<DateTime> diperbaruiPada;
+  const ChatConversationsCompanion({
+    this.id = const Value.absent(),
+    this.judul = const Value.absent(),
+    this.providerId = const Value.absent(),
+    this.modelId = const Value.absent(),
+    this.dibuatPada = const Value.absent(),
+    this.diperbaruiPada = const Value.absent(),
+  });
+  ChatConversationsCompanion.insert({
+    this.id = const Value.absent(),
+    required String judul,
+    required int providerId,
+    required String modelId,
+    required DateTime dibuatPada,
+    required DateTime diperbaruiPada,
+  }) : judul = Value(judul),
+       providerId = Value(providerId),
+       modelId = Value(modelId),
+       dibuatPada = Value(dibuatPada),
+       diperbaruiPada = Value(diperbaruiPada);
+  static Insertable<ChatConversation> custom({
+    Expression<int>? id,
+    Expression<String>? judul,
+    Expression<int>? providerId,
+    Expression<String>? modelId,
+    Expression<DateTime>? dibuatPada,
+    Expression<DateTime>? diperbaruiPada,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (judul != null) 'judul': judul,
+      if (providerId != null) 'provider_id': providerId,
+      if (modelId != null) 'model_id': modelId,
+      if (dibuatPada != null) 'dibuat_pada': dibuatPada,
+      if (diperbaruiPada != null) 'diperbarui_pada': diperbaruiPada,
+    });
+  }
+
+  ChatConversationsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? judul,
+    Value<int>? providerId,
+    Value<String>? modelId,
+    Value<DateTime>? dibuatPada,
+    Value<DateTime>? diperbaruiPada,
+  }) {
+    return ChatConversationsCompanion(
+      id: id ?? this.id,
+      judul: judul ?? this.judul,
+      providerId: providerId ?? this.providerId,
+      modelId: modelId ?? this.modelId,
+      dibuatPada: dibuatPada ?? this.dibuatPada,
+      diperbaruiPada: diperbaruiPada ?? this.diperbaruiPada,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (judul.present) {
+      map['judul'] = Variable<String>(judul.value);
+    }
+    if (providerId.present) {
+      map['provider_id'] = Variable<int>(providerId.value);
+    }
+    if (modelId.present) {
+      map['model_id'] = Variable<String>(modelId.value);
+    }
+    if (dibuatPada.present) {
+      map['dibuat_pada'] = Variable<DateTime>(dibuatPada.value);
+    }
+    if (diperbaruiPada.present) {
+      map['diperbarui_pada'] = Variable<DateTime>(diperbaruiPada.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ChatConversationsCompanion(')
+          ..write('id: $id, ')
+          ..write('judul: $judul, ')
+          ..write('providerId: $providerId, ')
+          ..write('modelId: $modelId, ')
+          ..write('dibuatPada: $dibuatPada, ')
+          ..write('diperbaruiPada: $diperbaruiPada')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ChatMessagesTable extends ChatMessages
+    with TableInfo<$ChatMessagesTable, ChatMessage> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ChatMessagesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _conversationIdMeta = const VerificationMeta(
+    'conversationId',
+  );
+  @override
+  late final GeneratedColumn<int> conversationId = GeneratedColumn<int>(
+    'conversation_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES chat_conversations (id)',
+    ),
+  );
+  static const VerificationMeta _roleMeta = const VerificationMeta('role');
+  @override
+  late final GeneratedColumn<String> role = GeneratedColumn<String>(
+    'role',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _contentMeta = const VerificationMeta(
+    'content',
+  );
+  @override
+  late final GeneratedColumn<String> content = GeneratedColumn<String>(
+    'content',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _dibuatPadaMeta = const VerificationMeta(
+    'dibuatPada',
+  );
+  @override
+  late final GeneratedColumn<DateTime> dibuatPada = GeneratedColumn<DateTime>(
+    'dibuat_pada',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    conversationId,
+    role,
+    content,
+    dibuatPada,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'chat_messages';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ChatMessage> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('conversation_id')) {
+      context.handle(
+        _conversationIdMeta,
+        conversationId.isAcceptableOrUnknown(
+          data['conversation_id']!,
+          _conversationIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_conversationIdMeta);
+    }
+    if (data.containsKey('role')) {
+      context.handle(
+        _roleMeta,
+        role.isAcceptableOrUnknown(data['role']!, _roleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_roleMeta);
+    }
+    if (data.containsKey('content')) {
+      context.handle(
+        _contentMeta,
+        content.isAcceptableOrUnknown(data['content']!, _contentMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_contentMeta);
+    }
+    if (data.containsKey('dibuat_pada')) {
+      context.handle(
+        _dibuatPadaMeta,
+        dibuatPada.isAcceptableOrUnknown(data['dibuat_pada']!, _dibuatPadaMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_dibuatPadaMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ChatMessage map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ChatMessage(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      conversationId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}conversation_id'],
+      )!,
+      role: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}role'],
+      )!,
+      content: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}content'],
+      )!,
+      dibuatPada: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}dibuat_pada'],
+      )!,
+    );
+  }
+
+  @override
+  $ChatMessagesTable createAlias(String alias) {
+    return $ChatMessagesTable(attachedDatabase, alias);
+  }
+}
+
+class ChatMessage extends DataClass implements Insertable<ChatMessage> {
+  final int id;
+  final int conversationId;
+  final String role;
+  final String content;
+  final DateTime dibuatPada;
+  const ChatMessage({
+    required this.id,
+    required this.conversationId,
+    required this.role,
+    required this.content,
+    required this.dibuatPada,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['conversation_id'] = Variable<int>(conversationId);
+    map['role'] = Variable<String>(role);
+    map['content'] = Variable<String>(content);
+    map['dibuat_pada'] = Variable<DateTime>(dibuatPada);
+    return map;
+  }
+
+  ChatMessagesCompanion toCompanion(bool nullToAbsent) {
+    return ChatMessagesCompanion(
+      id: Value(id),
+      conversationId: Value(conversationId),
+      role: Value(role),
+      content: Value(content),
+      dibuatPada: Value(dibuatPada),
+    );
+  }
+
+  factory ChatMessage.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ChatMessage(
+      id: serializer.fromJson<int>(json['id']),
+      conversationId: serializer.fromJson<int>(json['conversationId']),
+      role: serializer.fromJson<String>(json['role']),
+      content: serializer.fromJson<String>(json['content']),
+      dibuatPada: serializer.fromJson<DateTime>(json['dibuatPada']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'conversationId': serializer.toJson<int>(conversationId),
+      'role': serializer.toJson<String>(role),
+      'content': serializer.toJson<String>(content),
+      'dibuatPada': serializer.toJson<DateTime>(dibuatPada),
+    };
+  }
+
+  ChatMessage copyWith({
+    int? id,
+    int? conversationId,
+    String? role,
+    String? content,
+    DateTime? dibuatPada,
+  }) => ChatMessage(
+    id: id ?? this.id,
+    conversationId: conversationId ?? this.conversationId,
+    role: role ?? this.role,
+    content: content ?? this.content,
+    dibuatPada: dibuatPada ?? this.dibuatPada,
+  );
+  ChatMessage copyWithCompanion(ChatMessagesCompanion data) {
+    return ChatMessage(
+      id: data.id.present ? data.id.value : this.id,
+      conversationId: data.conversationId.present
+          ? data.conversationId.value
+          : this.conversationId,
+      role: data.role.present ? data.role.value : this.role,
+      content: data.content.present ? data.content.value : this.content,
+      dibuatPada: data.dibuatPada.present
+          ? data.dibuatPada.value
+          : this.dibuatPada,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ChatMessage(')
+          ..write('id: $id, ')
+          ..write('conversationId: $conversationId, ')
+          ..write('role: $role, ')
+          ..write('content: $content, ')
+          ..write('dibuatPada: $dibuatPada')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, conversationId, role, content, dibuatPada);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ChatMessage &&
+          other.id == this.id &&
+          other.conversationId == this.conversationId &&
+          other.role == this.role &&
+          other.content == this.content &&
+          other.dibuatPada == this.dibuatPada);
+}
+
+class ChatMessagesCompanion extends UpdateCompanion<ChatMessage> {
+  final Value<int> id;
+  final Value<int> conversationId;
+  final Value<String> role;
+  final Value<String> content;
+  final Value<DateTime> dibuatPada;
+  const ChatMessagesCompanion({
+    this.id = const Value.absent(),
+    this.conversationId = const Value.absent(),
+    this.role = const Value.absent(),
+    this.content = const Value.absent(),
+    this.dibuatPada = const Value.absent(),
+  });
+  ChatMessagesCompanion.insert({
+    this.id = const Value.absent(),
+    required int conversationId,
+    required String role,
+    required String content,
+    required DateTime dibuatPada,
+  }) : conversationId = Value(conversationId),
+       role = Value(role),
+       content = Value(content),
+       dibuatPada = Value(dibuatPada);
+  static Insertable<ChatMessage> custom({
+    Expression<int>? id,
+    Expression<int>? conversationId,
+    Expression<String>? role,
+    Expression<String>? content,
+    Expression<DateTime>? dibuatPada,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (conversationId != null) 'conversation_id': conversationId,
+      if (role != null) 'role': role,
+      if (content != null) 'content': content,
+      if (dibuatPada != null) 'dibuat_pada': dibuatPada,
+    });
+  }
+
+  ChatMessagesCompanion copyWith({
+    Value<int>? id,
+    Value<int>? conversationId,
+    Value<String>? role,
+    Value<String>? content,
+    Value<DateTime>? dibuatPada,
+  }) {
+    return ChatMessagesCompanion(
+      id: id ?? this.id,
+      conversationId: conversationId ?? this.conversationId,
+      role: role ?? this.role,
+      content: content ?? this.content,
+      dibuatPada: dibuatPada ?? this.dibuatPada,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (conversationId.present) {
+      map['conversation_id'] = Variable<int>(conversationId.value);
+    }
+    if (role.present) {
+      map['role'] = Variable<String>(role.value);
+    }
+    if (content.present) {
+      map['content'] = Variable<String>(content.value);
+    }
+    if (dibuatPada.present) {
+      map['dibuat_pada'] = Variable<DateTime>(dibuatPada.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ChatMessagesCompanion(')
+          ..write('id: $id, ')
+          ..write('conversationId: $conversationId, ')
+          ..write('role: $role, ')
+          ..write('content: $content, ')
+          ..write('dibuatPada: $dibuatPada')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $DanaPlusConfigurationsTable extends DanaPlusConfigurations
+    with TableInfo<$DanaPlusConfigurationsTable, DanaPlusConfiguration> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DanaPlusConfigurationsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<DanaPlusAvailability, String>
+  availability =
+      GeneratedColumn<String>(
+        'availability',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<DanaPlusAvailability>(
+        $DanaPlusConfigurationsTable.$converteravailability,
+      );
+  @override
+  late final GeneratedColumnWithTypeConverter<DanaSplitMode, String>
+  defaultSplitMode =
+      GeneratedColumn<String>(
+        'default_split_mode',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<DanaSplitMode>(
+        $DanaPlusConfigurationsTable.$converterdefaultSplitMode,
+      );
+  @override
+  late final GeneratedColumnWithTypeConverter<DanaExecutionStrategy, String>
+  executionStrategy =
+      GeneratedColumn<String>(
+        'execution_strategy',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<DanaExecutionStrategy>(
+        $DanaPlusConfigurationsTable.$converterexecutionStrategy,
+      );
+  static const VerificationMeta _persenBiasaBpMeta = const VerificationMeta(
+    'persenBiasaBp',
+  );
+  @override
+  late final GeneratedColumn<int> persenBiasaBp = GeneratedColumn<int>(
+    'persen_biasa_bp',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(5000),
+  );
+  static const VerificationMeta _bufferBiasaMeta = const VerificationMeta(
+    'bufferBiasa',
+  );
+  @override
+  late final GeneratedColumn<int> bufferBiasa = GeneratedColumn<int>(
+    'buffer_biasa',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _targetPlusMeta = const VerificationMeta(
+    'targetPlus',
+  );
+  @override
+  late final GeneratedColumn<int> targetPlus = GeneratedColumn<int>(
+    'target_plus',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _batasPlusMeta = const VerificationMeta(
+    'batasPlus',
+  );
+  @override
+  late final GeneratedColumn<int> batasPlus = GeneratedColumn<int>(
+    'batas_plus',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _tingkatRewardBpMeta = const VerificationMeta(
+    'tingkatRewardBp',
+  );
+  @override
+  late final GeneratedColumn<int> tingkatRewardBp = GeneratedColumn<int>(
+    'tingkat_reward_bp',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<RewardRatePeriod, String>
+  periodeReward =
+      GeneratedColumn<String>(
+        'periode_reward',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+        defaultValue: const Constant('perTahun'),
+      ).withConverter<RewardRatePeriod>(
+        $DanaPlusConfigurationsTable.$converterperiodeReward,
+      );
+  static const VerificationMeta _diperbaruiPadaMeta = const VerificationMeta(
+    'diperbaruiPada',
+  );
+  @override
+  late final GeneratedColumn<DateTime> diperbaruiPada =
+      GeneratedColumn<DateTime>(
+        'diperbarui_pada',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    availability,
+    defaultSplitMode,
+    executionStrategy,
+    persenBiasaBp,
+    bufferBiasa,
+    targetPlus,
+    batasPlus,
+    tingkatRewardBp,
+    periodeReward,
+    diperbaruiPada,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'dana_plus_configurations';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<DanaPlusConfiguration> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('persen_biasa_bp')) {
+      context.handle(
+        _persenBiasaBpMeta,
+        persenBiasaBp.isAcceptableOrUnknown(
+          data['persen_biasa_bp']!,
+          _persenBiasaBpMeta,
+        ),
+      );
+    }
+    if (data.containsKey('buffer_biasa')) {
+      context.handle(
+        _bufferBiasaMeta,
+        bufferBiasa.isAcceptableOrUnknown(
+          data['buffer_biasa']!,
+          _bufferBiasaMeta,
+        ),
+      );
+    }
+    if (data.containsKey('target_plus')) {
+      context.handle(
+        _targetPlusMeta,
+        targetPlus.isAcceptableOrUnknown(data['target_plus']!, _targetPlusMeta),
+      );
+    }
+    if (data.containsKey('batas_plus')) {
+      context.handle(
+        _batasPlusMeta,
+        batasPlus.isAcceptableOrUnknown(data['batas_plus']!, _batasPlusMeta),
+      );
+    }
+    if (data.containsKey('tingkat_reward_bp')) {
+      context.handle(
+        _tingkatRewardBpMeta,
+        tingkatRewardBp.isAcceptableOrUnknown(
+          data['tingkat_reward_bp']!,
+          _tingkatRewardBpMeta,
+        ),
+      );
+    }
+    if (data.containsKey('diperbarui_pada')) {
+      context.handle(
+        _diperbaruiPadaMeta,
+        diperbaruiPada.isAcceptableOrUnknown(
+          data['diperbarui_pada']!,
+          _diperbaruiPadaMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_diperbaruiPadaMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  DanaPlusConfiguration map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DanaPlusConfiguration(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      availability: $DanaPlusConfigurationsTable.$converteravailability.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}availability'],
+        )!,
+      ),
+      defaultSplitMode: $DanaPlusConfigurationsTable.$converterdefaultSplitMode
+          .fromSql(
+            attachedDatabase.typeMapping.read(
+              DriftSqlType.string,
+              data['${effectivePrefix}default_split_mode'],
+            )!,
+          ),
+      executionStrategy: $DanaPlusConfigurationsTable
+          .$converterexecutionStrategy
+          .fromSql(
+            attachedDatabase.typeMapping.read(
+              DriftSqlType.string,
+              data['${effectivePrefix}execution_strategy'],
+            )!,
+          ),
+      persenBiasaBp: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}persen_biasa_bp'],
+      )!,
+      bufferBiasa: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}buffer_biasa'],
+      )!,
+      targetPlus: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}target_plus'],
+      )!,
+      batasPlus: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}batas_plus'],
+      ),
+      tingkatRewardBp: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}tingkat_reward_bp'],
+      ),
+      periodeReward: $DanaPlusConfigurationsTable.$converterperiodeReward
+          .fromSql(
+            attachedDatabase.typeMapping.read(
+              DriftSqlType.string,
+              data['${effectivePrefix}periode_reward'],
+            )!,
+          ),
+      diperbaruiPada: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}diperbarui_pada'],
+      )!,
+    );
+  }
+
+  @override
+  $DanaPlusConfigurationsTable createAlias(String alias) {
+    return $DanaPlusConfigurationsTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<DanaPlusAvailability, String, String>
+  $converteravailability = const EnumNameConverter<DanaPlusAvailability>(
+    DanaPlusAvailability.values,
+  );
+  static JsonTypeConverter2<DanaSplitMode, String, String>
+  $converterdefaultSplitMode = const EnumNameConverter<DanaSplitMode>(
+    DanaSplitMode.values,
+  );
+  static JsonTypeConverter2<DanaExecutionStrategy, String, String>
+  $converterexecutionStrategy = const EnumNameConverter<DanaExecutionStrategy>(
+    DanaExecutionStrategy.values,
+  );
+  static JsonTypeConverter2<RewardRatePeriod, String, String>
+  $converterperiodeReward = const EnumNameConverter<RewardRatePeriod>(
+    RewardRatePeriod.values,
+  );
+}
+
+class DanaPlusConfiguration extends DataClass
+    implements Insertable<DanaPlusConfiguration> {
+  final int id;
+  final DanaPlusAvailability availability;
+  final DanaSplitMode defaultSplitMode;
+  final DanaExecutionStrategy executionStrategy;
+  final int persenBiasaBp;
+  final int bufferBiasa;
+  final int targetPlus;
+  final int? batasPlus;
+  final int? tingkatRewardBp;
+  final RewardRatePeriod periodeReward;
+  final DateTime diperbaruiPada;
+  const DanaPlusConfiguration({
+    required this.id,
+    required this.availability,
+    required this.defaultSplitMode,
+    required this.executionStrategy,
+    required this.persenBiasaBp,
+    required this.bufferBiasa,
+    required this.targetPlus,
+    this.batasPlus,
+    this.tingkatRewardBp,
+    required this.periodeReward,
+    required this.diperbaruiPada,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    {
+      map['availability'] = Variable<String>(
+        $DanaPlusConfigurationsTable.$converteravailability.toSql(availability),
+      );
+    }
+    {
+      map['default_split_mode'] = Variable<String>(
+        $DanaPlusConfigurationsTable.$converterdefaultSplitMode.toSql(
+          defaultSplitMode,
+        ),
+      );
+    }
+    {
+      map['execution_strategy'] = Variable<String>(
+        $DanaPlusConfigurationsTable.$converterexecutionStrategy.toSql(
+          executionStrategy,
+        ),
+      );
+    }
+    map['persen_biasa_bp'] = Variable<int>(persenBiasaBp);
+    map['buffer_biasa'] = Variable<int>(bufferBiasa);
+    map['target_plus'] = Variable<int>(targetPlus);
+    if (!nullToAbsent || batasPlus != null) {
+      map['batas_plus'] = Variable<int>(batasPlus);
+    }
+    if (!nullToAbsent || tingkatRewardBp != null) {
+      map['tingkat_reward_bp'] = Variable<int>(tingkatRewardBp);
+    }
+    {
+      map['periode_reward'] = Variable<String>(
+        $DanaPlusConfigurationsTable.$converterperiodeReward.toSql(
+          periodeReward,
+        ),
+      );
+    }
+    map['diperbarui_pada'] = Variable<DateTime>(diperbaruiPada);
+    return map;
+  }
+
+  DanaPlusConfigurationsCompanion toCompanion(bool nullToAbsent) {
+    return DanaPlusConfigurationsCompanion(
+      id: Value(id),
+      availability: Value(availability),
+      defaultSplitMode: Value(defaultSplitMode),
+      executionStrategy: Value(executionStrategy),
+      persenBiasaBp: Value(persenBiasaBp),
+      bufferBiasa: Value(bufferBiasa),
+      targetPlus: Value(targetPlus),
+      batasPlus: batasPlus == null && nullToAbsent
+          ? const Value.absent()
+          : Value(batasPlus),
+      tingkatRewardBp: tingkatRewardBp == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tingkatRewardBp),
+      periodeReward: Value(periodeReward),
+      diperbaruiPada: Value(diperbaruiPada),
+    );
+  }
+
+  factory DanaPlusConfiguration.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DanaPlusConfiguration(
+      id: serializer.fromJson<int>(json['id']),
+      availability: $DanaPlusConfigurationsTable.$converteravailability
+          .fromJson(serializer.fromJson<String>(json['availability'])),
+      defaultSplitMode: $DanaPlusConfigurationsTable.$converterdefaultSplitMode
+          .fromJson(serializer.fromJson<String>(json['defaultSplitMode'])),
+      executionStrategy: $DanaPlusConfigurationsTable
+          .$converterexecutionStrategy
+          .fromJson(serializer.fromJson<String>(json['executionStrategy'])),
+      persenBiasaBp: serializer.fromJson<int>(json['persenBiasaBp']),
+      bufferBiasa: serializer.fromJson<int>(json['bufferBiasa']),
+      targetPlus: serializer.fromJson<int>(json['targetPlus']),
+      batasPlus: serializer.fromJson<int?>(json['batasPlus']),
+      tingkatRewardBp: serializer.fromJson<int?>(json['tingkatRewardBp']),
+      periodeReward: $DanaPlusConfigurationsTable.$converterperiodeReward
+          .fromJson(serializer.fromJson<String>(json['periodeReward'])),
+      diperbaruiPada: serializer.fromJson<DateTime>(json['diperbaruiPada']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'availability': serializer.toJson<String>(
+        $DanaPlusConfigurationsTable.$converteravailability.toJson(
+          availability,
+        ),
+      ),
+      'defaultSplitMode': serializer.toJson<String>(
+        $DanaPlusConfigurationsTable.$converterdefaultSplitMode.toJson(
+          defaultSplitMode,
+        ),
+      ),
+      'executionStrategy': serializer.toJson<String>(
+        $DanaPlusConfigurationsTable.$converterexecutionStrategy.toJson(
+          executionStrategy,
+        ),
+      ),
+      'persenBiasaBp': serializer.toJson<int>(persenBiasaBp),
+      'bufferBiasa': serializer.toJson<int>(bufferBiasa),
+      'targetPlus': serializer.toJson<int>(targetPlus),
+      'batasPlus': serializer.toJson<int?>(batasPlus),
+      'tingkatRewardBp': serializer.toJson<int?>(tingkatRewardBp),
+      'periodeReward': serializer.toJson<String>(
+        $DanaPlusConfigurationsTable.$converterperiodeReward.toJson(
+          periodeReward,
+        ),
+      ),
+      'diperbaruiPada': serializer.toJson<DateTime>(diperbaruiPada),
+    };
+  }
+
+  DanaPlusConfiguration copyWith({
+    int? id,
+    DanaPlusAvailability? availability,
+    DanaSplitMode? defaultSplitMode,
+    DanaExecutionStrategy? executionStrategy,
+    int? persenBiasaBp,
+    int? bufferBiasa,
+    int? targetPlus,
+    Value<int?> batasPlus = const Value.absent(),
+    Value<int?> tingkatRewardBp = const Value.absent(),
+    RewardRatePeriod? periodeReward,
+    DateTime? diperbaruiPada,
+  }) => DanaPlusConfiguration(
+    id: id ?? this.id,
+    availability: availability ?? this.availability,
+    defaultSplitMode: defaultSplitMode ?? this.defaultSplitMode,
+    executionStrategy: executionStrategy ?? this.executionStrategy,
+    persenBiasaBp: persenBiasaBp ?? this.persenBiasaBp,
+    bufferBiasa: bufferBiasa ?? this.bufferBiasa,
+    targetPlus: targetPlus ?? this.targetPlus,
+    batasPlus: batasPlus.present ? batasPlus.value : this.batasPlus,
+    tingkatRewardBp: tingkatRewardBp.present
+        ? tingkatRewardBp.value
+        : this.tingkatRewardBp,
+    periodeReward: periodeReward ?? this.periodeReward,
+    diperbaruiPada: diperbaruiPada ?? this.diperbaruiPada,
+  );
+  DanaPlusConfiguration copyWithCompanion(
+    DanaPlusConfigurationsCompanion data,
+  ) {
+    return DanaPlusConfiguration(
+      id: data.id.present ? data.id.value : this.id,
+      availability: data.availability.present
+          ? data.availability.value
+          : this.availability,
+      defaultSplitMode: data.defaultSplitMode.present
+          ? data.defaultSplitMode.value
+          : this.defaultSplitMode,
+      executionStrategy: data.executionStrategy.present
+          ? data.executionStrategy.value
+          : this.executionStrategy,
+      persenBiasaBp: data.persenBiasaBp.present
+          ? data.persenBiasaBp.value
+          : this.persenBiasaBp,
+      bufferBiasa: data.bufferBiasa.present
+          ? data.bufferBiasa.value
+          : this.bufferBiasa,
+      targetPlus: data.targetPlus.present
+          ? data.targetPlus.value
+          : this.targetPlus,
+      batasPlus: data.batasPlus.present ? data.batasPlus.value : this.batasPlus,
+      tingkatRewardBp: data.tingkatRewardBp.present
+          ? data.tingkatRewardBp.value
+          : this.tingkatRewardBp,
+      periodeReward: data.periodeReward.present
+          ? data.periodeReward.value
+          : this.periodeReward,
+      diperbaruiPada: data.diperbaruiPada.present
+          ? data.diperbaruiPada.value
+          : this.diperbaruiPada,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DanaPlusConfiguration(')
+          ..write('id: $id, ')
+          ..write('availability: $availability, ')
+          ..write('defaultSplitMode: $defaultSplitMode, ')
+          ..write('executionStrategy: $executionStrategy, ')
+          ..write('persenBiasaBp: $persenBiasaBp, ')
+          ..write('bufferBiasa: $bufferBiasa, ')
+          ..write('targetPlus: $targetPlus, ')
+          ..write('batasPlus: $batasPlus, ')
+          ..write('tingkatRewardBp: $tingkatRewardBp, ')
+          ..write('periodeReward: $periodeReward, ')
+          ..write('diperbaruiPada: $diperbaruiPada')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    availability,
+    defaultSplitMode,
+    executionStrategy,
+    persenBiasaBp,
+    bufferBiasa,
+    targetPlus,
+    batasPlus,
+    tingkatRewardBp,
+    periodeReward,
+    diperbaruiPada,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DanaPlusConfiguration &&
+          other.id == this.id &&
+          other.availability == this.availability &&
+          other.defaultSplitMode == this.defaultSplitMode &&
+          other.executionStrategy == this.executionStrategy &&
+          other.persenBiasaBp == this.persenBiasaBp &&
+          other.bufferBiasa == this.bufferBiasa &&
+          other.targetPlus == this.targetPlus &&
+          other.batasPlus == this.batasPlus &&
+          other.tingkatRewardBp == this.tingkatRewardBp &&
+          other.periodeReward == this.periodeReward &&
+          other.diperbaruiPada == this.diperbaruiPada);
+}
+
+class DanaPlusConfigurationsCompanion
+    extends UpdateCompanion<DanaPlusConfiguration> {
+  final Value<int> id;
+  final Value<DanaPlusAvailability> availability;
+  final Value<DanaSplitMode> defaultSplitMode;
+  final Value<DanaExecutionStrategy> executionStrategy;
+  final Value<int> persenBiasaBp;
+  final Value<int> bufferBiasa;
+  final Value<int> targetPlus;
+  final Value<int?> batasPlus;
+  final Value<int?> tingkatRewardBp;
+  final Value<RewardRatePeriod> periodeReward;
+  final Value<DateTime> diperbaruiPada;
+  const DanaPlusConfigurationsCompanion({
+    this.id = const Value.absent(),
+    this.availability = const Value.absent(),
+    this.defaultSplitMode = const Value.absent(),
+    this.executionStrategy = const Value.absent(),
+    this.persenBiasaBp = const Value.absent(),
+    this.bufferBiasa = const Value.absent(),
+    this.targetPlus = const Value.absent(),
+    this.batasPlus = const Value.absent(),
+    this.tingkatRewardBp = const Value.absent(),
+    this.periodeReward = const Value.absent(),
+    this.diperbaruiPada = const Value.absent(),
+  });
+  DanaPlusConfigurationsCompanion.insert({
+    this.id = const Value.absent(),
+    required DanaPlusAvailability availability,
+    required DanaSplitMode defaultSplitMode,
+    required DanaExecutionStrategy executionStrategy,
+    this.persenBiasaBp = const Value.absent(),
+    this.bufferBiasa = const Value.absent(),
+    this.targetPlus = const Value.absent(),
+    this.batasPlus = const Value.absent(),
+    this.tingkatRewardBp = const Value.absent(),
+    this.periodeReward = const Value.absent(),
+    required DateTime diperbaruiPada,
+  }) : availability = Value(availability),
+       defaultSplitMode = Value(defaultSplitMode),
+       executionStrategy = Value(executionStrategy),
+       diperbaruiPada = Value(diperbaruiPada);
+  static Insertable<DanaPlusConfiguration> custom({
+    Expression<int>? id,
+    Expression<String>? availability,
+    Expression<String>? defaultSplitMode,
+    Expression<String>? executionStrategy,
+    Expression<int>? persenBiasaBp,
+    Expression<int>? bufferBiasa,
+    Expression<int>? targetPlus,
+    Expression<int>? batasPlus,
+    Expression<int>? tingkatRewardBp,
+    Expression<String>? periodeReward,
+    Expression<DateTime>? diperbaruiPada,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (availability != null) 'availability': availability,
+      if (defaultSplitMode != null) 'default_split_mode': defaultSplitMode,
+      if (executionStrategy != null) 'execution_strategy': executionStrategy,
+      if (persenBiasaBp != null) 'persen_biasa_bp': persenBiasaBp,
+      if (bufferBiasa != null) 'buffer_biasa': bufferBiasa,
+      if (targetPlus != null) 'target_plus': targetPlus,
+      if (batasPlus != null) 'batas_plus': batasPlus,
+      if (tingkatRewardBp != null) 'tingkat_reward_bp': tingkatRewardBp,
+      if (periodeReward != null) 'periode_reward': periodeReward,
+      if (diperbaruiPada != null) 'diperbarui_pada': diperbaruiPada,
+    });
+  }
+
+  DanaPlusConfigurationsCompanion copyWith({
+    Value<int>? id,
+    Value<DanaPlusAvailability>? availability,
+    Value<DanaSplitMode>? defaultSplitMode,
+    Value<DanaExecutionStrategy>? executionStrategy,
+    Value<int>? persenBiasaBp,
+    Value<int>? bufferBiasa,
+    Value<int>? targetPlus,
+    Value<int?>? batasPlus,
+    Value<int?>? tingkatRewardBp,
+    Value<RewardRatePeriod>? periodeReward,
+    Value<DateTime>? diperbaruiPada,
+  }) {
+    return DanaPlusConfigurationsCompanion(
+      id: id ?? this.id,
+      availability: availability ?? this.availability,
+      defaultSplitMode: defaultSplitMode ?? this.defaultSplitMode,
+      executionStrategy: executionStrategy ?? this.executionStrategy,
+      persenBiasaBp: persenBiasaBp ?? this.persenBiasaBp,
+      bufferBiasa: bufferBiasa ?? this.bufferBiasa,
+      targetPlus: targetPlus ?? this.targetPlus,
+      batasPlus: batasPlus ?? this.batasPlus,
+      tingkatRewardBp: tingkatRewardBp ?? this.tingkatRewardBp,
+      periodeReward: periodeReward ?? this.periodeReward,
+      diperbaruiPada: diperbaruiPada ?? this.diperbaruiPada,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (availability.present) {
+      map['availability'] = Variable<String>(
+        $DanaPlusConfigurationsTable.$converteravailability.toSql(
+          availability.value,
+        ),
+      );
+    }
+    if (defaultSplitMode.present) {
+      map['default_split_mode'] = Variable<String>(
+        $DanaPlusConfigurationsTable.$converterdefaultSplitMode.toSql(
+          defaultSplitMode.value,
+        ),
+      );
+    }
+    if (executionStrategy.present) {
+      map['execution_strategy'] = Variable<String>(
+        $DanaPlusConfigurationsTable.$converterexecutionStrategy.toSql(
+          executionStrategy.value,
+        ),
+      );
+    }
+    if (persenBiasaBp.present) {
+      map['persen_biasa_bp'] = Variable<int>(persenBiasaBp.value);
+    }
+    if (bufferBiasa.present) {
+      map['buffer_biasa'] = Variable<int>(bufferBiasa.value);
+    }
+    if (targetPlus.present) {
+      map['target_plus'] = Variable<int>(targetPlus.value);
+    }
+    if (batasPlus.present) {
+      map['batas_plus'] = Variable<int>(batasPlus.value);
+    }
+    if (tingkatRewardBp.present) {
+      map['tingkat_reward_bp'] = Variable<int>(tingkatRewardBp.value);
+    }
+    if (periodeReward.present) {
+      map['periode_reward'] = Variable<String>(
+        $DanaPlusConfigurationsTable.$converterperiodeReward.toSql(
+          periodeReward.value,
+        ),
+      );
+    }
+    if (diperbaruiPada.present) {
+      map['diperbarui_pada'] = Variable<DateTime>(diperbaruiPada.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DanaPlusConfigurationsCompanion(')
+          ..write('id: $id, ')
+          ..write('availability: $availability, ')
+          ..write('defaultSplitMode: $defaultSplitMode, ')
+          ..write('executionStrategy: $executionStrategy, ')
+          ..write('persenBiasaBp: $persenBiasaBp, ')
+          ..write('bufferBiasa: $bufferBiasa, ')
+          ..write('targetPlus: $targetPlus, ')
+          ..write('batasPlus: $batasPlus, ')
+          ..write('tingkatRewardBp: $tingkatRewardBp, ')
+          ..write('periodeReward: $periodeReward, ')
+          ..write('diperbaruiPada: $diperbaruiPada')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $DanaBalanceLedgersTable extends DanaBalanceLedgers
+    with TableInfo<$DanaBalanceLedgersTable, DanaBalanceLedger> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DanaBalanceLedgersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _tahunMeta = const VerificationMeta('tahun');
+  @override
+  late final GeneratedColumn<int> tahun = GeneratedColumn<int>(
+    'tahun',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _bulanMeta = const VerificationMeta('bulan');
+  @override
+  late final GeneratedColumn<int> bulan = GeneratedColumn<int>(
+    'bulan',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _saldoAwalBiasaMeta = const VerificationMeta(
+    'saldoAwalBiasa',
+  );
+  @override
+  late final GeneratedColumn<int> saldoAwalBiasa = GeneratedColumn<int>(
+    'saldo_awal_biasa',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _saldoAwalPlusMeta = const VerificationMeta(
+    'saldoAwalPlus',
+  );
+  @override
+  late final GeneratedColumn<int> saldoAwalPlus = GeneratedColumn<int>(
+    'saldo_awal_plus',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _topUpKeBiasaMeta = const VerificationMeta(
+    'topUpKeBiasa',
+  );
+  @override
+  late final GeneratedColumn<int> topUpKeBiasa = GeneratedColumn<int>(
+    'top_up_ke_biasa',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _pindahKePlusMeta = const VerificationMeta(
+    'pindahKePlus',
+  );
+  @override
+  late final GeneratedColumn<int> pindahKePlus = GeneratedColumn<int>(
+    'pindah_ke_plus',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _pindahDariPlusMeta = const VerificationMeta(
+    'pindahDariPlus',
+  );
+  @override
+  late final GeneratedColumn<int> pindahDariPlus = GeneratedColumn<int>(
+    'pindah_dari_plus',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _pengeluaranBiasaMeta = const VerificationMeta(
+    'pengeluaranBiasa',
+  );
+  @override
+  late final GeneratedColumn<int> pengeluaranBiasa = GeneratedColumn<int>(
+    'pengeluaran_biasa',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _pengeluaranPlusMeta = const VerificationMeta(
+    'pengeluaranPlus',
+  );
+  @override
+  late final GeneratedColumn<int> pengeluaranPlus = GeneratedColumn<int>(
+    'pengeluaran_plus',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _rewardAktualMeta = const VerificationMeta(
+    'rewardAktual',
+  );
+  @override
+  late final GeneratedColumn<int> rewardAktual = GeneratedColumn<int>(
+    'reward_aktual',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _saldoAkhirBiasaMeta = const VerificationMeta(
+    'saldoAkhirBiasa',
+  );
+  @override
+  late final GeneratedColumn<int> saldoAkhirBiasa = GeneratedColumn<int>(
+    'saldo_akhir_biasa',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _saldoAkhirPlusMeta = const VerificationMeta(
+    'saldoAkhirPlus',
+  );
+  @override
+  late final GeneratedColumn<int> saldoAkhirPlus = GeneratedColumn<int>(
+    'saldo_akhir_plus',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _dibuatPadaMeta = const VerificationMeta(
+    'dibuatPada',
+  );
+  @override
+  late final GeneratedColumn<DateTime> dibuatPada = GeneratedColumn<DateTime>(
+    'dibuat_pada',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    tahun,
+    bulan,
+    saldoAwalBiasa,
+    saldoAwalPlus,
+    topUpKeBiasa,
+    pindahKePlus,
+    pindahDariPlus,
+    pengeluaranBiasa,
+    pengeluaranPlus,
+    rewardAktual,
+    saldoAkhirBiasa,
+    saldoAkhirPlus,
+    dibuatPada,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'dana_balance_ledgers';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<DanaBalanceLedger> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('tahun')) {
+      context.handle(
+        _tahunMeta,
+        tahun.isAcceptableOrUnknown(data['tahun']!, _tahunMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tahunMeta);
+    }
+    if (data.containsKey('bulan')) {
+      context.handle(
+        _bulanMeta,
+        bulan.isAcceptableOrUnknown(data['bulan']!, _bulanMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_bulanMeta);
+    }
+    if (data.containsKey('saldo_awal_biasa')) {
+      context.handle(
+        _saldoAwalBiasaMeta,
+        saldoAwalBiasa.isAcceptableOrUnknown(
+          data['saldo_awal_biasa']!,
+          _saldoAwalBiasaMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_saldoAwalBiasaMeta);
+    }
+    if (data.containsKey('saldo_awal_plus')) {
+      context.handle(
+        _saldoAwalPlusMeta,
+        saldoAwalPlus.isAcceptableOrUnknown(
+          data['saldo_awal_plus']!,
+          _saldoAwalPlusMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_saldoAwalPlusMeta);
+    }
+    if (data.containsKey('top_up_ke_biasa')) {
+      context.handle(
+        _topUpKeBiasaMeta,
+        topUpKeBiasa.isAcceptableOrUnknown(
+          data['top_up_ke_biasa']!,
+          _topUpKeBiasaMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_topUpKeBiasaMeta);
+    }
+    if (data.containsKey('pindah_ke_plus')) {
+      context.handle(
+        _pindahKePlusMeta,
+        pindahKePlus.isAcceptableOrUnknown(
+          data['pindah_ke_plus']!,
+          _pindahKePlusMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_pindahKePlusMeta);
+    }
+    if (data.containsKey('pindah_dari_plus')) {
+      context.handle(
+        _pindahDariPlusMeta,
+        pindahDariPlus.isAcceptableOrUnknown(
+          data['pindah_dari_plus']!,
+          _pindahDariPlusMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_pindahDariPlusMeta);
+    }
+    if (data.containsKey('pengeluaran_biasa')) {
+      context.handle(
+        _pengeluaranBiasaMeta,
+        pengeluaranBiasa.isAcceptableOrUnknown(
+          data['pengeluaran_biasa']!,
+          _pengeluaranBiasaMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_pengeluaranBiasaMeta);
+    }
+    if (data.containsKey('pengeluaran_plus')) {
+      context.handle(
+        _pengeluaranPlusMeta,
+        pengeluaranPlus.isAcceptableOrUnknown(
+          data['pengeluaran_plus']!,
+          _pengeluaranPlusMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_pengeluaranPlusMeta);
+    }
+    if (data.containsKey('reward_aktual')) {
+      context.handle(
+        _rewardAktualMeta,
+        rewardAktual.isAcceptableOrUnknown(
+          data['reward_aktual']!,
+          _rewardAktualMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_rewardAktualMeta);
+    }
+    if (data.containsKey('saldo_akhir_biasa')) {
+      context.handle(
+        _saldoAkhirBiasaMeta,
+        saldoAkhirBiasa.isAcceptableOrUnknown(
+          data['saldo_akhir_biasa']!,
+          _saldoAkhirBiasaMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_saldoAkhirBiasaMeta);
+    }
+    if (data.containsKey('saldo_akhir_plus')) {
+      context.handle(
+        _saldoAkhirPlusMeta,
+        saldoAkhirPlus.isAcceptableOrUnknown(
+          data['saldo_akhir_plus']!,
+          _saldoAkhirPlusMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_saldoAkhirPlusMeta);
+    }
+    if (data.containsKey('dibuat_pada')) {
+      context.handle(
+        _dibuatPadaMeta,
+        dibuatPada.isAcceptableOrUnknown(data['dibuat_pada']!, _dibuatPadaMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_dibuatPadaMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  List<Set<GeneratedColumn>> get uniqueKeys => [
+    {tahun, bulan},
+  ];
+  @override
+  DanaBalanceLedger map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DanaBalanceLedger(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      tahun: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}tahun'],
+      )!,
+      bulan: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}bulan'],
+      )!,
+      saldoAwalBiasa: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}saldo_awal_biasa'],
+      )!,
+      saldoAwalPlus: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}saldo_awal_plus'],
+      )!,
+      topUpKeBiasa: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}top_up_ke_biasa'],
+      )!,
+      pindahKePlus: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}pindah_ke_plus'],
+      )!,
+      pindahDariPlus: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}pindah_dari_plus'],
+      )!,
+      pengeluaranBiasa: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}pengeluaran_biasa'],
+      )!,
+      pengeluaranPlus: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}pengeluaran_plus'],
+      )!,
+      rewardAktual: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}reward_aktual'],
+      )!,
+      saldoAkhirBiasa: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}saldo_akhir_biasa'],
+      )!,
+      saldoAkhirPlus: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}saldo_akhir_plus'],
+      )!,
+      dibuatPada: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}dibuat_pada'],
+      )!,
+    );
+  }
+
+  @override
+  $DanaBalanceLedgersTable createAlias(String alias) {
+    return $DanaBalanceLedgersTable(attachedDatabase, alias);
+  }
+}
+
+class DanaBalanceLedger extends DataClass
+    implements Insertable<DanaBalanceLedger> {
+  final int id;
+  final int tahun;
+  final int bulan;
+  final int saldoAwalBiasa;
+  final int saldoAwalPlus;
+  final int topUpKeBiasa;
+  final int pindahKePlus;
+  final int pindahDariPlus;
+  final int pengeluaranBiasa;
+  final int pengeluaranPlus;
+  final int rewardAktual;
+  final int saldoAkhirBiasa;
+  final int saldoAkhirPlus;
+  final DateTime dibuatPada;
+  const DanaBalanceLedger({
+    required this.id,
+    required this.tahun,
+    required this.bulan,
+    required this.saldoAwalBiasa,
+    required this.saldoAwalPlus,
+    required this.topUpKeBiasa,
+    required this.pindahKePlus,
+    required this.pindahDariPlus,
+    required this.pengeluaranBiasa,
+    required this.pengeluaranPlus,
+    required this.rewardAktual,
+    required this.saldoAkhirBiasa,
+    required this.saldoAkhirPlus,
+    required this.dibuatPada,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['tahun'] = Variable<int>(tahun);
+    map['bulan'] = Variable<int>(bulan);
+    map['saldo_awal_biasa'] = Variable<int>(saldoAwalBiasa);
+    map['saldo_awal_plus'] = Variable<int>(saldoAwalPlus);
+    map['top_up_ke_biasa'] = Variable<int>(topUpKeBiasa);
+    map['pindah_ke_plus'] = Variable<int>(pindahKePlus);
+    map['pindah_dari_plus'] = Variable<int>(pindahDariPlus);
+    map['pengeluaran_biasa'] = Variable<int>(pengeluaranBiasa);
+    map['pengeluaran_plus'] = Variable<int>(pengeluaranPlus);
+    map['reward_aktual'] = Variable<int>(rewardAktual);
+    map['saldo_akhir_biasa'] = Variable<int>(saldoAkhirBiasa);
+    map['saldo_akhir_plus'] = Variable<int>(saldoAkhirPlus);
+    map['dibuat_pada'] = Variable<DateTime>(dibuatPada);
+    return map;
+  }
+
+  DanaBalanceLedgersCompanion toCompanion(bool nullToAbsent) {
+    return DanaBalanceLedgersCompanion(
+      id: Value(id),
+      tahun: Value(tahun),
+      bulan: Value(bulan),
+      saldoAwalBiasa: Value(saldoAwalBiasa),
+      saldoAwalPlus: Value(saldoAwalPlus),
+      topUpKeBiasa: Value(topUpKeBiasa),
+      pindahKePlus: Value(pindahKePlus),
+      pindahDariPlus: Value(pindahDariPlus),
+      pengeluaranBiasa: Value(pengeluaranBiasa),
+      pengeluaranPlus: Value(pengeluaranPlus),
+      rewardAktual: Value(rewardAktual),
+      saldoAkhirBiasa: Value(saldoAkhirBiasa),
+      saldoAkhirPlus: Value(saldoAkhirPlus),
+      dibuatPada: Value(dibuatPada),
+    );
+  }
+
+  factory DanaBalanceLedger.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DanaBalanceLedger(
+      id: serializer.fromJson<int>(json['id']),
+      tahun: serializer.fromJson<int>(json['tahun']),
+      bulan: serializer.fromJson<int>(json['bulan']),
+      saldoAwalBiasa: serializer.fromJson<int>(json['saldoAwalBiasa']),
+      saldoAwalPlus: serializer.fromJson<int>(json['saldoAwalPlus']),
+      topUpKeBiasa: serializer.fromJson<int>(json['topUpKeBiasa']),
+      pindahKePlus: serializer.fromJson<int>(json['pindahKePlus']),
+      pindahDariPlus: serializer.fromJson<int>(json['pindahDariPlus']),
+      pengeluaranBiasa: serializer.fromJson<int>(json['pengeluaranBiasa']),
+      pengeluaranPlus: serializer.fromJson<int>(json['pengeluaranPlus']),
+      rewardAktual: serializer.fromJson<int>(json['rewardAktual']),
+      saldoAkhirBiasa: serializer.fromJson<int>(json['saldoAkhirBiasa']),
+      saldoAkhirPlus: serializer.fromJson<int>(json['saldoAkhirPlus']),
+      dibuatPada: serializer.fromJson<DateTime>(json['dibuatPada']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'tahun': serializer.toJson<int>(tahun),
+      'bulan': serializer.toJson<int>(bulan),
+      'saldoAwalBiasa': serializer.toJson<int>(saldoAwalBiasa),
+      'saldoAwalPlus': serializer.toJson<int>(saldoAwalPlus),
+      'topUpKeBiasa': serializer.toJson<int>(topUpKeBiasa),
+      'pindahKePlus': serializer.toJson<int>(pindahKePlus),
+      'pindahDariPlus': serializer.toJson<int>(pindahDariPlus),
+      'pengeluaranBiasa': serializer.toJson<int>(pengeluaranBiasa),
+      'pengeluaranPlus': serializer.toJson<int>(pengeluaranPlus),
+      'rewardAktual': serializer.toJson<int>(rewardAktual),
+      'saldoAkhirBiasa': serializer.toJson<int>(saldoAkhirBiasa),
+      'saldoAkhirPlus': serializer.toJson<int>(saldoAkhirPlus),
+      'dibuatPada': serializer.toJson<DateTime>(dibuatPada),
+    };
+  }
+
+  DanaBalanceLedger copyWith({
+    int? id,
+    int? tahun,
+    int? bulan,
+    int? saldoAwalBiasa,
+    int? saldoAwalPlus,
+    int? topUpKeBiasa,
+    int? pindahKePlus,
+    int? pindahDariPlus,
+    int? pengeluaranBiasa,
+    int? pengeluaranPlus,
+    int? rewardAktual,
+    int? saldoAkhirBiasa,
+    int? saldoAkhirPlus,
+    DateTime? dibuatPada,
+  }) => DanaBalanceLedger(
+    id: id ?? this.id,
+    tahun: tahun ?? this.tahun,
+    bulan: bulan ?? this.bulan,
+    saldoAwalBiasa: saldoAwalBiasa ?? this.saldoAwalBiasa,
+    saldoAwalPlus: saldoAwalPlus ?? this.saldoAwalPlus,
+    topUpKeBiasa: topUpKeBiasa ?? this.topUpKeBiasa,
+    pindahKePlus: pindahKePlus ?? this.pindahKePlus,
+    pindahDariPlus: pindahDariPlus ?? this.pindahDariPlus,
+    pengeluaranBiasa: pengeluaranBiasa ?? this.pengeluaranBiasa,
+    pengeluaranPlus: pengeluaranPlus ?? this.pengeluaranPlus,
+    rewardAktual: rewardAktual ?? this.rewardAktual,
+    saldoAkhirBiasa: saldoAkhirBiasa ?? this.saldoAkhirBiasa,
+    saldoAkhirPlus: saldoAkhirPlus ?? this.saldoAkhirPlus,
+    dibuatPada: dibuatPada ?? this.dibuatPada,
+  );
+  DanaBalanceLedger copyWithCompanion(DanaBalanceLedgersCompanion data) {
+    return DanaBalanceLedger(
+      id: data.id.present ? data.id.value : this.id,
+      tahun: data.tahun.present ? data.tahun.value : this.tahun,
+      bulan: data.bulan.present ? data.bulan.value : this.bulan,
+      saldoAwalBiasa: data.saldoAwalBiasa.present
+          ? data.saldoAwalBiasa.value
+          : this.saldoAwalBiasa,
+      saldoAwalPlus: data.saldoAwalPlus.present
+          ? data.saldoAwalPlus.value
+          : this.saldoAwalPlus,
+      topUpKeBiasa: data.topUpKeBiasa.present
+          ? data.topUpKeBiasa.value
+          : this.topUpKeBiasa,
+      pindahKePlus: data.pindahKePlus.present
+          ? data.pindahKePlus.value
+          : this.pindahKePlus,
+      pindahDariPlus: data.pindahDariPlus.present
+          ? data.pindahDariPlus.value
+          : this.pindahDariPlus,
+      pengeluaranBiasa: data.pengeluaranBiasa.present
+          ? data.pengeluaranBiasa.value
+          : this.pengeluaranBiasa,
+      pengeluaranPlus: data.pengeluaranPlus.present
+          ? data.pengeluaranPlus.value
+          : this.pengeluaranPlus,
+      rewardAktual: data.rewardAktual.present
+          ? data.rewardAktual.value
+          : this.rewardAktual,
+      saldoAkhirBiasa: data.saldoAkhirBiasa.present
+          ? data.saldoAkhirBiasa.value
+          : this.saldoAkhirBiasa,
+      saldoAkhirPlus: data.saldoAkhirPlus.present
+          ? data.saldoAkhirPlus.value
+          : this.saldoAkhirPlus,
+      dibuatPada: data.dibuatPada.present
+          ? data.dibuatPada.value
+          : this.dibuatPada,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DanaBalanceLedger(')
+          ..write('id: $id, ')
+          ..write('tahun: $tahun, ')
+          ..write('bulan: $bulan, ')
+          ..write('saldoAwalBiasa: $saldoAwalBiasa, ')
+          ..write('saldoAwalPlus: $saldoAwalPlus, ')
+          ..write('topUpKeBiasa: $topUpKeBiasa, ')
+          ..write('pindahKePlus: $pindahKePlus, ')
+          ..write('pindahDariPlus: $pindahDariPlus, ')
+          ..write('pengeluaranBiasa: $pengeluaranBiasa, ')
+          ..write('pengeluaranPlus: $pengeluaranPlus, ')
+          ..write('rewardAktual: $rewardAktual, ')
+          ..write('saldoAkhirBiasa: $saldoAkhirBiasa, ')
+          ..write('saldoAkhirPlus: $saldoAkhirPlus, ')
+          ..write('dibuatPada: $dibuatPada')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    tahun,
+    bulan,
+    saldoAwalBiasa,
+    saldoAwalPlus,
+    topUpKeBiasa,
+    pindahKePlus,
+    pindahDariPlus,
+    pengeluaranBiasa,
+    pengeluaranPlus,
+    rewardAktual,
+    saldoAkhirBiasa,
+    saldoAkhirPlus,
+    dibuatPada,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DanaBalanceLedger &&
+          other.id == this.id &&
+          other.tahun == this.tahun &&
+          other.bulan == this.bulan &&
+          other.saldoAwalBiasa == this.saldoAwalBiasa &&
+          other.saldoAwalPlus == this.saldoAwalPlus &&
+          other.topUpKeBiasa == this.topUpKeBiasa &&
+          other.pindahKePlus == this.pindahKePlus &&
+          other.pindahDariPlus == this.pindahDariPlus &&
+          other.pengeluaranBiasa == this.pengeluaranBiasa &&
+          other.pengeluaranPlus == this.pengeluaranPlus &&
+          other.rewardAktual == this.rewardAktual &&
+          other.saldoAkhirBiasa == this.saldoAkhirBiasa &&
+          other.saldoAkhirPlus == this.saldoAkhirPlus &&
+          other.dibuatPada == this.dibuatPada);
+}
+
+class DanaBalanceLedgersCompanion extends UpdateCompanion<DanaBalanceLedger> {
+  final Value<int> id;
+  final Value<int> tahun;
+  final Value<int> bulan;
+  final Value<int> saldoAwalBiasa;
+  final Value<int> saldoAwalPlus;
+  final Value<int> topUpKeBiasa;
+  final Value<int> pindahKePlus;
+  final Value<int> pindahDariPlus;
+  final Value<int> pengeluaranBiasa;
+  final Value<int> pengeluaranPlus;
+  final Value<int> rewardAktual;
+  final Value<int> saldoAkhirBiasa;
+  final Value<int> saldoAkhirPlus;
+  final Value<DateTime> dibuatPada;
+  const DanaBalanceLedgersCompanion({
+    this.id = const Value.absent(),
+    this.tahun = const Value.absent(),
+    this.bulan = const Value.absent(),
+    this.saldoAwalBiasa = const Value.absent(),
+    this.saldoAwalPlus = const Value.absent(),
+    this.topUpKeBiasa = const Value.absent(),
+    this.pindahKePlus = const Value.absent(),
+    this.pindahDariPlus = const Value.absent(),
+    this.pengeluaranBiasa = const Value.absent(),
+    this.pengeluaranPlus = const Value.absent(),
+    this.rewardAktual = const Value.absent(),
+    this.saldoAkhirBiasa = const Value.absent(),
+    this.saldoAkhirPlus = const Value.absent(),
+    this.dibuatPada = const Value.absent(),
+  });
+  DanaBalanceLedgersCompanion.insert({
+    this.id = const Value.absent(),
+    required int tahun,
+    required int bulan,
+    required int saldoAwalBiasa,
+    required int saldoAwalPlus,
+    required int topUpKeBiasa,
+    required int pindahKePlus,
+    required int pindahDariPlus,
+    required int pengeluaranBiasa,
+    required int pengeluaranPlus,
+    required int rewardAktual,
+    required int saldoAkhirBiasa,
+    required int saldoAkhirPlus,
+    required DateTime dibuatPada,
+  }) : tahun = Value(tahun),
+       bulan = Value(bulan),
+       saldoAwalBiasa = Value(saldoAwalBiasa),
+       saldoAwalPlus = Value(saldoAwalPlus),
+       topUpKeBiasa = Value(topUpKeBiasa),
+       pindahKePlus = Value(pindahKePlus),
+       pindahDariPlus = Value(pindahDariPlus),
+       pengeluaranBiasa = Value(pengeluaranBiasa),
+       pengeluaranPlus = Value(pengeluaranPlus),
+       rewardAktual = Value(rewardAktual),
+       saldoAkhirBiasa = Value(saldoAkhirBiasa),
+       saldoAkhirPlus = Value(saldoAkhirPlus),
+       dibuatPada = Value(dibuatPada);
+  static Insertable<DanaBalanceLedger> custom({
+    Expression<int>? id,
+    Expression<int>? tahun,
+    Expression<int>? bulan,
+    Expression<int>? saldoAwalBiasa,
+    Expression<int>? saldoAwalPlus,
+    Expression<int>? topUpKeBiasa,
+    Expression<int>? pindahKePlus,
+    Expression<int>? pindahDariPlus,
+    Expression<int>? pengeluaranBiasa,
+    Expression<int>? pengeluaranPlus,
+    Expression<int>? rewardAktual,
+    Expression<int>? saldoAkhirBiasa,
+    Expression<int>? saldoAkhirPlus,
+    Expression<DateTime>? dibuatPada,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (tahun != null) 'tahun': tahun,
+      if (bulan != null) 'bulan': bulan,
+      if (saldoAwalBiasa != null) 'saldo_awal_biasa': saldoAwalBiasa,
+      if (saldoAwalPlus != null) 'saldo_awal_plus': saldoAwalPlus,
+      if (topUpKeBiasa != null) 'top_up_ke_biasa': topUpKeBiasa,
+      if (pindahKePlus != null) 'pindah_ke_plus': pindahKePlus,
+      if (pindahDariPlus != null) 'pindah_dari_plus': pindahDariPlus,
+      if (pengeluaranBiasa != null) 'pengeluaran_biasa': pengeluaranBiasa,
+      if (pengeluaranPlus != null) 'pengeluaran_plus': pengeluaranPlus,
+      if (rewardAktual != null) 'reward_aktual': rewardAktual,
+      if (saldoAkhirBiasa != null) 'saldo_akhir_biasa': saldoAkhirBiasa,
+      if (saldoAkhirPlus != null) 'saldo_akhir_plus': saldoAkhirPlus,
+      if (dibuatPada != null) 'dibuat_pada': dibuatPada,
+    });
+  }
+
+  DanaBalanceLedgersCompanion copyWith({
+    Value<int>? id,
+    Value<int>? tahun,
+    Value<int>? bulan,
+    Value<int>? saldoAwalBiasa,
+    Value<int>? saldoAwalPlus,
+    Value<int>? topUpKeBiasa,
+    Value<int>? pindahKePlus,
+    Value<int>? pindahDariPlus,
+    Value<int>? pengeluaranBiasa,
+    Value<int>? pengeluaranPlus,
+    Value<int>? rewardAktual,
+    Value<int>? saldoAkhirBiasa,
+    Value<int>? saldoAkhirPlus,
+    Value<DateTime>? dibuatPada,
+  }) {
+    return DanaBalanceLedgersCompanion(
+      id: id ?? this.id,
+      tahun: tahun ?? this.tahun,
+      bulan: bulan ?? this.bulan,
+      saldoAwalBiasa: saldoAwalBiasa ?? this.saldoAwalBiasa,
+      saldoAwalPlus: saldoAwalPlus ?? this.saldoAwalPlus,
+      topUpKeBiasa: topUpKeBiasa ?? this.topUpKeBiasa,
+      pindahKePlus: pindahKePlus ?? this.pindahKePlus,
+      pindahDariPlus: pindahDariPlus ?? this.pindahDariPlus,
+      pengeluaranBiasa: pengeluaranBiasa ?? this.pengeluaranBiasa,
+      pengeluaranPlus: pengeluaranPlus ?? this.pengeluaranPlus,
+      rewardAktual: rewardAktual ?? this.rewardAktual,
+      saldoAkhirBiasa: saldoAkhirBiasa ?? this.saldoAkhirBiasa,
+      saldoAkhirPlus: saldoAkhirPlus ?? this.saldoAkhirPlus,
+      dibuatPada: dibuatPada ?? this.dibuatPada,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (tahun.present) {
+      map['tahun'] = Variable<int>(tahun.value);
+    }
+    if (bulan.present) {
+      map['bulan'] = Variable<int>(bulan.value);
+    }
+    if (saldoAwalBiasa.present) {
+      map['saldo_awal_biasa'] = Variable<int>(saldoAwalBiasa.value);
+    }
+    if (saldoAwalPlus.present) {
+      map['saldo_awal_plus'] = Variable<int>(saldoAwalPlus.value);
+    }
+    if (topUpKeBiasa.present) {
+      map['top_up_ke_biasa'] = Variable<int>(topUpKeBiasa.value);
+    }
+    if (pindahKePlus.present) {
+      map['pindah_ke_plus'] = Variable<int>(pindahKePlus.value);
+    }
+    if (pindahDariPlus.present) {
+      map['pindah_dari_plus'] = Variable<int>(pindahDariPlus.value);
+    }
+    if (pengeluaranBiasa.present) {
+      map['pengeluaran_biasa'] = Variable<int>(pengeluaranBiasa.value);
+    }
+    if (pengeluaranPlus.present) {
+      map['pengeluaran_plus'] = Variable<int>(pengeluaranPlus.value);
+    }
+    if (rewardAktual.present) {
+      map['reward_aktual'] = Variable<int>(rewardAktual.value);
+    }
+    if (saldoAkhirBiasa.present) {
+      map['saldo_akhir_biasa'] = Variable<int>(saldoAkhirBiasa.value);
+    }
+    if (saldoAkhirPlus.present) {
+      map['saldo_akhir_plus'] = Variable<int>(saldoAkhirPlus.value);
+    }
+    if (dibuatPada.present) {
+      map['dibuat_pada'] = Variable<DateTime>(dibuatPada.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DanaBalanceLedgersCompanion(')
+          ..write('id: $id, ')
+          ..write('tahun: $tahun, ')
+          ..write('bulan: $bulan, ')
+          ..write('saldoAwalBiasa: $saldoAwalBiasa, ')
+          ..write('saldoAwalPlus: $saldoAwalPlus, ')
+          ..write('topUpKeBiasa: $topUpKeBiasa, ')
+          ..write('pindahKePlus: $pindahKePlus, ')
+          ..write('pindahDariPlus: $pindahDariPlus, ')
+          ..write('pengeluaranBiasa: $pengeluaranBiasa, ')
+          ..write('pengeluaranPlus: $pengeluaranPlus, ')
+          ..write('rewardAktual: $rewardAktual, ')
+          ..write('saldoAkhirBiasa: $saldoAkhirBiasa, ')
+          ..write('saldoAkhirPlus: $saldoAkhirPlus, ')
+          ..write('dibuatPada: $dibuatPada')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $InvestmentActualsTable extends InvestmentActuals
+    with TableInfo<$InvestmentActualsTable, InvestmentActual> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $InvestmentActualsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<InvestmentPlatform, String>
+  platform =
+      GeneratedColumn<String>(
+        'platform',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<InvestmentPlatform>(
+        $InvestmentActualsTable.$converterplatform,
+      );
+  static const VerificationMeta _tahunMeta = const VerificationMeta('tahun');
+  @override
+  late final GeneratedColumn<int> tahun = GeneratedColumn<int>(
+    'tahun',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _bulanMeta = const VerificationMeta('bulan');
+  @override
+  late final GeneratedColumn<int> bulan = GeneratedColumn<int>(
+    'bulan',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _depositEksternalMeta = const VerificationMeta(
+    'depositEksternal',
+  );
+  @override
+  late final GeneratedColumn<int> depositEksternal = GeneratedColumn<int>(
+    'deposit_eksternal',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _penarikanMeta = const VerificationMeta(
+    'penarikan',
+  );
+  @override
+  late final GeneratedColumn<int> penarikan = GeneratedColumn<int>(
+    'penarikan',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _pembelianBersihMeta = const VerificationMeta(
+    'pembelianBersih',
+  );
+  @override
+  late final GeneratedColumn<int> pembelianBersih = GeneratedColumn<int>(
+    'pembelian_bersih',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _penjualanBersihMeta = const VerificationMeta(
+    'penjualanBersih',
+  );
+  @override
+  late final GeneratedColumn<int> penjualanBersih = GeneratedColumn<int>(
+    'penjualan_bersih',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _saldoRdnAwalMeta = const VerificationMeta(
+    'saldoRdnAwal',
+  );
+  @override
+  late final GeneratedColumn<int> saldoRdnAwal = GeneratedColumn<int>(
+    'saldo_rdn_awal',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _saldoRdnAkhirMeta = const VerificationMeta(
+    'saldoRdnAkhir',
+  );
+  @override
+  late final GeneratedColumn<int> saldoRdnAkhir = GeneratedColumn<int>(
+    'saldo_rdn_akhir',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _biayaMeta = const VerificationMeta('biaya');
+  @override
+  late final GeneratedColumn<int> biaya = GeneratedColumn<int>(
+    'biaya',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _dividenMeta = const VerificationMeta(
+    'dividen',
+  );
+  @override
+  late final GeneratedColumn<int> dividen = GeneratedColumn<int>(
+    'dividen',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _nilaiPortofolioMeta = const VerificationMeta(
+    'nilaiPortofolio',
+  );
+  @override
+  late final GeneratedColumn<int> nilaiPortofolio = GeneratedColumn<int>(
+    'nilai_portofolio',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _modalInvestasiMeta = const VerificationMeta(
+    'modalInvestasi',
+  );
+  @override
+  late final GeneratedColumn<int> modalInvestasi = GeneratedColumn<int>(
+    'modal_investasi',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<VerificationStatus, String>
+  verifikasi =
+      GeneratedColumn<String>(
+        'verifikasi',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<VerificationStatus>(
+        $InvestmentActualsTable.$converterverifikasi,
+      );
+  static const VerificationMeta _catatanMeta = const VerificationMeta(
+    'catatan',
+  );
+  @override
+  late final GeneratedColumn<String> catatan = GeneratedColumn<String>(
+    'catatan',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _diperbaruiPadaMeta = const VerificationMeta(
+    'diperbaruiPada',
+  );
+  @override
+  late final GeneratedColumn<DateTime> diperbaruiPada =
+      GeneratedColumn<DateTime>(
+        'diperbarui_pada',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    platform,
+    tahun,
+    bulan,
+    depositEksternal,
+    penarikan,
+    pembelianBersih,
+    penjualanBersih,
+    saldoRdnAwal,
+    saldoRdnAkhir,
+    biaya,
+    dividen,
+    nilaiPortofolio,
+    modalInvestasi,
+    verifikasi,
+    catatan,
+    diperbaruiPada,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'investment_actuals';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<InvestmentActual> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('tahun')) {
+      context.handle(
+        _tahunMeta,
+        tahun.isAcceptableOrUnknown(data['tahun']!, _tahunMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tahunMeta);
+    }
+    if (data.containsKey('bulan')) {
+      context.handle(
+        _bulanMeta,
+        bulan.isAcceptableOrUnknown(data['bulan']!, _bulanMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_bulanMeta);
+    }
+    if (data.containsKey('deposit_eksternal')) {
+      context.handle(
+        _depositEksternalMeta,
+        depositEksternal.isAcceptableOrUnknown(
+          data['deposit_eksternal']!,
+          _depositEksternalMeta,
+        ),
+      );
+    }
+    if (data.containsKey('penarikan')) {
+      context.handle(
+        _penarikanMeta,
+        penarikan.isAcceptableOrUnknown(data['penarikan']!, _penarikanMeta),
+      );
+    }
+    if (data.containsKey('pembelian_bersih')) {
+      context.handle(
+        _pembelianBersihMeta,
+        pembelianBersih.isAcceptableOrUnknown(
+          data['pembelian_bersih']!,
+          _pembelianBersihMeta,
+        ),
+      );
+    }
+    if (data.containsKey('penjualan_bersih')) {
+      context.handle(
+        _penjualanBersihMeta,
+        penjualanBersih.isAcceptableOrUnknown(
+          data['penjualan_bersih']!,
+          _penjualanBersihMeta,
+        ),
+      );
+    }
+    if (data.containsKey('saldo_rdn_awal')) {
+      context.handle(
+        _saldoRdnAwalMeta,
+        saldoRdnAwal.isAcceptableOrUnknown(
+          data['saldo_rdn_awal']!,
+          _saldoRdnAwalMeta,
+        ),
+      );
+    }
+    if (data.containsKey('saldo_rdn_akhir')) {
+      context.handle(
+        _saldoRdnAkhirMeta,
+        saldoRdnAkhir.isAcceptableOrUnknown(
+          data['saldo_rdn_akhir']!,
+          _saldoRdnAkhirMeta,
+        ),
+      );
+    }
+    if (data.containsKey('biaya')) {
+      context.handle(
+        _biayaMeta,
+        biaya.isAcceptableOrUnknown(data['biaya']!, _biayaMeta),
+      );
+    }
+    if (data.containsKey('dividen')) {
+      context.handle(
+        _dividenMeta,
+        dividen.isAcceptableOrUnknown(data['dividen']!, _dividenMeta),
+      );
+    }
+    if (data.containsKey('nilai_portofolio')) {
+      context.handle(
+        _nilaiPortofolioMeta,
+        nilaiPortofolio.isAcceptableOrUnknown(
+          data['nilai_portofolio']!,
+          _nilaiPortofolioMeta,
+        ),
+      );
+    }
+    if (data.containsKey('modal_investasi')) {
+      context.handle(
+        _modalInvestasiMeta,
+        modalInvestasi.isAcceptableOrUnknown(
+          data['modal_investasi']!,
+          _modalInvestasiMeta,
+        ),
+      );
+    }
+    if (data.containsKey('catatan')) {
+      context.handle(
+        _catatanMeta,
+        catatan.isAcceptableOrUnknown(data['catatan']!, _catatanMeta),
+      );
+    }
+    if (data.containsKey('diperbarui_pada')) {
+      context.handle(
+        _diperbaruiPadaMeta,
+        diperbaruiPada.isAcceptableOrUnknown(
+          data['diperbarui_pada']!,
+          _diperbaruiPadaMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_diperbaruiPadaMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  List<Set<GeneratedColumn>> get uniqueKeys => [
+    {platform, tahun, bulan},
+  ];
+  @override
+  InvestmentActual map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return InvestmentActual(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      platform: $InvestmentActualsTable.$converterplatform.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}platform'],
+        )!,
+      ),
+      tahun: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}tahun'],
+      )!,
+      bulan: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}bulan'],
+      )!,
+      depositEksternal: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}deposit_eksternal'],
+      ),
+      penarikan: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}penarikan'],
+      ),
+      pembelianBersih: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}pembelian_bersih'],
+      ),
+      penjualanBersih: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}penjualan_bersih'],
+      ),
+      saldoRdnAwal: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}saldo_rdn_awal'],
+      ),
+      saldoRdnAkhir: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}saldo_rdn_akhir'],
+      ),
+      biaya: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}biaya'],
+      ),
+      dividen: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}dividen'],
+      ),
+      nilaiPortofolio: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}nilai_portofolio'],
+      ),
+      modalInvestasi: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}modal_investasi'],
+      ),
+      verifikasi: $InvestmentActualsTable.$converterverifikasi.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}verifikasi'],
+        )!,
+      ),
+      catatan: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}catatan'],
+      ),
+      diperbaruiPada: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}diperbarui_pada'],
+      )!,
+    );
+  }
+
+  @override
+  $InvestmentActualsTable createAlias(String alias) {
+    return $InvestmentActualsTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<InvestmentPlatform, String, String>
+  $converterplatform = const EnumNameConverter<InvestmentPlatform>(
+    InvestmentPlatform.values,
+  );
+  static JsonTypeConverter2<VerificationStatus, String, String>
+  $converterverifikasi = const EnumNameConverter<VerificationStatus>(
+    VerificationStatus.values,
+  );
+}
+
+class InvestmentActual extends DataClass
+    implements Insertable<InvestmentActual> {
+  final int id;
+  final InvestmentPlatform platform;
+  final int tahun;
+  final int bulan;
+  final int? depositEksternal;
+  final int? penarikan;
+  final int? pembelianBersih;
+  final int? penjualanBersih;
+  final int? saldoRdnAwal;
+  final int? saldoRdnAkhir;
+  final int? biaya;
+  final int? dividen;
+  final int? nilaiPortofolio;
+  final int? modalInvestasi;
+  final VerificationStatus verifikasi;
+  final String? catatan;
+  final DateTime diperbaruiPada;
+  const InvestmentActual({
+    required this.id,
+    required this.platform,
+    required this.tahun,
+    required this.bulan,
+    this.depositEksternal,
+    this.penarikan,
+    this.pembelianBersih,
+    this.penjualanBersih,
+    this.saldoRdnAwal,
+    this.saldoRdnAkhir,
+    this.biaya,
+    this.dividen,
+    this.nilaiPortofolio,
+    this.modalInvestasi,
+    required this.verifikasi,
+    this.catatan,
+    required this.diperbaruiPada,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    {
+      map['platform'] = Variable<String>(
+        $InvestmentActualsTable.$converterplatform.toSql(platform),
+      );
+    }
+    map['tahun'] = Variable<int>(tahun);
+    map['bulan'] = Variable<int>(bulan);
+    if (!nullToAbsent || depositEksternal != null) {
+      map['deposit_eksternal'] = Variable<int>(depositEksternal);
+    }
+    if (!nullToAbsent || penarikan != null) {
+      map['penarikan'] = Variable<int>(penarikan);
+    }
+    if (!nullToAbsent || pembelianBersih != null) {
+      map['pembelian_bersih'] = Variable<int>(pembelianBersih);
+    }
+    if (!nullToAbsent || penjualanBersih != null) {
+      map['penjualan_bersih'] = Variable<int>(penjualanBersih);
+    }
+    if (!nullToAbsent || saldoRdnAwal != null) {
+      map['saldo_rdn_awal'] = Variable<int>(saldoRdnAwal);
+    }
+    if (!nullToAbsent || saldoRdnAkhir != null) {
+      map['saldo_rdn_akhir'] = Variable<int>(saldoRdnAkhir);
+    }
+    if (!nullToAbsent || biaya != null) {
+      map['biaya'] = Variable<int>(biaya);
+    }
+    if (!nullToAbsent || dividen != null) {
+      map['dividen'] = Variable<int>(dividen);
+    }
+    if (!nullToAbsent || nilaiPortofolio != null) {
+      map['nilai_portofolio'] = Variable<int>(nilaiPortofolio);
+    }
+    if (!nullToAbsent || modalInvestasi != null) {
+      map['modal_investasi'] = Variable<int>(modalInvestasi);
+    }
+    {
+      map['verifikasi'] = Variable<String>(
+        $InvestmentActualsTable.$converterverifikasi.toSql(verifikasi),
+      );
+    }
+    if (!nullToAbsent || catatan != null) {
+      map['catatan'] = Variable<String>(catatan);
+    }
+    map['diperbarui_pada'] = Variable<DateTime>(diperbaruiPada);
+    return map;
+  }
+
+  InvestmentActualsCompanion toCompanion(bool nullToAbsent) {
+    return InvestmentActualsCompanion(
+      id: Value(id),
+      platform: Value(platform),
+      tahun: Value(tahun),
+      bulan: Value(bulan),
+      depositEksternal: depositEksternal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(depositEksternal),
+      penarikan: penarikan == null && nullToAbsent
+          ? const Value.absent()
+          : Value(penarikan),
+      pembelianBersih: pembelianBersih == null && nullToAbsent
+          ? const Value.absent()
+          : Value(pembelianBersih),
+      penjualanBersih: penjualanBersih == null && nullToAbsent
+          ? const Value.absent()
+          : Value(penjualanBersih),
+      saldoRdnAwal: saldoRdnAwal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(saldoRdnAwal),
+      saldoRdnAkhir: saldoRdnAkhir == null && nullToAbsent
+          ? const Value.absent()
+          : Value(saldoRdnAkhir),
+      biaya: biaya == null && nullToAbsent
+          ? const Value.absent()
+          : Value(biaya),
+      dividen: dividen == null && nullToAbsent
+          ? const Value.absent()
+          : Value(dividen),
+      nilaiPortofolio: nilaiPortofolio == null && nullToAbsent
+          ? const Value.absent()
+          : Value(nilaiPortofolio),
+      modalInvestasi: modalInvestasi == null && nullToAbsent
+          ? const Value.absent()
+          : Value(modalInvestasi),
+      verifikasi: Value(verifikasi),
+      catatan: catatan == null && nullToAbsent
+          ? const Value.absent()
+          : Value(catatan),
+      diperbaruiPada: Value(diperbaruiPada),
+    );
+  }
+
+  factory InvestmentActual.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return InvestmentActual(
+      id: serializer.fromJson<int>(json['id']),
+      platform: $InvestmentActualsTable.$converterplatform.fromJson(
+        serializer.fromJson<String>(json['platform']),
+      ),
+      tahun: serializer.fromJson<int>(json['tahun']),
+      bulan: serializer.fromJson<int>(json['bulan']),
+      depositEksternal: serializer.fromJson<int?>(json['depositEksternal']),
+      penarikan: serializer.fromJson<int?>(json['penarikan']),
+      pembelianBersih: serializer.fromJson<int?>(json['pembelianBersih']),
+      penjualanBersih: serializer.fromJson<int?>(json['penjualanBersih']),
+      saldoRdnAwal: serializer.fromJson<int?>(json['saldoRdnAwal']),
+      saldoRdnAkhir: serializer.fromJson<int?>(json['saldoRdnAkhir']),
+      biaya: serializer.fromJson<int?>(json['biaya']),
+      dividen: serializer.fromJson<int?>(json['dividen']),
+      nilaiPortofolio: serializer.fromJson<int?>(json['nilaiPortofolio']),
+      modalInvestasi: serializer.fromJson<int?>(json['modalInvestasi']),
+      verifikasi: $InvestmentActualsTable.$converterverifikasi.fromJson(
+        serializer.fromJson<String>(json['verifikasi']),
+      ),
+      catatan: serializer.fromJson<String?>(json['catatan']),
+      diperbaruiPada: serializer.fromJson<DateTime>(json['diperbaruiPada']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'platform': serializer.toJson<String>(
+        $InvestmentActualsTable.$converterplatform.toJson(platform),
+      ),
+      'tahun': serializer.toJson<int>(tahun),
+      'bulan': serializer.toJson<int>(bulan),
+      'depositEksternal': serializer.toJson<int?>(depositEksternal),
+      'penarikan': serializer.toJson<int?>(penarikan),
+      'pembelianBersih': serializer.toJson<int?>(pembelianBersih),
+      'penjualanBersih': serializer.toJson<int?>(penjualanBersih),
+      'saldoRdnAwal': serializer.toJson<int?>(saldoRdnAwal),
+      'saldoRdnAkhir': serializer.toJson<int?>(saldoRdnAkhir),
+      'biaya': serializer.toJson<int?>(biaya),
+      'dividen': serializer.toJson<int?>(dividen),
+      'nilaiPortofolio': serializer.toJson<int?>(nilaiPortofolio),
+      'modalInvestasi': serializer.toJson<int?>(modalInvestasi),
+      'verifikasi': serializer.toJson<String>(
+        $InvestmentActualsTable.$converterverifikasi.toJson(verifikasi),
+      ),
+      'catatan': serializer.toJson<String?>(catatan),
+      'diperbaruiPada': serializer.toJson<DateTime>(diperbaruiPada),
+    };
+  }
+
+  InvestmentActual copyWith({
+    int? id,
+    InvestmentPlatform? platform,
+    int? tahun,
+    int? bulan,
+    Value<int?> depositEksternal = const Value.absent(),
+    Value<int?> penarikan = const Value.absent(),
+    Value<int?> pembelianBersih = const Value.absent(),
+    Value<int?> penjualanBersih = const Value.absent(),
+    Value<int?> saldoRdnAwal = const Value.absent(),
+    Value<int?> saldoRdnAkhir = const Value.absent(),
+    Value<int?> biaya = const Value.absent(),
+    Value<int?> dividen = const Value.absent(),
+    Value<int?> nilaiPortofolio = const Value.absent(),
+    Value<int?> modalInvestasi = const Value.absent(),
+    VerificationStatus? verifikasi,
+    Value<String?> catatan = const Value.absent(),
+    DateTime? diperbaruiPada,
+  }) => InvestmentActual(
+    id: id ?? this.id,
+    platform: platform ?? this.platform,
+    tahun: tahun ?? this.tahun,
+    bulan: bulan ?? this.bulan,
+    depositEksternal: depositEksternal.present
+        ? depositEksternal.value
+        : this.depositEksternal,
+    penarikan: penarikan.present ? penarikan.value : this.penarikan,
+    pembelianBersih: pembelianBersih.present
+        ? pembelianBersih.value
+        : this.pembelianBersih,
+    penjualanBersih: penjualanBersih.present
+        ? penjualanBersih.value
+        : this.penjualanBersih,
+    saldoRdnAwal: saldoRdnAwal.present ? saldoRdnAwal.value : this.saldoRdnAwal,
+    saldoRdnAkhir: saldoRdnAkhir.present
+        ? saldoRdnAkhir.value
+        : this.saldoRdnAkhir,
+    biaya: biaya.present ? biaya.value : this.biaya,
+    dividen: dividen.present ? dividen.value : this.dividen,
+    nilaiPortofolio: nilaiPortofolio.present
+        ? nilaiPortofolio.value
+        : this.nilaiPortofolio,
+    modalInvestasi: modalInvestasi.present
+        ? modalInvestasi.value
+        : this.modalInvestasi,
+    verifikasi: verifikasi ?? this.verifikasi,
+    catatan: catatan.present ? catatan.value : this.catatan,
+    diperbaruiPada: diperbaruiPada ?? this.diperbaruiPada,
+  );
+  InvestmentActual copyWithCompanion(InvestmentActualsCompanion data) {
+    return InvestmentActual(
+      id: data.id.present ? data.id.value : this.id,
+      platform: data.platform.present ? data.platform.value : this.platform,
+      tahun: data.tahun.present ? data.tahun.value : this.tahun,
+      bulan: data.bulan.present ? data.bulan.value : this.bulan,
+      depositEksternal: data.depositEksternal.present
+          ? data.depositEksternal.value
+          : this.depositEksternal,
+      penarikan: data.penarikan.present ? data.penarikan.value : this.penarikan,
+      pembelianBersih: data.pembelianBersih.present
+          ? data.pembelianBersih.value
+          : this.pembelianBersih,
+      penjualanBersih: data.penjualanBersih.present
+          ? data.penjualanBersih.value
+          : this.penjualanBersih,
+      saldoRdnAwal: data.saldoRdnAwal.present
+          ? data.saldoRdnAwal.value
+          : this.saldoRdnAwal,
+      saldoRdnAkhir: data.saldoRdnAkhir.present
+          ? data.saldoRdnAkhir.value
+          : this.saldoRdnAkhir,
+      biaya: data.biaya.present ? data.biaya.value : this.biaya,
+      dividen: data.dividen.present ? data.dividen.value : this.dividen,
+      nilaiPortofolio: data.nilaiPortofolio.present
+          ? data.nilaiPortofolio.value
+          : this.nilaiPortofolio,
+      modalInvestasi: data.modalInvestasi.present
+          ? data.modalInvestasi.value
+          : this.modalInvestasi,
+      verifikasi: data.verifikasi.present
+          ? data.verifikasi.value
+          : this.verifikasi,
+      catatan: data.catatan.present ? data.catatan.value : this.catatan,
+      diperbaruiPada: data.diperbaruiPada.present
+          ? data.diperbaruiPada.value
+          : this.diperbaruiPada,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('InvestmentActual(')
+          ..write('id: $id, ')
+          ..write('platform: $platform, ')
+          ..write('tahun: $tahun, ')
+          ..write('bulan: $bulan, ')
+          ..write('depositEksternal: $depositEksternal, ')
+          ..write('penarikan: $penarikan, ')
+          ..write('pembelianBersih: $pembelianBersih, ')
+          ..write('penjualanBersih: $penjualanBersih, ')
+          ..write('saldoRdnAwal: $saldoRdnAwal, ')
+          ..write('saldoRdnAkhir: $saldoRdnAkhir, ')
+          ..write('biaya: $biaya, ')
+          ..write('dividen: $dividen, ')
+          ..write('nilaiPortofolio: $nilaiPortofolio, ')
+          ..write('modalInvestasi: $modalInvestasi, ')
+          ..write('verifikasi: $verifikasi, ')
+          ..write('catatan: $catatan, ')
+          ..write('diperbaruiPada: $diperbaruiPada')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    platform,
+    tahun,
+    bulan,
+    depositEksternal,
+    penarikan,
+    pembelianBersih,
+    penjualanBersih,
+    saldoRdnAwal,
+    saldoRdnAkhir,
+    biaya,
+    dividen,
+    nilaiPortofolio,
+    modalInvestasi,
+    verifikasi,
+    catatan,
+    diperbaruiPada,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is InvestmentActual &&
+          other.id == this.id &&
+          other.platform == this.platform &&
+          other.tahun == this.tahun &&
+          other.bulan == this.bulan &&
+          other.depositEksternal == this.depositEksternal &&
+          other.penarikan == this.penarikan &&
+          other.pembelianBersih == this.pembelianBersih &&
+          other.penjualanBersih == this.penjualanBersih &&
+          other.saldoRdnAwal == this.saldoRdnAwal &&
+          other.saldoRdnAkhir == this.saldoRdnAkhir &&
+          other.biaya == this.biaya &&
+          other.dividen == this.dividen &&
+          other.nilaiPortofolio == this.nilaiPortofolio &&
+          other.modalInvestasi == this.modalInvestasi &&
+          other.verifikasi == this.verifikasi &&
+          other.catatan == this.catatan &&
+          other.diperbaruiPada == this.diperbaruiPada);
+}
+
+class InvestmentActualsCompanion extends UpdateCompanion<InvestmentActual> {
+  final Value<int> id;
+  final Value<InvestmentPlatform> platform;
+  final Value<int> tahun;
+  final Value<int> bulan;
+  final Value<int?> depositEksternal;
+  final Value<int?> penarikan;
+  final Value<int?> pembelianBersih;
+  final Value<int?> penjualanBersih;
+  final Value<int?> saldoRdnAwal;
+  final Value<int?> saldoRdnAkhir;
+  final Value<int?> biaya;
+  final Value<int?> dividen;
+  final Value<int?> nilaiPortofolio;
+  final Value<int?> modalInvestasi;
+  final Value<VerificationStatus> verifikasi;
+  final Value<String?> catatan;
+  final Value<DateTime> diperbaruiPada;
+  const InvestmentActualsCompanion({
+    this.id = const Value.absent(),
+    this.platform = const Value.absent(),
+    this.tahun = const Value.absent(),
+    this.bulan = const Value.absent(),
+    this.depositEksternal = const Value.absent(),
+    this.penarikan = const Value.absent(),
+    this.pembelianBersih = const Value.absent(),
+    this.penjualanBersih = const Value.absent(),
+    this.saldoRdnAwal = const Value.absent(),
+    this.saldoRdnAkhir = const Value.absent(),
+    this.biaya = const Value.absent(),
+    this.dividen = const Value.absent(),
+    this.nilaiPortofolio = const Value.absent(),
+    this.modalInvestasi = const Value.absent(),
+    this.verifikasi = const Value.absent(),
+    this.catatan = const Value.absent(),
+    this.diperbaruiPada = const Value.absent(),
+  });
+  InvestmentActualsCompanion.insert({
+    this.id = const Value.absent(),
+    required InvestmentPlatform platform,
+    required int tahun,
+    required int bulan,
+    this.depositEksternal = const Value.absent(),
+    this.penarikan = const Value.absent(),
+    this.pembelianBersih = const Value.absent(),
+    this.penjualanBersih = const Value.absent(),
+    this.saldoRdnAwal = const Value.absent(),
+    this.saldoRdnAkhir = const Value.absent(),
+    this.biaya = const Value.absent(),
+    this.dividen = const Value.absent(),
+    this.nilaiPortofolio = const Value.absent(),
+    this.modalInvestasi = const Value.absent(),
+    required VerificationStatus verifikasi,
+    this.catatan = const Value.absent(),
+    required DateTime diperbaruiPada,
+  }) : platform = Value(platform),
+       tahun = Value(tahun),
+       bulan = Value(bulan),
+       verifikasi = Value(verifikasi),
+       diperbaruiPada = Value(diperbaruiPada);
+  static Insertable<InvestmentActual> custom({
+    Expression<int>? id,
+    Expression<String>? platform,
+    Expression<int>? tahun,
+    Expression<int>? bulan,
+    Expression<int>? depositEksternal,
+    Expression<int>? penarikan,
+    Expression<int>? pembelianBersih,
+    Expression<int>? penjualanBersih,
+    Expression<int>? saldoRdnAwal,
+    Expression<int>? saldoRdnAkhir,
+    Expression<int>? biaya,
+    Expression<int>? dividen,
+    Expression<int>? nilaiPortofolio,
+    Expression<int>? modalInvestasi,
+    Expression<String>? verifikasi,
+    Expression<String>? catatan,
+    Expression<DateTime>? diperbaruiPada,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (platform != null) 'platform': platform,
+      if (tahun != null) 'tahun': tahun,
+      if (bulan != null) 'bulan': bulan,
+      if (depositEksternal != null) 'deposit_eksternal': depositEksternal,
+      if (penarikan != null) 'penarikan': penarikan,
+      if (pembelianBersih != null) 'pembelian_bersih': pembelianBersih,
+      if (penjualanBersih != null) 'penjualan_bersih': penjualanBersih,
+      if (saldoRdnAwal != null) 'saldo_rdn_awal': saldoRdnAwal,
+      if (saldoRdnAkhir != null) 'saldo_rdn_akhir': saldoRdnAkhir,
+      if (biaya != null) 'biaya': biaya,
+      if (dividen != null) 'dividen': dividen,
+      if (nilaiPortofolio != null) 'nilai_portofolio': nilaiPortofolio,
+      if (modalInvestasi != null) 'modal_investasi': modalInvestasi,
+      if (verifikasi != null) 'verifikasi': verifikasi,
+      if (catatan != null) 'catatan': catatan,
+      if (diperbaruiPada != null) 'diperbarui_pada': diperbaruiPada,
+    });
+  }
+
+  InvestmentActualsCompanion copyWith({
+    Value<int>? id,
+    Value<InvestmentPlatform>? platform,
+    Value<int>? tahun,
+    Value<int>? bulan,
+    Value<int?>? depositEksternal,
+    Value<int?>? penarikan,
+    Value<int?>? pembelianBersih,
+    Value<int?>? penjualanBersih,
+    Value<int?>? saldoRdnAwal,
+    Value<int?>? saldoRdnAkhir,
+    Value<int?>? biaya,
+    Value<int?>? dividen,
+    Value<int?>? nilaiPortofolio,
+    Value<int?>? modalInvestasi,
+    Value<VerificationStatus>? verifikasi,
+    Value<String?>? catatan,
+    Value<DateTime>? diperbaruiPada,
+  }) {
+    return InvestmentActualsCompanion(
+      id: id ?? this.id,
+      platform: platform ?? this.platform,
+      tahun: tahun ?? this.tahun,
+      bulan: bulan ?? this.bulan,
+      depositEksternal: depositEksternal ?? this.depositEksternal,
+      penarikan: penarikan ?? this.penarikan,
+      pembelianBersih: pembelianBersih ?? this.pembelianBersih,
+      penjualanBersih: penjualanBersih ?? this.penjualanBersih,
+      saldoRdnAwal: saldoRdnAwal ?? this.saldoRdnAwal,
+      saldoRdnAkhir: saldoRdnAkhir ?? this.saldoRdnAkhir,
+      biaya: biaya ?? this.biaya,
+      dividen: dividen ?? this.dividen,
+      nilaiPortofolio: nilaiPortofolio ?? this.nilaiPortofolio,
+      modalInvestasi: modalInvestasi ?? this.modalInvestasi,
+      verifikasi: verifikasi ?? this.verifikasi,
+      catatan: catatan ?? this.catatan,
+      diperbaruiPada: diperbaruiPada ?? this.diperbaruiPada,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (platform.present) {
+      map['platform'] = Variable<String>(
+        $InvestmentActualsTable.$converterplatform.toSql(platform.value),
+      );
+    }
+    if (tahun.present) {
+      map['tahun'] = Variable<int>(tahun.value);
+    }
+    if (bulan.present) {
+      map['bulan'] = Variable<int>(bulan.value);
+    }
+    if (depositEksternal.present) {
+      map['deposit_eksternal'] = Variable<int>(depositEksternal.value);
+    }
+    if (penarikan.present) {
+      map['penarikan'] = Variable<int>(penarikan.value);
+    }
+    if (pembelianBersih.present) {
+      map['pembelian_bersih'] = Variable<int>(pembelianBersih.value);
+    }
+    if (penjualanBersih.present) {
+      map['penjualan_bersih'] = Variable<int>(penjualanBersih.value);
+    }
+    if (saldoRdnAwal.present) {
+      map['saldo_rdn_awal'] = Variable<int>(saldoRdnAwal.value);
+    }
+    if (saldoRdnAkhir.present) {
+      map['saldo_rdn_akhir'] = Variable<int>(saldoRdnAkhir.value);
+    }
+    if (biaya.present) {
+      map['biaya'] = Variable<int>(biaya.value);
+    }
+    if (dividen.present) {
+      map['dividen'] = Variable<int>(dividen.value);
+    }
+    if (nilaiPortofolio.present) {
+      map['nilai_portofolio'] = Variable<int>(nilaiPortofolio.value);
+    }
+    if (modalInvestasi.present) {
+      map['modal_investasi'] = Variable<int>(modalInvestasi.value);
+    }
+    if (verifikasi.present) {
+      map['verifikasi'] = Variable<String>(
+        $InvestmentActualsTable.$converterverifikasi.toSql(verifikasi.value),
+      );
+    }
+    if (catatan.present) {
+      map['catatan'] = Variable<String>(catatan.value);
+    }
+    if (diperbaruiPada.present) {
+      map['diperbarui_pada'] = Variable<DateTime>(diperbaruiPada.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('InvestmentActualsCompanion(')
+          ..write('id: $id, ')
+          ..write('platform: $platform, ')
+          ..write('tahun: $tahun, ')
+          ..write('bulan: $bulan, ')
+          ..write('depositEksternal: $depositEksternal, ')
+          ..write('penarikan: $penarikan, ')
+          ..write('pembelianBersih: $pembelianBersih, ')
+          ..write('penjualanBersih: $penjualanBersih, ')
+          ..write('saldoRdnAwal: $saldoRdnAwal, ')
+          ..write('saldoRdnAkhir: $saldoRdnAkhir, ')
+          ..write('biaya: $biaya, ')
+          ..write('dividen: $dividen, ')
+          ..write('nilaiPortofolio: $nilaiPortofolio, ')
+          ..write('modalInvestasi: $modalInvestasi, ')
+          ..write('verifikasi: $verifikasi, ')
+          ..write('catatan: $catatan, ')
+          ..write('diperbaruiPada: $diperbaruiPada')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ImportedReportsTable extends ImportedReports
+    with TableInfo<$ImportedReportsTable, ImportedReport> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ImportedReportsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<InvestmentPlatform, String>
+  platform = GeneratedColumn<String>(
+    'platform',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  ).withConverter<InvestmentPlatform>($ImportedReportsTable.$converterplatform);
+  static const VerificationMeta _jenisMeta = const VerificationMeta('jenis');
+  @override
+  late final GeneratedColumn<String> jenis = GeneratedColumn<String>(
+    'jenis',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _tahunMeta = const VerificationMeta('tahun');
+  @override
+  late final GeneratedColumn<int> tahun = GeneratedColumn<int>(
+    'tahun',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _bulanMeta = const VerificationMeta('bulan');
+  @override
+  late final GeneratedColumn<int> bulan = GeneratedColumn<int>(
+    'bulan',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _fileHashMeta = const VerificationMeta(
+    'fileHash',
+  );
+  @override
+  late final GeneratedColumn<String> fileHash = GeneratedColumn<String>(
+    'file_hash',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  static const VerificationMeta _namaFileMeta = const VerificationMeta(
+    'namaFile',
+  );
+  @override
+  late final GeneratedColumn<String> namaFile = GeneratedColumn<String>(
+    'nama_file',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _diimporPadaMeta = const VerificationMeta(
+    'diimporPada',
+  );
+  @override
+  late final GeneratedColumn<DateTime> diimporPada = GeneratedColumn<DateTime>(
+    'diimpor_pada',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    platform,
+    jenis,
+    tahun,
+    bulan,
+    fileHash,
+    namaFile,
+    diimporPada,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'imported_reports';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ImportedReport> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('jenis')) {
+      context.handle(
+        _jenisMeta,
+        jenis.isAcceptableOrUnknown(data['jenis']!, _jenisMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_jenisMeta);
+    }
+    if (data.containsKey('tahun')) {
+      context.handle(
+        _tahunMeta,
+        tahun.isAcceptableOrUnknown(data['tahun']!, _tahunMeta),
+      );
+    }
+    if (data.containsKey('bulan')) {
+      context.handle(
+        _bulanMeta,
+        bulan.isAcceptableOrUnknown(data['bulan']!, _bulanMeta),
+      );
+    }
+    if (data.containsKey('file_hash')) {
+      context.handle(
+        _fileHashMeta,
+        fileHash.isAcceptableOrUnknown(data['file_hash']!, _fileHashMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_fileHashMeta);
+    }
+    if (data.containsKey('nama_file')) {
+      context.handle(
+        _namaFileMeta,
+        namaFile.isAcceptableOrUnknown(data['nama_file']!, _namaFileMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_namaFileMeta);
+    }
+    if (data.containsKey('diimpor_pada')) {
+      context.handle(
+        _diimporPadaMeta,
+        diimporPada.isAcceptableOrUnknown(
+          data['diimpor_pada']!,
+          _diimporPadaMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_diimporPadaMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ImportedReport map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ImportedReport(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      platform: $ImportedReportsTable.$converterplatform.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}platform'],
+        )!,
+      ),
+      jenis: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}jenis'],
+      )!,
+      tahun: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}tahun'],
+      ),
+      bulan: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}bulan'],
+      ),
+      fileHash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}file_hash'],
+      )!,
+      namaFile: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}nama_file'],
+      )!,
+      diimporPada: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}diimpor_pada'],
+      )!,
+    );
+  }
+
+  @override
+  $ImportedReportsTable createAlias(String alias) {
+    return $ImportedReportsTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<InvestmentPlatform, String, String>
+  $converterplatform = const EnumNameConverter<InvestmentPlatform>(
+    InvestmentPlatform.values,
+  );
+}
+
+class ImportedReport extends DataClass implements Insertable<ImportedReport> {
+  final int id;
+  final InvestmentPlatform platform;
+  final String jenis;
+  final int? tahun;
+  final int? bulan;
+  final String fileHash;
+  final String namaFile;
+  final DateTime diimporPada;
+  const ImportedReport({
+    required this.id,
+    required this.platform,
+    required this.jenis,
+    this.tahun,
+    this.bulan,
+    required this.fileHash,
+    required this.namaFile,
+    required this.diimporPada,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    {
+      map['platform'] = Variable<String>(
+        $ImportedReportsTable.$converterplatform.toSql(platform),
+      );
+    }
+    map['jenis'] = Variable<String>(jenis);
+    if (!nullToAbsent || tahun != null) {
+      map['tahun'] = Variable<int>(tahun);
+    }
+    if (!nullToAbsent || bulan != null) {
+      map['bulan'] = Variable<int>(bulan);
+    }
+    map['file_hash'] = Variable<String>(fileHash);
+    map['nama_file'] = Variable<String>(namaFile);
+    map['diimpor_pada'] = Variable<DateTime>(diimporPada);
+    return map;
+  }
+
+  ImportedReportsCompanion toCompanion(bool nullToAbsent) {
+    return ImportedReportsCompanion(
+      id: Value(id),
+      platform: Value(platform),
+      jenis: Value(jenis),
+      tahun: tahun == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tahun),
+      bulan: bulan == null && nullToAbsent
+          ? const Value.absent()
+          : Value(bulan),
+      fileHash: Value(fileHash),
+      namaFile: Value(namaFile),
+      diimporPada: Value(diimporPada),
+    );
+  }
+
+  factory ImportedReport.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ImportedReport(
+      id: serializer.fromJson<int>(json['id']),
+      platform: $ImportedReportsTable.$converterplatform.fromJson(
+        serializer.fromJson<String>(json['platform']),
+      ),
+      jenis: serializer.fromJson<String>(json['jenis']),
+      tahun: serializer.fromJson<int?>(json['tahun']),
+      bulan: serializer.fromJson<int?>(json['bulan']),
+      fileHash: serializer.fromJson<String>(json['fileHash']),
+      namaFile: serializer.fromJson<String>(json['namaFile']),
+      diimporPada: serializer.fromJson<DateTime>(json['diimporPada']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'platform': serializer.toJson<String>(
+        $ImportedReportsTable.$converterplatform.toJson(platform),
+      ),
+      'jenis': serializer.toJson<String>(jenis),
+      'tahun': serializer.toJson<int?>(tahun),
+      'bulan': serializer.toJson<int?>(bulan),
+      'fileHash': serializer.toJson<String>(fileHash),
+      'namaFile': serializer.toJson<String>(namaFile),
+      'diimporPada': serializer.toJson<DateTime>(diimporPada),
+    };
+  }
+
+  ImportedReport copyWith({
+    int? id,
+    InvestmentPlatform? platform,
+    String? jenis,
+    Value<int?> tahun = const Value.absent(),
+    Value<int?> bulan = const Value.absent(),
+    String? fileHash,
+    String? namaFile,
+    DateTime? diimporPada,
+  }) => ImportedReport(
+    id: id ?? this.id,
+    platform: platform ?? this.platform,
+    jenis: jenis ?? this.jenis,
+    tahun: tahun.present ? tahun.value : this.tahun,
+    bulan: bulan.present ? bulan.value : this.bulan,
+    fileHash: fileHash ?? this.fileHash,
+    namaFile: namaFile ?? this.namaFile,
+    diimporPada: diimporPada ?? this.diimporPada,
+  );
+  ImportedReport copyWithCompanion(ImportedReportsCompanion data) {
+    return ImportedReport(
+      id: data.id.present ? data.id.value : this.id,
+      platform: data.platform.present ? data.platform.value : this.platform,
+      jenis: data.jenis.present ? data.jenis.value : this.jenis,
+      tahun: data.tahun.present ? data.tahun.value : this.tahun,
+      bulan: data.bulan.present ? data.bulan.value : this.bulan,
+      fileHash: data.fileHash.present ? data.fileHash.value : this.fileHash,
+      namaFile: data.namaFile.present ? data.namaFile.value : this.namaFile,
+      diimporPada: data.diimporPada.present
+          ? data.diimporPada.value
+          : this.diimporPada,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ImportedReport(')
+          ..write('id: $id, ')
+          ..write('platform: $platform, ')
+          ..write('jenis: $jenis, ')
+          ..write('tahun: $tahun, ')
+          ..write('bulan: $bulan, ')
+          ..write('fileHash: $fileHash, ')
+          ..write('namaFile: $namaFile, ')
+          ..write('diimporPada: $diimporPada')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    platform,
+    jenis,
+    tahun,
+    bulan,
+    fileHash,
+    namaFile,
+    diimporPada,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ImportedReport &&
+          other.id == this.id &&
+          other.platform == this.platform &&
+          other.jenis == this.jenis &&
+          other.tahun == this.tahun &&
+          other.bulan == this.bulan &&
+          other.fileHash == this.fileHash &&
+          other.namaFile == this.namaFile &&
+          other.diimporPada == this.diimporPada);
+}
+
+class ImportedReportsCompanion extends UpdateCompanion<ImportedReport> {
+  final Value<int> id;
+  final Value<InvestmentPlatform> platform;
+  final Value<String> jenis;
+  final Value<int?> tahun;
+  final Value<int?> bulan;
+  final Value<String> fileHash;
+  final Value<String> namaFile;
+  final Value<DateTime> diimporPada;
+  const ImportedReportsCompanion({
+    this.id = const Value.absent(),
+    this.platform = const Value.absent(),
+    this.jenis = const Value.absent(),
+    this.tahun = const Value.absent(),
+    this.bulan = const Value.absent(),
+    this.fileHash = const Value.absent(),
+    this.namaFile = const Value.absent(),
+    this.diimporPada = const Value.absent(),
+  });
+  ImportedReportsCompanion.insert({
+    this.id = const Value.absent(),
+    required InvestmentPlatform platform,
+    required String jenis,
+    this.tahun = const Value.absent(),
+    this.bulan = const Value.absent(),
+    required String fileHash,
+    required String namaFile,
+    required DateTime diimporPada,
+  }) : platform = Value(platform),
+       jenis = Value(jenis),
+       fileHash = Value(fileHash),
+       namaFile = Value(namaFile),
+       diimporPada = Value(diimporPada);
+  static Insertable<ImportedReport> custom({
+    Expression<int>? id,
+    Expression<String>? platform,
+    Expression<String>? jenis,
+    Expression<int>? tahun,
+    Expression<int>? bulan,
+    Expression<String>? fileHash,
+    Expression<String>? namaFile,
+    Expression<DateTime>? diimporPada,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (platform != null) 'platform': platform,
+      if (jenis != null) 'jenis': jenis,
+      if (tahun != null) 'tahun': tahun,
+      if (bulan != null) 'bulan': bulan,
+      if (fileHash != null) 'file_hash': fileHash,
+      if (namaFile != null) 'nama_file': namaFile,
+      if (diimporPada != null) 'diimpor_pada': diimporPada,
+    });
+  }
+
+  ImportedReportsCompanion copyWith({
+    Value<int>? id,
+    Value<InvestmentPlatform>? platform,
+    Value<String>? jenis,
+    Value<int?>? tahun,
+    Value<int?>? bulan,
+    Value<String>? fileHash,
+    Value<String>? namaFile,
+    Value<DateTime>? diimporPada,
+  }) {
+    return ImportedReportsCompanion(
+      id: id ?? this.id,
+      platform: platform ?? this.platform,
+      jenis: jenis ?? this.jenis,
+      tahun: tahun ?? this.tahun,
+      bulan: bulan ?? this.bulan,
+      fileHash: fileHash ?? this.fileHash,
+      namaFile: namaFile ?? this.namaFile,
+      diimporPada: diimporPada ?? this.diimporPada,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (platform.present) {
+      map['platform'] = Variable<String>(
+        $ImportedReportsTable.$converterplatform.toSql(platform.value),
+      );
+    }
+    if (jenis.present) {
+      map['jenis'] = Variable<String>(jenis.value);
+    }
+    if (tahun.present) {
+      map['tahun'] = Variable<int>(tahun.value);
+    }
+    if (bulan.present) {
+      map['bulan'] = Variable<int>(bulan.value);
+    }
+    if (fileHash.present) {
+      map['file_hash'] = Variable<String>(fileHash.value);
+    }
+    if (namaFile.present) {
+      map['nama_file'] = Variable<String>(namaFile.value);
+    }
+    if (diimporPada.present) {
+      map['diimpor_pada'] = Variable<DateTime>(diimporPada.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ImportedReportsCompanion(')
+          ..write('id: $id, ')
+          ..write('platform: $platform, ')
+          ..write('jenis: $jenis, ')
+          ..write('tahun: $tahun, ')
+          ..write('bulan: $bulan, ')
+          ..write('fileHash: $fileHash, ')
+          ..write('namaFile: $namaFile, ')
+          ..write('diimporPada: $diimporPada')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -8927,6 +14679,24 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $ChecklistItemsTable checklistItems = $ChecklistItemsTable(this);
   late final $RemindersTable reminders = $RemindersTable(this);
   late final $AppSettingsTable appSettings = $AppSettingsTable(this);
+  late final $AiProviderConfigurationsTable aiProviderConfigurations =
+      $AiProviderConfigurationsTable(this);
+  late final $AiModelsTable aiModels = $AiModelsTable(this);
+  late final $ModelListCachesTable modelListCaches = $ModelListCachesTable(
+    this,
+  );
+  late final $ChatConversationsTable chatConversations =
+      $ChatConversationsTable(this);
+  late final $ChatMessagesTable chatMessages = $ChatMessagesTable(this);
+  late final $DanaPlusConfigurationsTable danaPlusConfigurations =
+      $DanaPlusConfigurationsTable(this);
+  late final $DanaBalanceLedgersTable danaBalanceLedgers =
+      $DanaBalanceLedgersTable(this);
+  late final $InvestmentActualsTable investmentActuals =
+      $InvestmentActualsTable(this);
+  late final $ImportedReportsTable importedReports = $ImportedReportsTable(
+    this,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -8947,6 +14717,15 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     checklistItems,
     reminders,
     appSettings,
+    aiProviderConfigurations,
+    aiModels,
+    modelListCaches,
+    chatConversations,
+    chatMessages,
+    danaPlusConfigurations,
+    danaBalanceLedgers,
+    investmentActuals,
+    importedReports,
   ];
 }
 
@@ -15243,6 +21022,3713 @@ typedef $$AppSettingsTableProcessedTableManager =
       AppSetting,
       PrefetchHooks Function()
     >;
+typedef $$AiProviderConfigurationsTableCreateCompanionBuilder =
+    AiProviderConfigurationsCompanion Function({
+      Value<int> id,
+      required String nama,
+      required String baseUrl,
+      Value<String> chatPath,
+      Value<String> modelsPath,
+      Value<int> timeoutDetik,
+      Value<bool> streamingAktif,
+      Value<String?> modelDefault,
+      required AIDataScope izinData,
+      Value<AllowedModelsMode> allowedMode,
+      Value<String?> fallbackModel1,
+      Value<String?> fallbackModel2,
+      required DateTime dibuatPada,
+    });
+typedef $$AiProviderConfigurationsTableUpdateCompanionBuilder =
+    AiProviderConfigurationsCompanion Function({
+      Value<int> id,
+      Value<String> nama,
+      Value<String> baseUrl,
+      Value<String> chatPath,
+      Value<String> modelsPath,
+      Value<int> timeoutDetik,
+      Value<bool> streamingAktif,
+      Value<String?> modelDefault,
+      Value<AIDataScope> izinData,
+      Value<AllowedModelsMode> allowedMode,
+      Value<String?> fallbackModel1,
+      Value<String?> fallbackModel2,
+      Value<DateTime> dibuatPada,
+    });
+
+final class $$AiProviderConfigurationsTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $AiProviderConfigurationsTable,
+          AiProviderConfiguration
+        > {
+  $$AiProviderConfigurationsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static MultiTypedResultKey<$AiModelsTable, List<AiModel>> _aiModelsRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.aiModels,
+    aliasName: 'ai_provider_configurations__id__ai_models__provider_id',
+  );
+
+  $$AiModelsTableProcessedTableManager get aiModelsRefs {
+    final manager = $$AiModelsTableTableManager(
+      $_db,
+      $_db.aiModels,
+    ).filter((f) => f.providerId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_aiModelsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$ModelListCachesTable, List<ModelListCache>>
+  _modelListCachesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.modelListCaches,
+    aliasName: 'ai_provider_configurations__id__model_list_caches__provider_id',
+  );
+
+  $$ModelListCachesTableProcessedTableManager get modelListCachesRefs {
+    final manager = $$ModelListCachesTableTableManager(
+      $_db,
+      $_db.modelListCaches,
+    ).filter((f) => f.providerId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _modelListCachesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$ChatConversationsTable, List<ChatConversation>>
+  _chatConversationsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.chatConversations,
+        aliasName:
+            'ai_provider_configurations__id__chat_conversations__provider_id',
+      );
+
+  $$ChatConversationsTableProcessedTableManager get chatConversationsRefs {
+    final manager = $$ChatConversationsTableTableManager(
+      $_db,
+      $_db.chatConversations,
+    ).filter((f) => f.providerId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _chatConversationsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$AiProviderConfigurationsTableFilterComposer
+    extends Composer<_$AppDatabase, $AiProviderConfigurationsTable> {
+  $$AiProviderConfigurationsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get nama => $composableBuilder(
+    column: $table.nama,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get baseUrl => $composableBuilder(
+    column: $table.baseUrl,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get chatPath => $composableBuilder(
+    column: $table.chatPath,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get modelsPath => $composableBuilder(
+    column: $table.modelsPath,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get timeoutDetik => $composableBuilder(
+    column: $table.timeoutDetik,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get streamingAktif => $composableBuilder(
+    column: $table.streamingAktif,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get modelDefault => $composableBuilder(
+    column: $table.modelDefault,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<AIDataScope, AIDataScope, String>
+  get izinData => $composableBuilder(
+    column: $table.izinData,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<AllowedModelsMode, AllowedModelsMode, String>
+  get allowedMode => $composableBuilder(
+    column: $table.allowedMode,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnFilters<String> get fallbackModel1 => $composableBuilder(
+    column: $table.fallbackModel1,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get fallbackModel2 => $composableBuilder(
+    column: $table.fallbackModel2,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get dibuatPada => $composableBuilder(
+    column: $table.dibuatPada,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> aiModelsRefs(
+    Expression<bool> Function($$AiModelsTableFilterComposer f) f,
+  ) {
+    final $$AiModelsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.aiModels,
+      getReferencedColumn: (t) => t.providerId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AiModelsTableFilterComposer(
+            $db: $db,
+            $table: $db.aiModels,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> modelListCachesRefs(
+    Expression<bool> Function($$ModelListCachesTableFilterComposer f) f,
+  ) {
+    final $$ModelListCachesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.modelListCaches,
+      getReferencedColumn: (t) => t.providerId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ModelListCachesTableFilterComposer(
+            $db: $db,
+            $table: $db.modelListCaches,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> chatConversationsRefs(
+    Expression<bool> Function($$ChatConversationsTableFilterComposer f) f,
+  ) {
+    final $$ChatConversationsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.chatConversations,
+      getReferencedColumn: (t) => t.providerId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ChatConversationsTableFilterComposer(
+            $db: $db,
+            $table: $db.chatConversations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$AiProviderConfigurationsTableOrderingComposer
+    extends Composer<_$AppDatabase, $AiProviderConfigurationsTable> {
+  $$AiProviderConfigurationsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get nama => $composableBuilder(
+    column: $table.nama,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get baseUrl => $composableBuilder(
+    column: $table.baseUrl,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get chatPath => $composableBuilder(
+    column: $table.chatPath,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get modelsPath => $composableBuilder(
+    column: $table.modelsPath,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get timeoutDetik => $composableBuilder(
+    column: $table.timeoutDetik,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get streamingAktif => $composableBuilder(
+    column: $table.streamingAktif,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get modelDefault => $composableBuilder(
+    column: $table.modelDefault,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get izinData => $composableBuilder(
+    column: $table.izinData,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get allowedMode => $composableBuilder(
+    column: $table.allowedMode,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get fallbackModel1 => $composableBuilder(
+    column: $table.fallbackModel1,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get fallbackModel2 => $composableBuilder(
+    column: $table.fallbackModel2,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get dibuatPada => $composableBuilder(
+    column: $table.dibuatPada,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$AiProviderConfigurationsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $AiProviderConfigurationsTable> {
+  $$AiProviderConfigurationsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get nama =>
+      $composableBuilder(column: $table.nama, builder: (column) => column);
+
+  GeneratedColumn<String> get baseUrl =>
+      $composableBuilder(column: $table.baseUrl, builder: (column) => column);
+
+  GeneratedColumn<String> get chatPath =>
+      $composableBuilder(column: $table.chatPath, builder: (column) => column);
+
+  GeneratedColumn<String> get modelsPath => $composableBuilder(
+    column: $table.modelsPath,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get timeoutDetik => $composableBuilder(
+    column: $table.timeoutDetik,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get streamingAktif => $composableBuilder(
+    column: $table.streamingAktif,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get modelDefault => $composableBuilder(
+    column: $table.modelDefault,
+    builder: (column) => column,
+  );
+
+  GeneratedColumnWithTypeConverter<AIDataScope, String> get izinData =>
+      $composableBuilder(column: $table.izinData, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<AllowedModelsMode, String> get allowedMode =>
+      $composableBuilder(
+        column: $table.allowedMode,
+        builder: (column) => column,
+      );
+
+  GeneratedColumn<String> get fallbackModel1 => $composableBuilder(
+    column: $table.fallbackModel1,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get fallbackModel2 => $composableBuilder(
+    column: $table.fallbackModel2,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get dibuatPada => $composableBuilder(
+    column: $table.dibuatPada,
+    builder: (column) => column,
+  );
+
+  Expression<T> aiModelsRefs<T extends Object>(
+    Expression<T> Function($$AiModelsTableAnnotationComposer a) f,
+  ) {
+    final $$AiModelsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.aiModels,
+      getReferencedColumn: (t) => t.providerId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AiModelsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.aiModels,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> modelListCachesRefs<T extends Object>(
+    Expression<T> Function($$ModelListCachesTableAnnotationComposer a) f,
+  ) {
+    final $$ModelListCachesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.modelListCaches,
+      getReferencedColumn: (t) => t.providerId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ModelListCachesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.modelListCaches,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> chatConversationsRefs<T extends Object>(
+    Expression<T> Function($$ChatConversationsTableAnnotationComposer a) f,
+  ) {
+    final $$ChatConversationsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.chatConversations,
+          getReferencedColumn: (t) => t.providerId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ChatConversationsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.chatConversations,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$AiProviderConfigurationsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $AiProviderConfigurationsTable,
+          AiProviderConfiguration,
+          $$AiProviderConfigurationsTableFilterComposer,
+          $$AiProviderConfigurationsTableOrderingComposer,
+          $$AiProviderConfigurationsTableAnnotationComposer,
+          $$AiProviderConfigurationsTableCreateCompanionBuilder,
+          $$AiProviderConfigurationsTableUpdateCompanionBuilder,
+          (AiProviderConfiguration, $$AiProviderConfigurationsTableReferences),
+          AiProviderConfiguration,
+          PrefetchHooks Function({
+            bool aiModelsRefs,
+            bool modelListCachesRefs,
+            bool chatConversationsRefs,
+          })
+        > {
+  $$AiProviderConfigurationsTableTableManager(
+    _$AppDatabase db,
+    $AiProviderConfigurationsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$AiProviderConfigurationsTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$AiProviderConfigurationsTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$AiProviderConfigurationsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> nama = const Value.absent(),
+                Value<String> baseUrl = const Value.absent(),
+                Value<String> chatPath = const Value.absent(),
+                Value<String> modelsPath = const Value.absent(),
+                Value<int> timeoutDetik = const Value.absent(),
+                Value<bool> streamingAktif = const Value.absent(),
+                Value<String?> modelDefault = const Value.absent(),
+                Value<AIDataScope> izinData = const Value.absent(),
+                Value<AllowedModelsMode> allowedMode = const Value.absent(),
+                Value<String?> fallbackModel1 = const Value.absent(),
+                Value<String?> fallbackModel2 = const Value.absent(),
+                Value<DateTime> dibuatPada = const Value.absent(),
+              }) => AiProviderConfigurationsCompanion(
+                id: id,
+                nama: nama,
+                baseUrl: baseUrl,
+                chatPath: chatPath,
+                modelsPath: modelsPath,
+                timeoutDetik: timeoutDetik,
+                streamingAktif: streamingAktif,
+                modelDefault: modelDefault,
+                izinData: izinData,
+                allowedMode: allowedMode,
+                fallbackModel1: fallbackModel1,
+                fallbackModel2: fallbackModel2,
+                dibuatPada: dibuatPada,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String nama,
+                required String baseUrl,
+                Value<String> chatPath = const Value.absent(),
+                Value<String> modelsPath = const Value.absent(),
+                Value<int> timeoutDetik = const Value.absent(),
+                Value<bool> streamingAktif = const Value.absent(),
+                Value<String?> modelDefault = const Value.absent(),
+                required AIDataScope izinData,
+                Value<AllowedModelsMode> allowedMode = const Value.absent(),
+                Value<String?> fallbackModel1 = const Value.absent(),
+                Value<String?> fallbackModel2 = const Value.absent(),
+                required DateTime dibuatPada,
+              }) => AiProviderConfigurationsCompanion.insert(
+                id: id,
+                nama: nama,
+                baseUrl: baseUrl,
+                chatPath: chatPath,
+                modelsPath: modelsPath,
+                timeoutDetik: timeoutDetik,
+                streamingAktif: streamingAktif,
+                modelDefault: modelDefault,
+                izinData: izinData,
+                allowedMode: allowedMode,
+                fallbackModel1: fallbackModel1,
+                fallbackModel2: fallbackModel2,
+                dibuatPada: dibuatPada,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$AiProviderConfigurationsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({
+                aiModelsRefs = false,
+                modelListCachesRefs = false,
+                chatConversationsRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (aiModelsRefs) db.aiModels,
+                    if (modelListCachesRefs) db.modelListCaches,
+                    if (chatConversationsRefs) db.chatConversations,
+                  ],
+                  addJoins: null,
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (aiModelsRefs)
+                        await $_getPrefetchedData<
+                          AiProviderConfiguration,
+                          $AiProviderConfigurationsTable,
+                          AiModel
+                        >(
+                          currentTable: table,
+                          referencedTable:
+                              $$AiProviderConfigurationsTableReferences
+                                  ._aiModelsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$AiProviderConfigurationsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).aiModelsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.providerId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (modelListCachesRefs)
+                        await $_getPrefetchedData<
+                          AiProviderConfiguration,
+                          $AiProviderConfigurationsTable,
+                          ModelListCache
+                        >(
+                          currentTable: table,
+                          referencedTable:
+                              $$AiProviderConfigurationsTableReferences
+                                  ._modelListCachesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$AiProviderConfigurationsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).modelListCachesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.providerId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (chatConversationsRefs)
+                        await $_getPrefetchedData<
+                          AiProviderConfiguration,
+                          $AiProviderConfigurationsTable,
+                          ChatConversation
+                        >(
+                          currentTable: table,
+                          referencedTable:
+                              $$AiProviderConfigurationsTableReferences
+                                  ._chatConversationsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$AiProviderConfigurationsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).chatConversationsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.providerId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$AiProviderConfigurationsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $AiProviderConfigurationsTable,
+      AiProviderConfiguration,
+      $$AiProviderConfigurationsTableFilterComposer,
+      $$AiProviderConfigurationsTableOrderingComposer,
+      $$AiProviderConfigurationsTableAnnotationComposer,
+      $$AiProviderConfigurationsTableCreateCompanionBuilder,
+      $$AiProviderConfigurationsTableUpdateCompanionBuilder,
+      (AiProviderConfiguration, $$AiProviderConfigurationsTableReferences),
+      AiProviderConfiguration,
+      PrefetchHooks Function({
+        bool aiModelsRefs,
+        bool modelListCachesRefs,
+        bool chatConversationsRefs,
+      })
+    >;
+typedef $$AiModelsTableCreateCompanionBuilder =
+    AiModelsCompanion Function({
+      Value<int> id,
+      required int providerId,
+      required String modelId,
+      Value<String?> displayName,
+      Value<bool> favorit,
+      Value<bool> manual,
+      Value<bool> diblokir,
+      Value<bool> diizinkan,
+      Value<CapabilityStatus> statusChat,
+      Value<CapabilityStatus> statusStreaming,
+      Value<int?> hargaInputPerJuta,
+      Value<int?> hargaOutputPerJuta,
+      Value<DateTime?> terakhirDipakai,
+    });
+typedef $$AiModelsTableUpdateCompanionBuilder =
+    AiModelsCompanion Function({
+      Value<int> id,
+      Value<int> providerId,
+      Value<String> modelId,
+      Value<String?> displayName,
+      Value<bool> favorit,
+      Value<bool> manual,
+      Value<bool> diblokir,
+      Value<bool> diizinkan,
+      Value<CapabilityStatus> statusChat,
+      Value<CapabilityStatus> statusStreaming,
+      Value<int?> hargaInputPerJuta,
+      Value<int?> hargaOutputPerJuta,
+      Value<DateTime?> terakhirDipakai,
+    });
+
+final class $$AiModelsTableReferences
+    extends BaseReferences<_$AppDatabase, $AiModelsTable, AiModel> {
+  $$AiModelsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $AiProviderConfigurationsTable _providerIdTable(_$AppDatabase db) => db
+      .aiProviderConfigurations
+      .createAlias('ai_models__provider_id__ai_provider_configurations__id');
+
+  $$AiProviderConfigurationsTableProcessedTableManager get providerId {
+    final $_column = $_itemColumn<int>('provider_id')!;
+
+    final manager = $$AiProviderConfigurationsTableTableManager(
+      $_db,
+      $_db.aiProviderConfigurations,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_providerIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$AiModelsTableFilterComposer
+    extends Composer<_$AppDatabase, $AiModelsTable> {
+  $$AiModelsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get modelId => $composableBuilder(
+    column: $table.modelId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get displayName => $composableBuilder(
+    column: $table.displayName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get favorit => $composableBuilder(
+    column: $table.favorit,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get manual => $composableBuilder(
+    column: $table.manual,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get diblokir => $composableBuilder(
+    column: $table.diblokir,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get diizinkan => $composableBuilder(
+    column: $table.diizinkan,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<CapabilityStatus, CapabilityStatus, String>
+  get statusChat => $composableBuilder(
+    column: $table.statusChat,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<CapabilityStatus, CapabilityStatus, String>
+  get statusStreaming => $composableBuilder(
+    column: $table.statusStreaming,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnFilters<int> get hargaInputPerJuta => $composableBuilder(
+    column: $table.hargaInputPerJuta,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get hargaOutputPerJuta => $composableBuilder(
+    column: $table.hargaOutputPerJuta,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get terakhirDipakai => $composableBuilder(
+    column: $table.terakhirDipakai,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$AiProviderConfigurationsTableFilterComposer get providerId {
+    final $$AiProviderConfigurationsTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.providerId,
+          referencedTable: $db.aiProviderConfigurations,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$AiProviderConfigurationsTableFilterComposer(
+                $db: $db,
+                $table: $db.aiProviderConfigurations,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+}
+
+class $$AiModelsTableOrderingComposer
+    extends Composer<_$AppDatabase, $AiModelsTable> {
+  $$AiModelsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get modelId => $composableBuilder(
+    column: $table.modelId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get displayName => $composableBuilder(
+    column: $table.displayName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get favorit => $composableBuilder(
+    column: $table.favorit,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get manual => $composableBuilder(
+    column: $table.manual,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get diblokir => $composableBuilder(
+    column: $table.diblokir,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get diizinkan => $composableBuilder(
+    column: $table.diizinkan,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get statusChat => $composableBuilder(
+    column: $table.statusChat,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get statusStreaming => $composableBuilder(
+    column: $table.statusStreaming,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get hargaInputPerJuta => $composableBuilder(
+    column: $table.hargaInputPerJuta,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get hargaOutputPerJuta => $composableBuilder(
+    column: $table.hargaOutputPerJuta,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get terakhirDipakai => $composableBuilder(
+    column: $table.terakhirDipakai,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$AiProviderConfigurationsTableOrderingComposer get providerId {
+    final $$AiProviderConfigurationsTableOrderingComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.providerId,
+          referencedTable: $db.aiProviderConfigurations,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$AiProviderConfigurationsTableOrderingComposer(
+                $db: $db,
+                $table: $db.aiProviderConfigurations,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+}
+
+class $$AiModelsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $AiModelsTable> {
+  $$AiModelsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get modelId =>
+      $composableBuilder(column: $table.modelId, builder: (column) => column);
+
+  GeneratedColumn<String> get displayName => $composableBuilder(
+    column: $table.displayName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get favorit =>
+      $composableBuilder(column: $table.favorit, builder: (column) => column);
+
+  GeneratedColumn<bool> get manual =>
+      $composableBuilder(column: $table.manual, builder: (column) => column);
+
+  GeneratedColumn<bool> get diblokir =>
+      $composableBuilder(column: $table.diblokir, builder: (column) => column);
+
+  GeneratedColumn<bool> get diizinkan =>
+      $composableBuilder(column: $table.diizinkan, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<CapabilityStatus, String> get statusChat =>
+      $composableBuilder(
+        column: $table.statusChat,
+        builder: (column) => column,
+      );
+
+  GeneratedColumnWithTypeConverter<CapabilityStatus, String>
+  get statusStreaming => $composableBuilder(
+    column: $table.statusStreaming,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get hargaInputPerJuta => $composableBuilder(
+    column: $table.hargaInputPerJuta,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get hargaOutputPerJuta => $composableBuilder(
+    column: $table.hargaOutputPerJuta,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get terakhirDipakai => $composableBuilder(
+    column: $table.terakhirDipakai,
+    builder: (column) => column,
+  );
+
+  $$AiProviderConfigurationsTableAnnotationComposer get providerId {
+    final $$AiProviderConfigurationsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.providerId,
+          referencedTable: $db.aiProviderConfigurations,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$AiProviderConfigurationsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.aiProviderConfigurations,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+}
+
+class $$AiModelsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $AiModelsTable,
+          AiModel,
+          $$AiModelsTableFilterComposer,
+          $$AiModelsTableOrderingComposer,
+          $$AiModelsTableAnnotationComposer,
+          $$AiModelsTableCreateCompanionBuilder,
+          $$AiModelsTableUpdateCompanionBuilder,
+          (AiModel, $$AiModelsTableReferences),
+          AiModel,
+          PrefetchHooks Function({bool providerId})
+        > {
+  $$AiModelsTableTableManager(_$AppDatabase db, $AiModelsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$AiModelsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$AiModelsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$AiModelsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> providerId = const Value.absent(),
+                Value<String> modelId = const Value.absent(),
+                Value<String?> displayName = const Value.absent(),
+                Value<bool> favorit = const Value.absent(),
+                Value<bool> manual = const Value.absent(),
+                Value<bool> diblokir = const Value.absent(),
+                Value<bool> diizinkan = const Value.absent(),
+                Value<CapabilityStatus> statusChat = const Value.absent(),
+                Value<CapabilityStatus> statusStreaming = const Value.absent(),
+                Value<int?> hargaInputPerJuta = const Value.absent(),
+                Value<int?> hargaOutputPerJuta = const Value.absent(),
+                Value<DateTime?> terakhirDipakai = const Value.absent(),
+              }) => AiModelsCompanion(
+                id: id,
+                providerId: providerId,
+                modelId: modelId,
+                displayName: displayName,
+                favorit: favorit,
+                manual: manual,
+                diblokir: diblokir,
+                diizinkan: diizinkan,
+                statusChat: statusChat,
+                statusStreaming: statusStreaming,
+                hargaInputPerJuta: hargaInputPerJuta,
+                hargaOutputPerJuta: hargaOutputPerJuta,
+                terakhirDipakai: terakhirDipakai,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int providerId,
+                required String modelId,
+                Value<String?> displayName = const Value.absent(),
+                Value<bool> favorit = const Value.absent(),
+                Value<bool> manual = const Value.absent(),
+                Value<bool> diblokir = const Value.absent(),
+                Value<bool> diizinkan = const Value.absent(),
+                Value<CapabilityStatus> statusChat = const Value.absent(),
+                Value<CapabilityStatus> statusStreaming = const Value.absent(),
+                Value<int?> hargaInputPerJuta = const Value.absent(),
+                Value<int?> hargaOutputPerJuta = const Value.absent(),
+                Value<DateTime?> terakhirDipakai = const Value.absent(),
+              }) => AiModelsCompanion.insert(
+                id: id,
+                providerId: providerId,
+                modelId: modelId,
+                displayName: displayName,
+                favorit: favorit,
+                manual: manual,
+                diblokir: diblokir,
+                diizinkan: diizinkan,
+                statusChat: statusChat,
+                statusStreaming: statusStreaming,
+                hargaInputPerJuta: hargaInputPerJuta,
+                hargaOutputPerJuta: hargaOutputPerJuta,
+                terakhirDipakai: terakhirDipakai,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$AiModelsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({providerId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (providerId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.providerId,
+                                referencedTable: $$AiModelsTableReferences
+                                    ._providerIdTable(db),
+                                referencedColumn: $$AiModelsTableReferences
+                                    ._providerIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$AiModelsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $AiModelsTable,
+      AiModel,
+      $$AiModelsTableFilterComposer,
+      $$AiModelsTableOrderingComposer,
+      $$AiModelsTableAnnotationComposer,
+      $$AiModelsTableCreateCompanionBuilder,
+      $$AiModelsTableUpdateCompanionBuilder,
+      (AiModel, $$AiModelsTableReferences),
+      AiModel,
+      PrefetchHooks Function({bool providerId})
+    >;
+typedef $$ModelListCachesTableCreateCompanionBuilder =
+    ModelListCachesCompanion Function({
+      Value<int> providerId,
+      required String jsonModel,
+      required DateTime diambilPada,
+    });
+typedef $$ModelListCachesTableUpdateCompanionBuilder =
+    ModelListCachesCompanion Function({
+      Value<int> providerId,
+      Value<String> jsonModel,
+      Value<DateTime> diambilPada,
+    });
+
+final class $$ModelListCachesTableReferences
+    extends
+        BaseReferences<_$AppDatabase, $ModelListCachesTable, ModelListCache> {
+  $$ModelListCachesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $AiProviderConfigurationsTable _providerIdTable(_$AppDatabase db) =>
+      db.aiProviderConfigurations.createAlias(
+        'model_list_caches__provider_id__ai_provider_configurations__id',
+      );
+
+  $$AiProviderConfigurationsTableProcessedTableManager get providerId {
+    final $_column = $_itemColumn<int>('provider_id')!;
+
+    final manager = $$AiProviderConfigurationsTableTableManager(
+      $_db,
+      $_db.aiProviderConfigurations,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_providerIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ModelListCachesTableFilterComposer
+    extends Composer<_$AppDatabase, $ModelListCachesTable> {
+  $$ModelListCachesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get jsonModel => $composableBuilder(
+    column: $table.jsonModel,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get diambilPada => $composableBuilder(
+    column: $table.diambilPada,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$AiProviderConfigurationsTableFilterComposer get providerId {
+    final $$AiProviderConfigurationsTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.providerId,
+          referencedTable: $db.aiProviderConfigurations,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$AiProviderConfigurationsTableFilterComposer(
+                $db: $db,
+                $table: $db.aiProviderConfigurations,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+}
+
+class $$ModelListCachesTableOrderingComposer
+    extends Composer<_$AppDatabase, $ModelListCachesTable> {
+  $$ModelListCachesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get jsonModel => $composableBuilder(
+    column: $table.jsonModel,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get diambilPada => $composableBuilder(
+    column: $table.diambilPada,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$AiProviderConfigurationsTableOrderingComposer get providerId {
+    final $$AiProviderConfigurationsTableOrderingComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.providerId,
+          referencedTable: $db.aiProviderConfigurations,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$AiProviderConfigurationsTableOrderingComposer(
+                $db: $db,
+                $table: $db.aiProviderConfigurations,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+}
+
+class $$ModelListCachesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ModelListCachesTable> {
+  $$ModelListCachesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get jsonModel =>
+      $composableBuilder(column: $table.jsonModel, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get diambilPada => $composableBuilder(
+    column: $table.diambilPada,
+    builder: (column) => column,
+  );
+
+  $$AiProviderConfigurationsTableAnnotationComposer get providerId {
+    final $$AiProviderConfigurationsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.providerId,
+          referencedTable: $db.aiProviderConfigurations,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$AiProviderConfigurationsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.aiProviderConfigurations,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+}
+
+class $$ModelListCachesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ModelListCachesTable,
+          ModelListCache,
+          $$ModelListCachesTableFilterComposer,
+          $$ModelListCachesTableOrderingComposer,
+          $$ModelListCachesTableAnnotationComposer,
+          $$ModelListCachesTableCreateCompanionBuilder,
+          $$ModelListCachesTableUpdateCompanionBuilder,
+          (ModelListCache, $$ModelListCachesTableReferences),
+          ModelListCache,
+          PrefetchHooks Function({bool providerId})
+        > {
+  $$ModelListCachesTableTableManager(
+    _$AppDatabase db,
+    $ModelListCachesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ModelListCachesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ModelListCachesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ModelListCachesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> providerId = const Value.absent(),
+                Value<String> jsonModel = const Value.absent(),
+                Value<DateTime> diambilPada = const Value.absent(),
+              }) => ModelListCachesCompanion(
+                providerId: providerId,
+                jsonModel: jsonModel,
+                diambilPada: diambilPada,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> providerId = const Value.absent(),
+                required String jsonModel,
+                required DateTime diambilPada,
+              }) => ModelListCachesCompanion.insert(
+                providerId: providerId,
+                jsonModel: jsonModel,
+                diambilPada: diambilPada,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ModelListCachesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({providerId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (providerId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.providerId,
+                                referencedTable:
+                                    $$ModelListCachesTableReferences
+                                        ._providerIdTable(db),
+                                referencedColumn:
+                                    $$ModelListCachesTableReferences
+                                        ._providerIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ModelListCachesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ModelListCachesTable,
+      ModelListCache,
+      $$ModelListCachesTableFilterComposer,
+      $$ModelListCachesTableOrderingComposer,
+      $$ModelListCachesTableAnnotationComposer,
+      $$ModelListCachesTableCreateCompanionBuilder,
+      $$ModelListCachesTableUpdateCompanionBuilder,
+      (ModelListCache, $$ModelListCachesTableReferences),
+      ModelListCache,
+      PrefetchHooks Function({bool providerId})
+    >;
+typedef $$ChatConversationsTableCreateCompanionBuilder =
+    ChatConversationsCompanion Function({
+      Value<int> id,
+      required String judul,
+      required int providerId,
+      required String modelId,
+      required DateTime dibuatPada,
+      required DateTime diperbaruiPada,
+    });
+typedef $$ChatConversationsTableUpdateCompanionBuilder =
+    ChatConversationsCompanion Function({
+      Value<int> id,
+      Value<String> judul,
+      Value<int> providerId,
+      Value<String> modelId,
+      Value<DateTime> dibuatPada,
+      Value<DateTime> diperbaruiPada,
+    });
+
+final class $$ChatConversationsTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $ChatConversationsTable,
+          ChatConversation
+        > {
+  $$ChatConversationsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $AiProviderConfigurationsTable _providerIdTable(_$AppDatabase db) =>
+      db.aiProviderConfigurations.createAlias(
+        'chat_conversations__provider_id__ai_provider_configurations__id',
+      );
+
+  $$AiProviderConfigurationsTableProcessedTableManager get providerId {
+    final $_column = $_itemColumn<int>('provider_id')!;
+
+    final manager = $$AiProviderConfigurationsTableTableManager(
+      $_db,
+      $_db.aiProviderConfigurations,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_providerIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$ChatMessagesTable, List<ChatMessage>>
+  _chatMessagesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.chatMessages,
+    aliasName: 'chat_conversations__id__chat_messages__conversation_id',
+  );
+
+  $$ChatMessagesTableProcessedTableManager get chatMessagesRefs {
+    final manager = $$ChatMessagesTableTableManager(
+      $_db,
+      $_db.chatMessages,
+    ).filter((f) => f.conversationId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_chatMessagesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$ChatConversationsTableFilterComposer
+    extends Composer<_$AppDatabase, $ChatConversationsTable> {
+  $$ChatConversationsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get judul => $composableBuilder(
+    column: $table.judul,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get modelId => $composableBuilder(
+    column: $table.modelId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get dibuatPada => $composableBuilder(
+    column: $table.dibuatPada,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get diperbaruiPada => $composableBuilder(
+    column: $table.diperbaruiPada,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$AiProviderConfigurationsTableFilterComposer get providerId {
+    final $$AiProviderConfigurationsTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.providerId,
+          referencedTable: $db.aiProviderConfigurations,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$AiProviderConfigurationsTableFilterComposer(
+                $db: $db,
+                $table: $db.aiProviderConfigurations,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+
+  Expression<bool> chatMessagesRefs(
+    Expression<bool> Function($$ChatMessagesTableFilterComposer f) f,
+  ) {
+    final $$ChatMessagesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.chatMessages,
+      getReferencedColumn: (t) => t.conversationId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ChatMessagesTableFilterComposer(
+            $db: $db,
+            $table: $db.chatMessages,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$ChatConversationsTableOrderingComposer
+    extends Composer<_$AppDatabase, $ChatConversationsTable> {
+  $$ChatConversationsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get judul => $composableBuilder(
+    column: $table.judul,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get modelId => $composableBuilder(
+    column: $table.modelId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get dibuatPada => $composableBuilder(
+    column: $table.dibuatPada,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get diperbaruiPada => $composableBuilder(
+    column: $table.diperbaruiPada,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$AiProviderConfigurationsTableOrderingComposer get providerId {
+    final $$AiProviderConfigurationsTableOrderingComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.providerId,
+          referencedTable: $db.aiProviderConfigurations,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$AiProviderConfigurationsTableOrderingComposer(
+                $db: $db,
+                $table: $db.aiProviderConfigurations,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+}
+
+class $$ChatConversationsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ChatConversationsTable> {
+  $$ChatConversationsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get judul =>
+      $composableBuilder(column: $table.judul, builder: (column) => column);
+
+  GeneratedColumn<String> get modelId =>
+      $composableBuilder(column: $table.modelId, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get dibuatPada => $composableBuilder(
+    column: $table.dibuatPada,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get diperbaruiPada => $composableBuilder(
+    column: $table.diperbaruiPada,
+    builder: (column) => column,
+  );
+
+  $$AiProviderConfigurationsTableAnnotationComposer get providerId {
+    final $$AiProviderConfigurationsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.providerId,
+          referencedTable: $db.aiProviderConfigurations,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$AiProviderConfigurationsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.aiProviderConfigurations,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+
+  Expression<T> chatMessagesRefs<T extends Object>(
+    Expression<T> Function($$ChatMessagesTableAnnotationComposer a) f,
+  ) {
+    final $$ChatMessagesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.chatMessages,
+      getReferencedColumn: (t) => t.conversationId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ChatMessagesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.chatMessages,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$ChatConversationsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ChatConversationsTable,
+          ChatConversation,
+          $$ChatConversationsTableFilterComposer,
+          $$ChatConversationsTableOrderingComposer,
+          $$ChatConversationsTableAnnotationComposer,
+          $$ChatConversationsTableCreateCompanionBuilder,
+          $$ChatConversationsTableUpdateCompanionBuilder,
+          (ChatConversation, $$ChatConversationsTableReferences),
+          ChatConversation,
+          PrefetchHooks Function({bool providerId, bool chatMessagesRefs})
+        > {
+  $$ChatConversationsTableTableManager(
+    _$AppDatabase db,
+    $ChatConversationsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ChatConversationsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ChatConversationsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ChatConversationsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> judul = const Value.absent(),
+                Value<int> providerId = const Value.absent(),
+                Value<String> modelId = const Value.absent(),
+                Value<DateTime> dibuatPada = const Value.absent(),
+                Value<DateTime> diperbaruiPada = const Value.absent(),
+              }) => ChatConversationsCompanion(
+                id: id,
+                judul: judul,
+                providerId: providerId,
+                modelId: modelId,
+                dibuatPada: dibuatPada,
+                diperbaruiPada: diperbaruiPada,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String judul,
+                required int providerId,
+                required String modelId,
+                required DateTime dibuatPada,
+                required DateTime diperbaruiPada,
+              }) => ChatConversationsCompanion.insert(
+                id: id,
+                judul: judul,
+                providerId: providerId,
+                modelId: modelId,
+                dibuatPada: dibuatPada,
+                diperbaruiPada: diperbaruiPada,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ChatConversationsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({providerId = false, chatMessagesRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (chatMessagesRefs) db.chatMessages,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (providerId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.providerId,
+                                    referencedTable:
+                                        $$ChatConversationsTableReferences
+                                            ._providerIdTable(db),
+                                    referencedColumn:
+                                        $$ChatConversationsTableReferences
+                                            ._providerIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (chatMessagesRefs)
+                        await $_getPrefetchedData<
+                          ChatConversation,
+                          $ChatConversationsTable,
+                          ChatMessage
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ChatConversationsTableReferences
+                              ._chatMessagesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ChatConversationsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).chatMessagesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.conversationId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$ChatConversationsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ChatConversationsTable,
+      ChatConversation,
+      $$ChatConversationsTableFilterComposer,
+      $$ChatConversationsTableOrderingComposer,
+      $$ChatConversationsTableAnnotationComposer,
+      $$ChatConversationsTableCreateCompanionBuilder,
+      $$ChatConversationsTableUpdateCompanionBuilder,
+      (ChatConversation, $$ChatConversationsTableReferences),
+      ChatConversation,
+      PrefetchHooks Function({bool providerId, bool chatMessagesRefs})
+    >;
+typedef $$ChatMessagesTableCreateCompanionBuilder =
+    ChatMessagesCompanion Function({
+      Value<int> id,
+      required int conversationId,
+      required String role,
+      required String content,
+      required DateTime dibuatPada,
+    });
+typedef $$ChatMessagesTableUpdateCompanionBuilder =
+    ChatMessagesCompanion Function({
+      Value<int> id,
+      Value<int> conversationId,
+      Value<String> role,
+      Value<String> content,
+      Value<DateTime> dibuatPada,
+    });
+
+final class $$ChatMessagesTableReferences
+    extends BaseReferences<_$AppDatabase, $ChatMessagesTable, ChatMessage> {
+  $$ChatMessagesTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $ChatConversationsTable _conversationIdTable(_$AppDatabase db) => db
+      .chatConversations
+      .createAlias('chat_messages__conversation_id__chat_conversations__id');
+
+  $$ChatConversationsTableProcessedTableManager get conversationId {
+    final $_column = $_itemColumn<int>('conversation_id')!;
+
+    final manager = $$ChatConversationsTableTableManager(
+      $_db,
+      $_db.chatConversations,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_conversationIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ChatMessagesTableFilterComposer
+    extends Composer<_$AppDatabase, $ChatMessagesTable> {
+  $$ChatMessagesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get role => $composableBuilder(
+    column: $table.role,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get content => $composableBuilder(
+    column: $table.content,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get dibuatPada => $composableBuilder(
+    column: $table.dibuatPada,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ChatConversationsTableFilterComposer get conversationId {
+    final $$ChatConversationsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.conversationId,
+      referencedTable: $db.chatConversations,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ChatConversationsTableFilterComposer(
+            $db: $db,
+            $table: $db.chatConversations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ChatMessagesTableOrderingComposer
+    extends Composer<_$AppDatabase, $ChatMessagesTable> {
+  $$ChatMessagesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get role => $composableBuilder(
+    column: $table.role,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get content => $composableBuilder(
+    column: $table.content,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get dibuatPada => $composableBuilder(
+    column: $table.dibuatPada,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ChatConversationsTableOrderingComposer get conversationId {
+    final $$ChatConversationsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.conversationId,
+      referencedTable: $db.chatConversations,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ChatConversationsTableOrderingComposer(
+            $db: $db,
+            $table: $db.chatConversations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ChatMessagesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ChatMessagesTable> {
+  $$ChatMessagesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get role =>
+      $composableBuilder(column: $table.role, builder: (column) => column);
+
+  GeneratedColumn<String> get content =>
+      $composableBuilder(column: $table.content, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get dibuatPada => $composableBuilder(
+    column: $table.dibuatPada,
+    builder: (column) => column,
+  );
+
+  $$ChatConversationsTableAnnotationComposer get conversationId {
+    final $$ChatConversationsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.conversationId,
+          referencedTable: $db.chatConversations,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ChatConversationsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.chatConversations,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+}
+
+class $$ChatMessagesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ChatMessagesTable,
+          ChatMessage,
+          $$ChatMessagesTableFilterComposer,
+          $$ChatMessagesTableOrderingComposer,
+          $$ChatMessagesTableAnnotationComposer,
+          $$ChatMessagesTableCreateCompanionBuilder,
+          $$ChatMessagesTableUpdateCompanionBuilder,
+          (ChatMessage, $$ChatMessagesTableReferences),
+          ChatMessage,
+          PrefetchHooks Function({bool conversationId})
+        > {
+  $$ChatMessagesTableTableManager(_$AppDatabase db, $ChatMessagesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ChatMessagesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ChatMessagesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ChatMessagesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> conversationId = const Value.absent(),
+                Value<String> role = const Value.absent(),
+                Value<String> content = const Value.absent(),
+                Value<DateTime> dibuatPada = const Value.absent(),
+              }) => ChatMessagesCompanion(
+                id: id,
+                conversationId: conversationId,
+                role: role,
+                content: content,
+                dibuatPada: dibuatPada,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int conversationId,
+                required String role,
+                required String content,
+                required DateTime dibuatPada,
+              }) => ChatMessagesCompanion.insert(
+                id: id,
+                conversationId: conversationId,
+                role: role,
+                content: content,
+                dibuatPada: dibuatPada,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ChatMessagesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({conversationId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (conversationId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.conversationId,
+                                referencedTable: $$ChatMessagesTableReferences
+                                    ._conversationIdTable(db),
+                                referencedColumn: $$ChatMessagesTableReferences
+                                    ._conversationIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ChatMessagesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ChatMessagesTable,
+      ChatMessage,
+      $$ChatMessagesTableFilterComposer,
+      $$ChatMessagesTableOrderingComposer,
+      $$ChatMessagesTableAnnotationComposer,
+      $$ChatMessagesTableCreateCompanionBuilder,
+      $$ChatMessagesTableUpdateCompanionBuilder,
+      (ChatMessage, $$ChatMessagesTableReferences),
+      ChatMessage,
+      PrefetchHooks Function({bool conversationId})
+    >;
+typedef $$DanaPlusConfigurationsTableCreateCompanionBuilder =
+    DanaPlusConfigurationsCompanion Function({
+      Value<int> id,
+      required DanaPlusAvailability availability,
+      required DanaSplitMode defaultSplitMode,
+      required DanaExecutionStrategy executionStrategy,
+      Value<int> persenBiasaBp,
+      Value<int> bufferBiasa,
+      Value<int> targetPlus,
+      Value<int?> batasPlus,
+      Value<int?> tingkatRewardBp,
+      Value<RewardRatePeriod> periodeReward,
+      required DateTime diperbaruiPada,
+    });
+typedef $$DanaPlusConfigurationsTableUpdateCompanionBuilder =
+    DanaPlusConfigurationsCompanion Function({
+      Value<int> id,
+      Value<DanaPlusAvailability> availability,
+      Value<DanaSplitMode> defaultSplitMode,
+      Value<DanaExecutionStrategy> executionStrategy,
+      Value<int> persenBiasaBp,
+      Value<int> bufferBiasa,
+      Value<int> targetPlus,
+      Value<int?> batasPlus,
+      Value<int?> tingkatRewardBp,
+      Value<RewardRatePeriod> periodeReward,
+      Value<DateTime> diperbaruiPada,
+    });
+
+class $$DanaPlusConfigurationsTableFilterComposer
+    extends Composer<_$AppDatabase, $DanaPlusConfigurationsTable> {
+  $$DanaPlusConfigurationsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<
+    DanaPlusAvailability,
+    DanaPlusAvailability,
+    String
+  >
+  get availability => $composableBuilder(
+    column: $table.availability,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<DanaSplitMode, DanaSplitMode, String>
+  get defaultSplitMode => $composableBuilder(
+    column: $table.defaultSplitMode,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<
+    DanaExecutionStrategy,
+    DanaExecutionStrategy,
+    String
+  >
+  get executionStrategy => $composableBuilder(
+    column: $table.executionStrategy,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnFilters<int> get persenBiasaBp => $composableBuilder(
+    column: $table.persenBiasaBp,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get bufferBiasa => $composableBuilder(
+    column: $table.bufferBiasa,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get targetPlus => $composableBuilder(
+    column: $table.targetPlus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get batasPlus => $composableBuilder(
+    column: $table.batasPlus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get tingkatRewardBp => $composableBuilder(
+    column: $table.tingkatRewardBp,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<RewardRatePeriod, RewardRatePeriod, String>
+  get periodeReward => $composableBuilder(
+    column: $table.periodeReward,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnFilters<DateTime> get diperbaruiPada => $composableBuilder(
+    column: $table.diperbaruiPada,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$DanaPlusConfigurationsTableOrderingComposer
+    extends Composer<_$AppDatabase, $DanaPlusConfigurationsTable> {
+  $$DanaPlusConfigurationsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get availability => $composableBuilder(
+    column: $table.availability,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get defaultSplitMode => $composableBuilder(
+    column: $table.defaultSplitMode,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get executionStrategy => $composableBuilder(
+    column: $table.executionStrategy,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get persenBiasaBp => $composableBuilder(
+    column: $table.persenBiasaBp,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get bufferBiasa => $composableBuilder(
+    column: $table.bufferBiasa,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get targetPlus => $composableBuilder(
+    column: $table.targetPlus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get batasPlus => $composableBuilder(
+    column: $table.batasPlus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get tingkatRewardBp => $composableBuilder(
+    column: $table.tingkatRewardBp,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get periodeReward => $composableBuilder(
+    column: $table.periodeReward,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get diperbaruiPada => $composableBuilder(
+    column: $table.diperbaruiPada,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$DanaPlusConfigurationsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $DanaPlusConfigurationsTable> {
+  $$DanaPlusConfigurationsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<DanaPlusAvailability, String>
+  get availability => $composableBuilder(
+    column: $table.availability,
+    builder: (column) => column,
+  );
+
+  GeneratedColumnWithTypeConverter<DanaSplitMode, String>
+  get defaultSplitMode => $composableBuilder(
+    column: $table.defaultSplitMode,
+    builder: (column) => column,
+  );
+
+  GeneratedColumnWithTypeConverter<DanaExecutionStrategy, String>
+  get executionStrategy => $composableBuilder(
+    column: $table.executionStrategy,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get persenBiasaBp => $composableBuilder(
+    column: $table.persenBiasaBp,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get bufferBiasa => $composableBuilder(
+    column: $table.bufferBiasa,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get targetPlus => $composableBuilder(
+    column: $table.targetPlus,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get batasPlus =>
+      $composableBuilder(column: $table.batasPlus, builder: (column) => column);
+
+  GeneratedColumn<int> get tingkatRewardBp => $composableBuilder(
+    column: $table.tingkatRewardBp,
+    builder: (column) => column,
+  );
+
+  GeneratedColumnWithTypeConverter<RewardRatePeriod, String>
+  get periodeReward => $composableBuilder(
+    column: $table.periodeReward,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get diperbaruiPada => $composableBuilder(
+    column: $table.diperbaruiPada,
+    builder: (column) => column,
+  );
+}
+
+class $$DanaPlusConfigurationsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DanaPlusConfigurationsTable,
+          DanaPlusConfiguration,
+          $$DanaPlusConfigurationsTableFilterComposer,
+          $$DanaPlusConfigurationsTableOrderingComposer,
+          $$DanaPlusConfigurationsTableAnnotationComposer,
+          $$DanaPlusConfigurationsTableCreateCompanionBuilder,
+          $$DanaPlusConfigurationsTableUpdateCompanionBuilder,
+          (
+            DanaPlusConfiguration,
+            BaseReferences<
+              _$AppDatabase,
+              $DanaPlusConfigurationsTable,
+              DanaPlusConfiguration
+            >,
+          ),
+          DanaPlusConfiguration,
+          PrefetchHooks Function()
+        > {
+  $$DanaPlusConfigurationsTableTableManager(
+    _$AppDatabase db,
+    $DanaPlusConfigurationsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$DanaPlusConfigurationsTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$DanaPlusConfigurationsTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$DanaPlusConfigurationsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<DanaPlusAvailability> availability = const Value.absent(),
+                Value<DanaSplitMode> defaultSplitMode = const Value.absent(),
+                Value<DanaExecutionStrategy> executionStrategy =
+                    const Value.absent(),
+                Value<int> persenBiasaBp = const Value.absent(),
+                Value<int> bufferBiasa = const Value.absent(),
+                Value<int> targetPlus = const Value.absent(),
+                Value<int?> batasPlus = const Value.absent(),
+                Value<int?> tingkatRewardBp = const Value.absent(),
+                Value<RewardRatePeriod> periodeReward = const Value.absent(),
+                Value<DateTime> diperbaruiPada = const Value.absent(),
+              }) => DanaPlusConfigurationsCompanion(
+                id: id,
+                availability: availability,
+                defaultSplitMode: defaultSplitMode,
+                executionStrategy: executionStrategy,
+                persenBiasaBp: persenBiasaBp,
+                bufferBiasa: bufferBiasa,
+                targetPlus: targetPlus,
+                batasPlus: batasPlus,
+                tingkatRewardBp: tingkatRewardBp,
+                periodeReward: periodeReward,
+                diperbaruiPada: diperbaruiPada,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required DanaPlusAvailability availability,
+                required DanaSplitMode defaultSplitMode,
+                required DanaExecutionStrategy executionStrategy,
+                Value<int> persenBiasaBp = const Value.absent(),
+                Value<int> bufferBiasa = const Value.absent(),
+                Value<int> targetPlus = const Value.absent(),
+                Value<int?> batasPlus = const Value.absent(),
+                Value<int?> tingkatRewardBp = const Value.absent(),
+                Value<RewardRatePeriod> periodeReward = const Value.absent(),
+                required DateTime diperbaruiPada,
+              }) => DanaPlusConfigurationsCompanion.insert(
+                id: id,
+                availability: availability,
+                defaultSplitMode: defaultSplitMode,
+                executionStrategy: executionStrategy,
+                persenBiasaBp: persenBiasaBp,
+                bufferBiasa: bufferBiasa,
+                targetPlus: targetPlus,
+                batasPlus: batasPlus,
+                tingkatRewardBp: tingkatRewardBp,
+                periodeReward: periodeReward,
+                diperbaruiPada: diperbaruiPada,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$DanaPlusConfigurationsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DanaPlusConfigurationsTable,
+      DanaPlusConfiguration,
+      $$DanaPlusConfigurationsTableFilterComposer,
+      $$DanaPlusConfigurationsTableOrderingComposer,
+      $$DanaPlusConfigurationsTableAnnotationComposer,
+      $$DanaPlusConfigurationsTableCreateCompanionBuilder,
+      $$DanaPlusConfigurationsTableUpdateCompanionBuilder,
+      (
+        DanaPlusConfiguration,
+        BaseReferences<
+          _$AppDatabase,
+          $DanaPlusConfigurationsTable,
+          DanaPlusConfiguration
+        >,
+      ),
+      DanaPlusConfiguration,
+      PrefetchHooks Function()
+    >;
+typedef $$DanaBalanceLedgersTableCreateCompanionBuilder =
+    DanaBalanceLedgersCompanion Function({
+      Value<int> id,
+      required int tahun,
+      required int bulan,
+      required int saldoAwalBiasa,
+      required int saldoAwalPlus,
+      required int topUpKeBiasa,
+      required int pindahKePlus,
+      required int pindahDariPlus,
+      required int pengeluaranBiasa,
+      required int pengeluaranPlus,
+      required int rewardAktual,
+      required int saldoAkhirBiasa,
+      required int saldoAkhirPlus,
+      required DateTime dibuatPada,
+    });
+typedef $$DanaBalanceLedgersTableUpdateCompanionBuilder =
+    DanaBalanceLedgersCompanion Function({
+      Value<int> id,
+      Value<int> tahun,
+      Value<int> bulan,
+      Value<int> saldoAwalBiasa,
+      Value<int> saldoAwalPlus,
+      Value<int> topUpKeBiasa,
+      Value<int> pindahKePlus,
+      Value<int> pindahDariPlus,
+      Value<int> pengeluaranBiasa,
+      Value<int> pengeluaranPlus,
+      Value<int> rewardAktual,
+      Value<int> saldoAkhirBiasa,
+      Value<int> saldoAkhirPlus,
+      Value<DateTime> dibuatPada,
+    });
+
+class $$DanaBalanceLedgersTableFilterComposer
+    extends Composer<_$AppDatabase, $DanaBalanceLedgersTable> {
+  $$DanaBalanceLedgersTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get tahun => $composableBuilder(
+    column: $table.tahun,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get bulan => $composableBuilder(
+    column: $table.bulan,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get saldoAwalBiasa => $composableBuilder(
+    column: $table.saldoAwalBiasa,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get saldoAwalPlus => $composableBuilder(
+    column: $table.saldoAwalPlus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get topUpKeBiasa => $composableBuilder(
+    column: $table.topUpKeBiasa,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get pindahKePlus => $composableBuilder(
+    column: $table.pindahKePlus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get pindahDariPlus => $composableBuilder(
+    column: $table.pindahDariPlus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get pengeluaranBiasa => $composableBuilder(
+    column: $table.pengeluaranBiasa,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get pengeluaranPlus => $composableBuilder(
+    column: $table.pengeluaranPlus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get rewardAktual => $composableBuilder(
+    column: $table.rewardAktual,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get saldoAkhirBiasa => $composableBuilder(
+    column: $table.saldoAkhirBiasa,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get saldoAkhirPlus => $composableBuilder(
+    column: $table.saldoAkhirPlus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get dibuatPada => $composableBuilder(
+    column: $table.dibuatPada,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$DanaBalanceLedgersTableOrderingComposer
+    extends Composer<_$AppDatabase, $DanaBalanceLedgersTable> {
+  $$DanaBalanceLedgersTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get tahun => $composableBuilder(
+    column: $table.tahun,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get bulan => $composableBuilder(
+    column: $table.bulan,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get saldoAwalBiasa => $composableBuilder(
+    column: $table.saldoAwalBiasa,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get saldoAwalPlus => $composableBuilder(
+    column: $table.saldoAwalPlus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get topUpKeBiasa => $composableBuilder(
+    column: $table.topUpKeBiasa,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get pindahKePlus => $composableBuilder(
+    column: $table.pindahKePlus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get pindahDariPlus => $composableBuilder(
+    column: $table.pindahDariPlus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get pengeluaranBiasa => $composableBuilder(
+    column: $table.pengeluaranBiasa,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get pengeluaranPlus => $composableBuilder(
+    column: $table.pengeluaranPlus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get rewardAktual => $composableBuilder(
+    column: $table.rewardAktual,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get saldoAkhirBiasa => $composableBuilder(
+    column: $table.saldoAkhirBiasa,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get saldoAkhirPlus => $composableBuilder(
+    column: $table.saldoAkhirPlus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get dibuatPada => $composableBuilder(
+    column: $table.dibuatPada,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$DanaBalanceLedgersTableAnnotationComposer
+    extends Composer<_$AppDatabase, $DanaBalanceLedgersTable> {
+  $$DanaBalanceLedgersTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get tahun =>
+      $composableBuilder(column: $table.tahun, builder: (column) => column);
+
+  GeneratedColumn<int> get bulan =>
+      $composableBuilder(column: $table.bulan, builder: (column) => column);
+
+  GeneratedColumn<int> get saldoAwalBiasa => $composableBuilder(
+    column: $table.saldoAwalBiasa,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get saldoAwalPlus => $composableBuilder(
+    column: $table.saldoAwalPlus,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get topUpKeBiasa => $composableBuilder(
+    column: $table.topUpKeBiasa,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get pindahKePlus => $composableBuilder(
+    column: $table.pindahKePlus,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get pindahDariPlus => $composableBuilder(
+    column: $table.pindahDariPlus,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get pengeluaranBiasa => $composableBuilder(
+    column: $table.pengeluaranBiasa,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get pengeluaranPlus => $composableBuilder(
+    column: $table.pengeluaranPlus,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get rewardAktual => $composableBuilder(
+    column: $table.rewardAktual,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get saldoAkhirBiasa => $composableBuilder(
+    column: $table.saldoAkhirBiasa,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get saldoAkhirPlus => $composableBuilder(
+    column: $table.saldoAkhirPlus,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get dibuatPada => $composableBuilder(
+    column: $table.dibuatPada,
+    builder: (column) => column,
+  );
+}
+
+class $$DanaBalanceLedgersTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DanaBalanceLedgersTable,
+          DanaBalanceLedger,
+          $$DanaBalanceLedgersTableFilterComposer,
+          $$DanaBalanceLedgersTableOrderingComposer,
+          $$DanaBalanceLedgersTableAnnotationComposer,
+          $$DanaBalanceLedgersTableCreateCompanionBuilder,
+          $$DanaBalanceLedgersTableUpdateCompanionBuilder,
+          (
+            DanaBalanceLedger,
+            BaseReferences<
+              _$AppDatabase,
+              $DanaBalanceLedgersTable,
+              DanaBalanceLedger
+            >,
+          ),
+          DanaBalanceLedger,
+          PrefetchHooks Function()
+        > {
+  $$DanaBalanceLedgersTableTableManager(
+    _$AppDatabase db,
+    $DanaBalanceLedgersTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$DanaBalanceLedgersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$DanaBalanceLedgersTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$DanaBalanceLedgersTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> tahun = const Value.absent(),
+                Value<int> bulan = const Value.absent(),
+                Value<int> saldoAwalBiasa = const Value.absent(),
+                Value<int> saldoAwalPlus = const Value.absent(),
+                Value<int> topUpKeBiasa = const Value.absent(),
+                Value<int> pindahKePlus = const Value.absent(),
+                Value<int> pindahDariPlus = const Value.absent(),
+                Value<int> pengeluaranBiasa = const Value.absent(),
+                Value<int> pengeluaranPlus = const Value.absent(),
+                Value<int> rewardAktual = const Value.absent(),
+                Value<int> saldoAkhirBiasa = const Value.absent(),
+                Value<int> saldoAkhirPlus = const Value.absent(),
+                Value<DateTime> dibuatPada = const Value.absent(),
+              }) => DanaBalanceLedgersCompanion(
+                id: id,
+                tahun: tahun,
+                bulan: bulan,
+                saldoAwalBiasa: saldoAwalBiasa,
+                saldoAwalPlus: saldoAwalPlus,
+                topUpKeBiasa: topUpKeBiasa,
+                pindahKePlus: pindahKePlus,
+                pindahDariPlus: pindahDariPlus,
+                pengeluaranBiasa: pengeluaranBiasa,
+                pengeluaranPlus: pengeluaranPlus,
+                rewardAktual: rewardAktual,
+                saldoAkhirBiasa: saldoAkhirBiasa,
+                saldoAkhirPlus: saldoAkhirPlus,
+                dibuatPada: dibuatPada,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int tahun,
+                required int bulan,
+                required int saldoAwalBiasa,
+                required int saldoAwalPlus,
+                required int topUpKeBiasa,
+                required int pindahKePlus,
+                required int pindahDariPlus,
+                required int pengeluaranBiasa,
+                required int pengeluaranPlus,
+                required int rewardAktual,
+                required int saldoAkhirBiasa,
+                required int saldoAkhirPlus,
+                required DateTime dibuatPada,
+              }) => DanaBalanceLedgersCompanion.insert(
+                id: id,
+                tahun: tahun,
+                bulan: bulan,
+                saldoAwalBiasa: saldoAwalBiasa,
+                saldoAwalPlus: saldoAwalPlus,
+                topUpKeBiasa: topUpKeBiasa,
+                pindahKePlus: pindahKePlus,
+                pindahDariPlus: pindahDariPlus,
+                pengeluaranBiasa: pengeluaranBiasa,
+                pengeluaranPlus: pengeluaranPlus,
+                rewardAktual: rewardAktual,
+                saldoAkhirBiasa: saldoAkhirBiasa,
+                saldoAkhirPlus: saldoAkhirPlus,
+                dibuatPada: dibuatPada,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$DanaBalanceLedgersTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DanaBalanceLedgersTable,
+      DanaBalanceLedger,
+      $$DanaBalanceLedgersTableFilterComposer,
+      $$DanaBalanceLedgersTableOrderingComposer,
+      $$DanaBalanceLedgersTableAnnotationComposer,
+      $$DanaBalanceLedgersTableCreateCompanionBuilder,
+      $$DanaBalanceLedgersTableUpdateCompanionBuilder,
+      (
+        DanaBalanceLedger,
+        BaseReferences<
+          _$AppDatabase,
+          $DanaBalanceLedgersTable,
+          DanaBalanceLedger
+        >,
+      ),
+      DanaBalanceLedger,
+      PrefetchHooks Function()
+    >;
+typedef $$InvestmentActualsTableCreateCompanionBuilder =
+    InvestmentActualsCompanion Function({
+      Value<int> id,
+      required InvestmentPlatform platform,
+      required int tahun,
+      required int bulan,
+      Value<int?> depositEksternal,
+      Value<int?> penarikan,
+      Value<int?> pembelianBersih,
+      Value<int?> penjualanBersih,
+      Value<int?> saldoRdnAwal,
+      Value<int?> saldoRdnAkhir,
+      Value<int?> biaya,
+      Value<int?> dividen,
+      Value<int?> nilaiPortofolio,
+      Value<int?> modalInvestasi,
+      required VerificationStatus verifikasi,
+      Value<String?> catatan,
+      required DateTime diperbaruiPada,
+    });
+typedef $$InvestmentActualsTableUpdateCompanionBuilder =
+    InvestmentActualsCompanion Function({
+      Value<int> id,
+      Value<InvestmentPlatform> platform,
+      Value<int> tahun,
+      Value<int> bulan,
+      Value<int?> depositEksternal,
+      Value<int?> penarikan,
+      Value<int?> pembelianBersih,
+      Value<int?> penjualanBersih,
+      Value<int?> saldoRdnAwal,
+      Value<int?> saldoRdnAkhir,
+      Value<int?> biaya,
+      Value<int?> dividen,
+      Value<int?> nilaiPortofolio,
+      Value<int?> modalInvestasi,
+      Value<VerificationStatus> verifikasi,
+      Value<String?> catatan,
+      Value<DateTime> diperbaruiPada,
+    });
+
+class $$InvestmentActualsTableFilterComposer
+    extends Composer<_$AppDatabase, $InvestmentActualsTable> {
+  $$InvestmentActualsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<InvestmentPlatform, InvestmentPlatform, String>
+  get platform => $composableBuilder(
+    column: $table.platform,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnFilters<int> get tahun => $composableBuilder(
+    column: $table.tahun,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get bulan => $composableBuilder(
+    column: $table.bulan,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get depositEksternal => $composableBuilder(
+    column: $table.depositEksternal,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get penarikan => $composableBuilder(
+    column: $table.penarikan,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get pembelianBersih => $composableBuilder(
+    column: $table.pembelianBersih,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get penjualanBersih => $composableBuilder(
+    column: $table.penjualanBersih,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get saldoRdnAwal => $composableBuilder(
+    column: $table.saldoRdnAwal,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get saldoRdnAkhir => $composableBuilder(
+    column: $table.saldoRdnAkhir,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get biaya => $composableBuilder(
+    column: $table.biaya,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get dividen => $composableBuilder(
+    column: $table.dividen,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get nilaiPortofolio => $composableBuilder(
+    column: $table.nilaiPortofolio,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get modalInvestasi => $composableBuilder(
+    column: $table.modalInvestasi,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<VerificationStatus, VerificationStatus, String>
+  get verifikasi => $composableBuilder(
+    column: $table.verifikasi,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnFilters<String> get catatan => $composableBuilder(
+    column: $table.catatan,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get diperbaruiPada => $composableBuilder(
+    column: $table.diperbaruiPada,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$InvestmentActualsTableOrderingComposer
+    extends Composer<_$AppDatabase, $InvestmentActualsTable> {
+  $$InvestmentActualsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get platform => $composableBuilder(
+    column: $table.platform,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get tahun => $composableBuilder(
+    column: $table.tahun,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get bulan => $composableBuilder(
+    column: $table.bulan,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get depositEksternal => $composableBuilder(
+    column: $table.depositEksternal,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get penarikan => $composableBuilder(
+    column: $table.penarikan,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get pembelianBersih => $composableBuilder(
+    column: $table.pembelianBersih,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get penjualanBersih => $composableBuilder(
+    column: $table.penjualanBersih,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get saldoRdnAwal => $composableBuilder(
+    column: $table.saldoRdnAwal,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get saldoRdnAkhir => $composableBuilder(
+    column: $table.saldoRdnAkhir,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get biaya => $composableBuilder(
+    column: $table.biaya,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get dividen => $composableBuilder(
+    column: $table.dividen,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get nilaiPortofolio => $composableBuilder(
+    column: $table.nilaiPortofolio,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get modalInvestasi => $composableBuilder(
+    column: $table.modalInvestasi,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get verifikasi => $composableBuilder(
+    column: $table.verifikasi,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get catatan => $composableBuilder(
+    column: $table.catatan,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get diperbaruiPada => $composableBuilder(
+    column: $table.diperbaruiPada,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$InvestmentActualsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $InvestmentActualsTable> {
+  $$InvestmentActualsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<InvestmentPlatform, String> get platform =>
+      $composableBuilder(column: $table.platform, builder: (column) => column);
+
+  GeneratedColumn<int> get tahun =>
+      $composableBuilder(column: $table.tahun, builder: (column) => column);
+
+  GeneratedColumn<int> get bulan =>
+      $composableBuilder(column: $table.bulan, builder: (column) => column);
+
+  GeneratedColumn<int> get depositEksternal => $composableBuilder(
+    column: $table.depositEksternal,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get penarikan =>
+      $composableBuilder(column: $table.penarikan, builder: (column) => column);
+
+  GeneratedColumn<int> get pembelianBersih => $composableBuilder(
+    column: $table.pembelianBersih,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get penjualanBersih => $composableBuilder(
+    column: $table.penjualanBersih,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get saldoRdnAwal => $composableBuilder(
+    column: $table.saldoRdnAwal,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get saldoRdnAkhir => $composableBuilder(
+    column: $table.saldoRdnAkhir,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get biaya =>
+      $composableBuilder(column: $table.biaya, builder: (column) => column);
+
+  GeneratedColumn<int> get dividen =>
+      $composableBuilder(column: $table.dividen, builder: (column) => column);
+
+  GeneratedColumn<int> get nilaiPortofolio => $composableBuilder(
+    column: $table.nilaiPortofolio,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get modalInvestasi => $composableBuilder(
+    column: $table.modalInvestasi,
+    builder: (column) => column,
+  );
+
+  GeneratedColumnWithTypeConverter<VerificationStatus, String> get verifikasi =>
+      $composableBuilder(
+        column: $table.verifikasi,
+        builder: (column) => column,
+      );
+
+  GeneratedColumn<String> get catatan =>
+      $composableBuilder(column: $table.catatan, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get diperbaruiPada => $composableBuilder(
+    column: $table.diperbaruiPada,
+    builder: (column) => column,
+  );
+}
+
+class $$InvestmentActualsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $InvestmentActualsTable,
+          InvestmentActual,
+          $$InvestmentActualsTableFilterComposer,
+          $$InvestmentActualsTableOrderingComposer,
+          $$InvestmentActualsTableAnnotationComposer,
+          $$InvestmentActualsTableCreateCompanionBuilder,
+          $$InvestmentActualsTableUpdateCompanionBuilder,
+          (
+            InvestmentActual,
+            BaseReferences<
+              _$AppDatabase,
+              $InvestmentActualsTable,
+              InvestmentActual
+            >,
+          ),
+          InvestmentActual,
+          PrefetchHooks Function()
+        > {
+  $$InvestmentActualsTableTableManager(
+    _$AppDatabase db,
+    $InvestmentActualsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$InvestmentActualsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$InvestmentActualsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$InvestmentActualsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<InvestmentPlatform> platform = const Value.absent(),
+                Value<int> tahun = const Value.absent(),
+                Value<int> bulan = const Value.absent(),
+                Value<int?> depositEksternal = const Value.absent(),
+                Value<int?> penarikan = const Value.absent(),
+                Value<int?> pembelianBersih = const Value.absent(),
+                Value<int?> penjualanBersih = const Value.absent(),
+                Value<int?> saldoRdnAwal = const Value.absent(),
+                Value<int?> saldoRdnAkhir = const Value.absent(),
+                Value<int?> biaya = const Value.absent(),
+                Value<int?> dividen = const Value.absent(),
+                Value<int?> nilaiPortofolio = const Value.absent(),
+                Value<int?> modalInvestasi = const Value.absent(),
+                Value<VerificationStatus> verifikasi = const Value.absent(),
+                Value<String?> catatan = const Value.absent(),
+                Value<DateTime> diperbaruiPada = const Value.absent(),
+              }) => InvestmentActualsCompanion(
+                id: id,
+                platform: platform,
+                tahun: tahun,
+                bulan: bulan,
+                depositEksternal: depositEksternal,
+                penarikan: penarikan,
+                pembelianBersih: pembelianBersih,
+                penjualanBersih: penjualanBersih,
+                saldoRdnAwal: saldoRdnAwal,
+                saldoRdnAkhir: saldoRdnAkhir,
+                biaya: biaya,
+                dividen: dividen,
+                nilaiPortofolio: nilaiPortofolio,
+                modalInvestasi: modalInvestasi,
+                verifikasi: verifikasi,
+                catatan: catatan,
+                diperbaruiPada: diperbaruiPada,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required InvestmentPlatform platform,
+                required int tahun,
+                required int bulan,
+                Value<int?> depositEksternal = const Value.absent(),
+                Value<int?> penarikan = const Value.absent(),
+                Value<int?> pembelianBersih = const Value.absent(),
+                Value<int?> penjualanBersih = const Value.absent(),
+                Value<int?> saldoRdnAwal = const Value.absent(),
+                Value<int?> saldoRdnAkhir = const Value.absent(),
+                Value<int?> biaya = const Value.absent(),
+                Value<int?> dividen = const Value.absent(),
+                Value<int?> nilaiPortofolio = const Value.absent(),
+                Value<int?> modalInvestasi = const Value.absent(),
+                required VerificationStatus verifikasi,
+                Value<String?> catatan = const Value.absent(),
+                required DateTime diperbaruiPada,
+              }) => InvestmentActualsCompanion.insert(
+                id: id,
+                platform: platform,
+                tahun: tahun,
+                bulan: bulan,
+                depositEksternal: depositEksternal,
+                penarikan: penarikan,
+                pembelianBersih: pembelianBersih,
+                penjualanBersih: penjualanBersih,
+                saldoRdnAwal: saldoRdnAwal,
+                saldoRdnAkhir: saldoRdnAkhir,
+                biaya: biaya,
+                dividen: dividen,
+                nilaiPortofolio: nilaiPortofolio,
+                modalInvestasi: modalInvestasi,
+                verifikasi: verifikasi,
+                catatan: catatan,
+                diperbaruiPada: diperbaruiPada,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$InvestmentActualsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $InvestmentActualsTable,
+      InvestmentActual,
+      $$InvestmentActualsTableFilterComposer,
+      $$InvestmentActualsTableOrderingComposer,
+      $$InvestmentActualsTableAnnotationComposer,
+      $$InvestmentActualsTableCreateCompanionBuilder,
+      $$InvestmentActualsTableUpdateCompanionBuilder,
+      (
+        InvestmentActual,
+        BaseReferences<
+          _$AppDatabase,
+          $InvestmentActualsTable,
+          InvestmentActual
+        >,
+      ),
+      InvestmentActual,
+      PrefetchHooks Function()
+    >;
+typedef $$ImportedReportsTableCreateCompanionBuilder =
+    ImportedReportsCompanion Function({
+      Value<int> id,
+      required InvestmentPlatform platform,
+      required String jenis,
+      Value<int?> tahun,
+      Value<int?> bulan,
+      required String fileHash,
+      required String namaFile,
+      required DateTime diimporPada,
+    });
+typedef $$ImportedReportsTableUpdateCompanionBuilder =
+    ImportedReportsCompanion Function({
+      Value<int> id,
+      Value<InvestmentPlatform> platform,
+      Value<String> jenis,
+      Value<int?> tahun,
+      Value<int?> bulan,
+      Value<String> fileHash,
+      Value<String> namaFile,
+      Value<DateTime> diimporPada,
+    });
+
+class $$ImportedReportsTableFilterComposer
+    extends Composer<_$AppDatabase, $ImportedReportsTable> {
+  $$ImportedReportsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<InvestmentPlatform, InvestmentPlatform, String>
+  get platform => $composableBuilder(
+    column: $table.platform,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnFilters<String> get jenis => $composableBuilder(
+    column: $table.jenis,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get tahun => $composableBuilder(
+    column: $table.tahun,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get bulan => $composableBuilder(
+    column: $table.bulan,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get fileHash => $composableBuilder(
+    column: $table.fileHash,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get namaFile => $composableBuilder(
+    column: $table.namaFile,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get diimporPada => $composableBuilder(
+    column: $table.diimporPada,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$ImportedReportsTableOrderingComposer
+    extends Composer<_$AppDatabase, $ImportedReportsTable> {
+  $$ImportedReportsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get platform => $composableBuilder(
+    column: $table.platform,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get jenis => $composableBuilder(
+    column: $table.jenis,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get tahun => $composableBuilder(
+    column: $table.tahun,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get bulan => $composableBuilder(
+    column: $table.bulan,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get fileHash => $composableBuilder(
+    column: $table.fileHash,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get namaFile => $composableBuilder(
+    column: $table.namaFile,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get diimporPada => $composableBuilder(
+    column: $table.diimporPada,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ImportedReportsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ImportedReportsTable> {
+  $$ImportedReportsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<InvestmentPlatform, String> get platform =>
+      $composableBuilder(column: $table.platform, builder: (column) => column);
+
+  GeneratedColumn<String> get jenis =>
+      $composableBuilder(column: $table.jenis, builder: (column) => column);
+
+  GeneratedColumn<int> get tahun =>
+      $composableBuilder(column: $table.tahun, builder: (column) => column);
+
+  GeneratedColumn<int> get bulan =>
+      $composableBuilder(column: $table.bulan, builder: (column) => column);
+
+  GeneratedColumn<String> get fileHash =>
+      $composableBuilder(column: $table.fileHash, builder: (column) => column);
+
+  GeneratedColumn<String> get namaFile =>
+      $composableBuilder(column: $table.namaFile, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get diimporPada => $composableBuilder(
+    column: $table.diimporPada,
+    builder: (column) => column,
+  );
+}
+
+class $$ImportedReportsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ImportedReportsTable,
+          ImportedReport,
+          $$ImportedReportsTableFilterComposer,
+          $$ImportedReportsTableOrderingComposer,
+          $$ImportedReportsTableAnnotationComposer,
+          $$ImportedReportsTableCreateCompanionBuilder,
+          $$ImportedReportsTableUpdateCompanionBuilder,
+          (
+            ImportedReport,
+            BaseReferences<
+              _$AppDatabase,
+              $ImportedReportsTable,
+              ImportedReport
+            >,
+          ),
+          ImportedReport,
+          PrefetchHooks Function()
+        > {
+  $$ImportedReportsTableTableManager(
+    _$AppDatabase db,
+    $ImportedReportsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ImportedReportsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ImportedReportsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ImportedReportsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<InvestmentPlatform> platform = const Value.absent(),
+                Value<String> jenis = const Value.absent(),
+                Value<int?> tahun = const Value.absent(),
+                Value<int?> bulan = const Value.absent(),
+                Value<String> fileHash = const Value.absent(),
+                Value<String> namaFile = const Value.absent(),
+                Value<DateTime> diimporPada = const Value.absent(),
+              }) => ImportedReportsCompanion(
+                id: id,
+                platform: platform,
+                jenis: jenis,
+                tahun: tahun,
+                bulan: bulan,
+                fileHash: fileHash,
+                namaFile: namaFile,
+                diimporPada: diimporPada,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required InvestmentPlatform platform,
+                required String jenis,
+                Value<int?> tahun = const Value.absent(),
+                Value<int?> bulan = const Value.absent(),
+                required String fileHash,
+                required String namaFile,
+                required DateTime diimporPada,
+              }) => ImportedReportsCompanion.insert(
+                id: id,
+                platform: platform,
+                jenis: jenis,
+                tahun: tahun,
+                bulan: bulan,
+                fileHash: fileHash,
+                namaFile: namaFile,
+                diimporPada: diimporPada,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$ImportedReportsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ImportedReportsTable,
+      ImportedReport,
+      $$ImportedReportsTableFilterComposer,
+      $$ImportedReportsTableOrderingComposer,
+      $$ImportedReportsTableAnnotationComposer,
+      $$ImportedReportsTableCreateCompanionBuilder,
+      $$ImportedReportsTableUpdateCompanionBuilder,
+      (
+        ImportedReport,
+        BaseReferences<_$AppDatabase, $ImportedReportsTable, ImportedReport>,
+      ),
+      ImportedReport,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -15299,4 +24785,28 @@ class $AppDatabaseManager {
       $$RemindersTableTableManager(_db, _db.reminders);
   $$AppSettingsTableTableManager get appSettings =>
       $$AppSettingsTableTableManager(_db, _db.appSettings);
+  $$AiProviderConfigurationsTableTableManager get aiProviderConfigurations =>
+      $$AiProviderConfigurationsTableTableManager(
+        _db,
+        _db.aiProviderConfigurations,
+      );
+  $$AiModelsTableTableManager get aiModels =>
+      $$AiModelsTableTableManager(_db, _db.aiModels);
+  $$ModelListCachesTableTableManager get modelListCaches =>
+      $$ModelListCachesTableTableManager(_db, _db.modelListCaches);
+  $$ChatConversationsTableTableManager get chatConversations =>
+      $$ChatConversationsTableTableManager(_db, _db.chatConversations);
+  $$ChatMessagesTableTableManager get chatMessages =>
+      $$ChatMessagesTableTableManager(_db, _db.chatMessages);
+  $$DanaPlusConfigurationsTableTableManager get danaPlusConfigurations =>
+      $$DanaPlusConfigurationsTableTableManager(
+        _db,
+        _db.danaPlusConfigurations,
+      );
+  $$DanaBalanceLedgersTableTableManager get danaBalanceLedgers =>
+      $$DanaBalanceLedgersTableTableManager(_db, _db.danaBalanceLedgers);
+  $$InvestmentActualsTableTableManager get investmentActuals =>
+      $$InvestmentActualsTableTableManager(_db, _db.investmentActuals);
+  $$ImportedReportsTableTableManager get importedReports =>
+      $$ImportedReportsTableTableManager(_db, _db.importedReports);
 }

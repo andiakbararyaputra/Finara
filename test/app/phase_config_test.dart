@@ -10,8 +10,8 @@ void main() {
       expect(AppPhase.fase4.isAtLeast(AppPhase.fase3), isTrue);
     });
 
-    test('fase aktif build saat ini adalah Fase 1', () {
-      expect(activeAppPhase, AppPhase.fase1);
+    test('fase aktif build saat ini adalah Fase 2', () {
+      expect(activeAppPhase, AppPhase.fase2);
     });
   });
 }

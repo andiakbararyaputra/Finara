@@ -43,3 +43,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# APK hasil salin untuk unduhan manual
+finara-debug.apk

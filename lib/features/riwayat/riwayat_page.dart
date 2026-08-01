@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../app/data_providers.dart';
 import '../../app/router.dart';
+import '../../data/services/export_service.dart';
 import '../../design_system/tokens/finara_spacing.dart';
 import '../../design_system/widgets/amount_text.dart';
 import '../../design_system/widgets/empty_state.dart';
@@ -29,7 +33,16 @@ class _RiwayatPageState extends ConsumerState<RiwayatPage> {
     final riwayat = ref.watch(daftarRiwayatProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.navRiwayat)),
+      appBar: AppBar(
+        title: Text(l10n.navRiwayat),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.table_view_outlined),
+            tooltip: l10n.eksporCsv,
+            onPressed: () => _eksporCsv(context),
+          ),
+        ],
+      ),
       body: riwayat.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (_, _) => EmptyState(
@@ -105,6 +118,20 @@ class _RiwayatPageState extends ConsumerState<RiwayatPage> {
       ),
     );
   }
+  Future<void> _eksporCsv(BuildContext context) async {
+    final entries = ref.read(daftarRiwayatProvider).value ?? const [];
+    if (entries.isEmpty) return;
+    const service = ExportService();
+    final csv = service.buatCsv(
+        [for (final e in entries) (e.bulan, e.revisi)]);
+    try {
+      final path = await service.simpanSementara(
+          'finara-riwayat.csv', utf8.encode(csv));
+      await SharePlus.instance.share(ShareParams(files: [XFile(path)]));
+    } catch (_) {
+      // Plugin share tidak tersedia (mis. test) — abaikan.
+    }
+  }
 }
 
 class _RiwayatTile extends StatelessWidget {
@@ -122,6 +149,19 @@ class _RiwayatTile extends StatelessWidget {
       onTap: () => context.go('${FinaraRoutes.riwayat}/${e.revisi.id}'),
       child: Row(
         children: [
+          CircleAvatar(
+            radius: 20,
+            backgroundColor:
+                Theme.of(context).colorScheme.primary.withValues(alpha: 0.12),
+            child: Text(
+              DateFormat('MMM', 'id_ID')
+                  .format(DateTime(e.bulan.tahun, e.bulan.bulan)),
+              style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.w700),
+            ),
+          ),
+          const SizedBox(width: FinaraSpacing.md),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
