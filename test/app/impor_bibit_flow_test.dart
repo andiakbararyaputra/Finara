@@ -97,8 +97,9 @@ Total Penjualan Rp0
         pinManagerProvider
             .overrideWithValue(PinManager(storage: FakeSecureStorage())),
         // Lewati file picker + PDF asli: langsung teks contoh (§65 uji).
-        pilihDanEkstrakPdfProvider.overrideWithValue(() async =>
-            (teks: teksContoh, nama: 'statement-bibit.pdf', hash: 'hash-1')),
+        pilihDanEkstrakPdfProvider.overrideWithValue(
+            ({mintaPassword}) async =>
+                (teks: teksContoh, nama: 'statement-bibit.pdf', hash: 'hash-1')),
       ],
       child: const FinaraApp(),
     ));

@@ -6,7 +6,7 @@ Finara adalah aplikasi Android untuk pengelolaan dan alokasi keuangan pribadi: m
 
 **Local-first**: seluruh data tersimpan di perangkat dalam database terenkripsi. Tanpa login, tanpa backend. Finara hanya menghitung, mencatat, dan memberi instruksi manual — tidak pernah melakukan transfer atau transaksi atas nama Anda.
 
-📦 **Unduh**: [Releases](https://github.com/andiakbararyaputra/Finara/releases) (v0.2.0 pre-release)
+📦 **Unduh**: [Releases](https://github.com/andiakbararyaputra/Finara/releases) (v0.3.0 pre-release)
 
 ## Fitur
 

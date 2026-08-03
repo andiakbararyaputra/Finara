@@ -17,7 +17,7 @@
   - UI Bahasa Indonesia via ARB id-only: `lib/l10n/app_id.arb` → `flutter gen-l10n`
   - Business logic HANYA di service Dart murni (deterministik, teruji tanpa UI), bukan di widget
 
-## Status saat ini (Fase 1–4 LENGKAP ✅ · RILIS v0.2.0 pre-release diterbitkan)
+## Status saat ini (Fase 1–4 LENGKAP ✅ · RILIS v0.3.0 pre-release diterbitkan)
 
 ### Selesai
 - Proyek Flutter dibuat di root workspace (project-name `finara`, applicationId `com.andiakbar.finara`, platform Android saja)
@@ -137,10 +137,19 @@
   - Auto-lock jadi pilihan di Pengaturan → Keamanan (1/5/15/30 menit, default 5; `SettingKeys.autoLockMenit`), aktif hanya bila PIN terpasang
   - Test +2 (pengeluaran_flow) + 1 generator ikon — total **181/181 lulus**, analyze 0 issue, APK debug OK
   - **RILIS v0.2.0 (pre-release)**: versi 0.2.0+2, `flutter build apk --release` (76.3 MB, signing debug), https://github.com/andiakbararyaputra/Finara/releases/tag/v0.2.0
+- **v0.3.0 (2026-08-03):**
+  - **Batch 0 — fix jaringan Finara AI**: izin `INTERNET` ditambah ke manifest UTAMA (sebelumnya hanya di debug/profile → semua request AI gagal di APK release); auto-lock jadi pilihan 1/5/15/30 menit di Pengaturan→Keamanan (`SettingKeys.autoLockMenit`)
+  - **Batch A — DANA+ tuntas**: rekomendasi pembagian otomatis §89 (DanaRecommendationService + card dgn 5 alasan + 3 tombol aksi); checklist eksekusi §93 (DanaChecklistBuilder, nominal per top-up sesuai strategi/frekuensi); status realisasi §94 (enum 5 status, kolom `statusRealisasi`, dipertahankan saat catat ulang)
+  - **Batch B — Finara AI UX**: tombol Regenerasi §42; ganti model per percakapan §33 (picker di AppBar chat, hormati Allowed Models); fallback §37 dilengkapi mode otomatis/konfirmasi/nonaktif (`fallbackMode`, dialog menampilkan provider+model tujuan)
+  - **Batch C — ekspor & keamanan**: Bagikan sebagai gambar §50 (ExportService.buatGambar via Canvas, PNG branding); backup/restore terenkripsi §51 (BackupService: JSON semua tabel → AES-GCM 256 + PBKDF2, file `.finarabak`; API key TIDAK ikut; UI di Pengaturan→Cadangan & Pemulihan); dep baru `cryptography ^2.7.0`
+  - **Batch D — PDF terproteksi §69**: deteksi PDF terkunci di impor Bibit, dialog password sekali pakai (tidak disimpan/dilog) + pesan privasi sesuai spec
+  - Skema DB **v7** (addColumn: `danaBalanceLedgers.statusRealisasi`, `aiProviderConfigurations.fallbackMode`)
+  - Test +18 — total **199/199 lulus**, analyze 0 issue
+  - **RILIS v0.3.0 (pre-release)**: versi 0.3.0+3, APK release 77.0 MB (signing debug), https://github.com/andiakbararyaputra/Finara/releases/tag/v0.3.0
 
 ### BELUM selesai (pending — kerjakan saat lanjut)
 1. Menuju rilis produksi (v1.0.0 / Play Store): keystore & signing release sendiri, ikon aplikasi & splash native asli (bukan ikon Material), `--split-per-abi` atau app bundle, acceptance §61 penuh, uji perangkat menyeluruh.
-2. Backlog fitur tunda: fallback lintas provider §37, bagikan gambar §50, checklist DANA+ §93, rekomendasi §89, sub-alokasi Stockbit §107, impor Stockbit §117–§119, impor Bibit versi 2 (Transaction History/KSEI/CSV), PDF terproteksi §69.
+2. Backlog fitur tunda (kandidat v0.4.0): sub-alokasi Stockbit §107, impor Stockbit §117–§119, impor Bibit versi 2 (Transaction History/KSEI/CSV), fallback lintas provider (§37 bagian izin lintas provider).
 
 ## Setup lingkungan di Codespace (Linux, tanpa sudo tidak masalah kecuali clang)
 

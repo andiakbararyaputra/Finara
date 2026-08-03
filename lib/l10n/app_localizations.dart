@@ -2062,6 +2062,312 @@ abstract class AppLocalizations {
   /// **'{menit} menit'**
   String autoLockMenitOpsi(int menit);
 
+  /// No description provided for @rekomendasiPembagian.
+  ///
+  /// In id, this message translates to:
+  /// **'Rekomendasi Pembagian'**
+  String get rekomendasiPembagian;
+
+  /// No description provided for @rekomendasiKalimat.
+  ///
+  /// In id, this message translates to:
+  /// **'Untuk top-up berikutnya, pertahankan {biasa} pada Saldo DANA Biasa dan pindahkan {plus} ke Saldo DANA+.'**
+  String rekomendasiKalimat(String biasa, String plus);
+
+  /// No description provided for @alasanRekomendasi.
+  ///
+  /// In id, this message translates to:
+  /// **'Alasan rekomendasi'**
+  String get alasanRekomendasi;
+
+  /// No description provided for @alasanHorizon.
+  ///
+  /// In id, this message translates to:
+  /// **'Horizon perhitungan: {hari} hari'**
+  String alasanHorizon(int hari);
+
+  /// No description provided for @alasanAnggaranHorizon.
+  ///
+  /// In id, this message translates to:
+  /// **'Perkiraan kebutuhan transaksi dalam horizon: {nominal}'**
+  String alasanAnggaranHorizon(String nominal);
+
+  /// No description provided for @alasanTagihan.
+  ///
+  /// In id, this message translates to:
+  /// **'Tagihan terdekat belum termasuk anggaran: {nominal}'**
+  String alasanTagihan(String nominal);
+
+  /// No description provided for @alasanBuffer.
+  ///
+  /// In id, this message translates to:
+  /// **'Buffer keamanan: {nominal}'**
+  String alasanBuffer(String nominal);
+
+  /// No description provided for @alasanBelumDiperlukan.
+  ///
+  /// In id, this message translates to:
+  /// **'Dana yang belum diperlukan segera: {nominal}'**
+  String alasanBelumDiperlukan(String nominal);
+
+  /// No description provided for @gunakanRekomendasi.
+  ///
+  /// In id, this message translates to:
+  /// **'Gunakan Rekomendasi'**
+  String get gunakanRekomendasi;
+
+  /// No description provided for @sesuaikanPembagian.
+  ///
+  /// In id, this message translates to:
+  /// **'Sesuaikan Pembagian'**
+  String get sesuaikanPembagian;
+
+  /// No description provided for @tetapPembagianSaya.
+  ///
+  /// In id, this message translates to:
+  /// **'Tetap Gunakan Pembagian Saya'**
+  String get tetapPembagianSaya;
+
+  /// No description provided for @rekomendasiDiterapkan.
+  ///
+  /// In id, this message translates to:
+  /// **'Mode Smart Liquidity diterapkan — tinjau lalu simpan'**
+  String get rekomendasiDiterapkan;
+
+  /// No description provided for @sesuaikanInfo.
+  ///
+  /// In id, this message translates to:
+  /// **'Persentase diisi dari rekomendasi — geser sesuai kebutuhan lalu simpan'**
+  String get sesuaikanInfo;
+
+  /// No description provided for @checklistEksekusiDana.
+  ///
+  /// In id, this message translates to:
+  /// **'Checklist Eksekusi DANA'**
+  String get checklistEksekusiDana;
+
+  /// No description provided for @cekTopUp.
+  ///
+  /// In id, this message translates to:
+  /// **'Top-up {nominal}'**
+  String cekTopUp(String nominal);
+
+  /// No description provided for @cekPertahankanBiasa.
+  ///
+  /// In id, this message translates to:
+  /// **'Pertahankan {nominal} pada Saldo DANA Biasa'**
+  String cekPertahankanBiasa(String nominal);
+
+  /// No description provided for @cekPindahkanPlus.
+  ///
+  /// In id, this message translates to:
+  /// **'Pindahkan {nominal} ke Saldo DANA+ jika tersedia'**
+  String cekPindahkanPlus(String nominal);
+
+  /// No description provided for @cekPeriksaTotal.
+  ///
+  /// In id, this message translates to:
+  /// **'Periksa bahwa total nominal top-up telah terbagi sesuai rencana'**
+  String get cekPeriksaTotal;
+
+  /// No description provided for @cekCatatAktual.
+  ///
+  /// In id, this message translates to:
+  /// **'Catat nominal pemindahan aktual periode berjalan'**
+  String get cekCatatAktual;
+
+  /// No description provided for @checklistManualInfo.
+  ///
+  /// In id, this message translates to:
+  /// **'Checklist ini hanya instruksi manual — Finara tidak melakukan top-up atau pemindahan saldo apa pun.'**
+  String get checklistManualInfo;
+
+  /// No description provided for @statusRealisasiLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Status realisasi'**
+  String get statusRealisasiLabel;
+
+  /// No description provided for @srBelumDieksekusi.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum dieksekusi'**
+  String get srBelumDieksekusi;
+
+  /// No description provided for @srSebagianSelesai.
+  ///
+  /// In id, this message translates to:
+  /// **'Sebagian selesai'**
+  String get srSebagianSelesai;
+
+  /// No description provided for @srSelesai.
+  ///
+  /// In id, this message translates to:
+  /// **'Selesai'**
+  String get srSelesai;
+
+  /// No description provided for @srTidakSesuaiRencana.
+  ///
+  /// In id, this message translates to:
+  /// **'Tidak sesuai rencana'**
+  String get srTidakSesuaiRencana;
+
+  /// No description provided for @srDibatalkan.
+  ///
+  /// In id, this message translates to:
+  /// **'Dibatalkan'**
+  String get srDibatalkan;
+
+  /// No description provided for @regenerasi.
+  ///
+  /// In id, this message translates to:
+  /// **'Regenerasi'**
+  String get regenerasi;
+
+  /// No description provided for @gantiModel.
+  ///
+  /// In id, this message translates to:
+  /// **'Ganti model'**
+  String get gantiModel;
+
+  /// No description provided for @modelDiganti.
+  ///
+  /// In id, this message translates to:
+  /// **'Model percakapan diganti ke {model}'**
+  String modelDiganti(String model);
+
+  /// No description provided for @fallbackModeLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Perilaku fallback'**
+  String get fallbackModeLabel;
+
+  /// No description provided for @fbOtomatis.
+  ///
+  /// In id, this message translates to:
+  /// **'Gunakan otomatis'**
+  String get fbOtomatis;
+
+  /// No description provided for @fbKonfirmasi.
+  ///
+  /// In id, this message translates to:
+  /// **'Minta konfirmasi dulu'**
+  String get fbKonfirmasi;
+
+  /// No description provided for @fbNonaktif.
+  ///
+  /// In id, this message translates to:
+  /// **'Jangan gunakan fallback'**
+  String get fbNonaktif;
+
+  /// No description provided for @konfirmasiFallbackJudul.
+  ///
+  /// In id, this message translates to:
+  /// **'Gunakan model cadangan?'**
+  String get konfirmasiFallbackJudul;
+
+  /// No description provided for @konfirmasiFallbackIsi.
+  ///
+  /// In id, this message translates to:
+  /// **'Permintaan akan dialihkan ke model {model} pada provider {provider}.'**
+  String konfirmasiFallbackIsi(String model, String provider);
+
+  /// No description provided for @gunakanModelIni.
+  ///
+  /// In id, this message translates to:
+  /// **'Gunakan model ini'**
+  String get gunakanModelIni;
+
+  /// No description provided for @bagikanGambar.
+  ///
+  /// In id, this message translates to:
+  /// **'Bagikan sebagai gambar'**
+  String get bagikanGambar;
+
+  /// No description provided for @cadanganJudul.
+  ///
+  /// In id, this message translates to:
+  /// **'Cadangan & Pemulihan'**
+  String get cadanganJudul;
+
+  /// No description provided for @buatCadangan.
+  ///
+  /// In id, this message translates to:
+  /// **'Buat cadangan terenkripsi'**
+  String get buatCadangan;
+
+  /// No description provided for @pulihkanCadangan.
+  ///
+  /// In id, this message translates to:
+  /// **'Pulihkan dari cadangan'**
+  String get pulihkanCadangan;
+
+  /// No description provided for @frasaSandi.
+  ///
+  /// In id, this message translates to:
+  /// **'Frasa sandi'**
+  String get frasaSandi;
+
+  /// No description provided for @ulangiFrasaSandi.
+  ///
+  /// In id, this message translates to:
+  /// **'Ulangi frasa sandi'**
+  String get ulangiFrasaSandi;
+
+  /// No description provided for @frasaTidakSama.
+  ///
+  /// In id, this message translates to:
+  /// **'Frasa sandi tidak sama atau terlalu pendek (minimal 6 karakter)'**
+  String get frasaTidakSama;
+
+  /// No description provided for @infoApiKeyBackup.
+  ///
+  /// In id, this message translates to:
+  /// **'API key tidak ikut dicadangkan dan harus dimasukkan ulang setelah pemulihan.'**
+  String get infoApiKeyBackup;
+
+  /// No description provided for @konfirmasiPulihkanIsi.
+  ///
+  /// In id, this message translates to:
+  /// **'Pemulihan akan MENGGANTI seluruh data saat ini dengan isi cadangan. Lanjutkan?'**
+  String get konfirmasiPulihkanIsi;
+
+  /// No description provided for @pulihkanBerhasil.
+  ///
+  /// In id, this message translates to:
+  /// **'Pemulihan berhasil — masukkan ulang API key di pengaturan AI'**
+  String get pulihkanBerhasil;
+
+  /// No description provided for @pulihkanGagal.
+  ///
+  /// In id, this message translates to:
+  /// **'Pemulihan gagal — file atau frasa sandi tidak valid'**
+  String get pulihkanGagal;
+
+  /// No description provided for @pdfTerproteksiJudul.
+  ///
+  /// In id, this message translates to:
+  /// **'PDF terproteksi'**
+  String get pdfTerproteksiJudul;
+
+  /// No description provided for @passwordPdfLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Password PDF'**
+  String get passwordPdfLabel;
+
+  /// No description provided for @infoPasswordPdf.
+  ///
+  /// In id, this message translates to:
+  /// **'Password hanya digunakan pada perangkat untuk membuka dokumen ini dan tidak akan disimpan.'**
+  String get infoPasswordPdf;
+
+  /// No description provided for @bukaPdf.
+  ///
+  /// In id, this message translates to:
+  /// **'Buka'**
+  String get bukaPdf;
+
   /// No description provided for @descPenghasilanUtama.
   ///
   /// In id, this message translates to:

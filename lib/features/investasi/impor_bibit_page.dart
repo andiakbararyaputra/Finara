@@ -18,9 +18,10 @@ import '../../l10n/app_localizations.dart';
 /// Hasil pemilihan + ekstraksi dokumen; di-override pada widget test.
 typedef DokumenTerpilih = ({String teks, String nama, String hash});
 
-final pilihDanEkstrakPdfProvider =
-    Provider<Future<DokumenTerpilih?> Function()>((ref) {
-  return () async {
+final pilihDanEkstrakPdfProvider = Provider<
+    Future<DokumenTerpilih?> Function(
+        {Future<String?> Function()? mintaPassword})>((ref) {
+  return ({mintaPassword}) async {
     final hasil = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf'],
@@ -28,23 +29,46 @@ final pilihDanEkstrakPdfProvider =
     );
     final bytes = hasil?.files.single.bytes;
     if (bytes == null) return null;
-    // Ekstraksi di isolate agar UI tidak beku (§81).
-    final teks = await compute(_ekstrakTeks, bytes);
-    return (
-      teks: teks,
-      nama: hasil!.files.single.name,
-      hash: fingerprintDokumen(bytes),
-    );
+    // §69: password hanya utk sesi ini — tidak disimpan, dicatat,
+    // atau dipertahankan di state.
+    String? password;
+    while (true) {
+      // Ekstraksi di isolate agar UI tidak beku (§81).
+      final ekstrak =
+          await compute(_ekstrakTeks, (bytes: bytes, password: password));
+      if (!ekstrak.terproteksi) {
+        return (
+          teks: ekstrak.teks ?? '',
+          nama: hasil!.files.single.name,
+          hash: fingerprintDokumen(bytes),
+        );
+      }
+      if (mintaPassword == null) return null;
+      password = await mintaPassword();
+      if (password == null || password.isEmpty) return null;
+    }
   };
 });
 
-String _ekstrakTeks(Uint8List bytes) {
-  final dokumen = PdfDocument(inputBytes: bytes);
+({String? teks, bool terproteksi}) _ekstrakTeks(
+    ({Uint8List bytes, String? password}) args) {
+  PdfDocument? dokumen;
   try {
+    dokumen =
+        PdfDocument(inputBytes: args.bytes, password: args.password);
     // Hanya lapisan teks asli; tanpa OCR (§63).
-    return PdfTextExtractor(dokumen).extractText();
+    return (
+      teks: PdfTextExtractor(dokumen).extractText(),
+      terproteksi: false,
+    );
+  } catch (e) {
+    // Syncfusion melempar error berisi kata 'password' utk PDF terkunci.
+    if (e.toString().toLowerCase().contains('password')) {
+      return (teks: null, terproteksi: true);
+    }
+    rethrow;
   } finally {
-    dokumen.dispose();
+    dokumen?.dispose();
   }
 }
 
@@ -91,7 +115,8 @@ class _ImporBibitPageState extends ConsumerState<ImporBibitPage> {
       _pesan = null;
     });
     try {
-      final dokumen = await ref.read(pilihDanEkstrakPdfProvider)();
+      final dokumen = await ref.read(pilihDanEkstrakPdfProvider)(
+          mintaPassword: () => _dialogPasswordPdf(context));
       if (dokumen == null) return;
       // Anti-duplikat berdasarkan hash file (§73).
       final duplikat = await ref
@@ -122,6 +147,43 @@ class _ImporBibitPageState extends ConsumerState<ImporBibitPage> {
 
   void _isiNominal(TextEditingController c, int? nilai) {
     c.text = nilai == null ? '' : formatRupiah(nilai).substring(2);
+  }
+
+  /// §69: password sekali pakai; controller lokal dialog, tidak disimpan.
+  Future<String?> _dialogPasswordPdf(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
+    final ctrl = TextEditingController();
+    return showDialog<String>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.pdfTerproteksiJudul),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: ctrl,
+              obscureText: true,
+              autofocus: true,
+              decoration:
+                  InputDecoration(labelText: l10n.passwordPdfLabel),
+            ),
+            const SizedBox(height: FinaraSpacing.sm),
+            Text(l10n.infoPasswordPdf,
+                style: Theme.of(dialogContext).textTheme.bodySmall),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: Text(l10n.batal),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(dialogContext, ctrl.text),
+            child: Text(l10n.bukaPdf),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> _konfirmasi() async {

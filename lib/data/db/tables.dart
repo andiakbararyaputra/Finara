@@ -264,6 +264,8 @@ class AiProviderConfigurations extends Table {
       .withDefault(const Constant('izinkanSemua'))();
   TextColumn get fallbackModel1 => text().nullable()();
   TextColumn get fallbackModel2 => text().nullable()();
+  TextColumn get fallbackMode => textEnum<FallbackMode>()
+      .withDefault(const Constant('otomatis'))();
   DateTimeColumn get dibuatPada => dateTime()();
 }
 
@@ -359,6 +361,8 @@ class DanaBalanceLedgers extends Table {
   IntColumn get rewardAktual => integer()();
   IntColumn get saldoAkhirBiasa => integer()();
   IntColumn get saldoAkhirPlus => integer()();
+  TextColumn get statusRealisasi => textEnum<DanaRealizationStatus>()
+      .withDefault(const Constant('belumDieksekusi'))();
   DateTimeColumn get dibuatPada => dateTime()();
 
   @override

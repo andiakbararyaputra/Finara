@@ -44,7 +44,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.executor);
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -85,6 +85,13 @@ class AppDatabase extends _$AppDatabase {
           if (dari < 6) {
             // v6: riwayat impor laporan (Fase 4A).
             await m.createTable(importedReports);
+          }
+          if (dari < 7) {
+            // v7: status realisasi DANA+ (§94) + mode fallback (§37).
+            await m.addColumn(
+                danaBalanceLedgers, danaBalanceLedgers.statusRealisasi);
+            await m.addColumn(aiProviderConfigurations,
+                aiProviderConfigurations.fallbackMode);
           }
         },
         beforeOpen: (details) async {

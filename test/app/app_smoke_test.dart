@@ -256,6 +256,9 @@ void main() {
 
     await tester.tap(find.byIcon(Icons.settings_outlined));
     await tester.pumpAndSettle();
+    await tester.dragUntilVisible(find.text('Kelola Langganan'),
+        find.byType(ListView), const Offset(0, -300));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Kelola Langganan'));
     await tester.pumpAndSettle();
     expect(find.text('Belum ada langganan'), findsOneWidget);

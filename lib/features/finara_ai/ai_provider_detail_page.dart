@@ -289,6 +289,31 @@ class _AiProviderDetailPageState
                   ref.invalidate(daftarProviderAiProvider);
                 },
               ),
+              const SizedBox(height: FinaraSpacing.md),
+              DropdownButtonFormField<FallbackMode>(
+                initialValue: p.fallbackMode,
+                isExpanded: true,
+                decoration:
+                    InputDecoration(labelText: l10n.fallbackModeLabel),
+                items: [
+                  DropdownMenuItem(
+                      value: FallbackMode.otomatis,
+                      child: Text(l10n.fbOtomatis)),
+                  DropdownMenuItem(
+                      value: FallbackMode.konfirmasi,
+                      child: Text(l10n.fbKonfirmasi)),
+                  DropdownMenuItem(
+                      value: FallbackMode.nonaktif,
+                      child: Text(l10n.fbNonaktif)),
+                ],
+                onChanged: (v) async {
+                  if (v == null) return;
+                  await ref
+                      .read(aiProviderRepositoryProvider)
+                      .setFallbackMode(p.id, v);
+                  ref.invalidate(daftarProviderAiProvider);
+                },
+              ),
               const SizedBox(height: FinaraSpacing.lg),
               TextField(
                 decoration: InputDecoration(

@@ -222,6 +222,12 @@ class AIProviderRepository {
     ));
   }
 
+  Future<void> setFallbackMode(int providerId, FallbackMode mode) async {
+    await (_db.update(_db.aiProviderConfigurations)
+          ..where((t) => t.id.equals(providerId)))
+        .write(AiProviderConfigurationsCompanion(fallbackMode: Value(mode)));
+  }
+
   Future<void> setModelDefault(int providerId, String modelId) async {
     await (_db.update(_db.aiProviderConfigurations)
           ..where((t) => t.id.equals(providerId)))

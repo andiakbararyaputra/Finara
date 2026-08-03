@@ -9046,6 +9046,19 @@ class $AiProviderConfigurationsTable extends AiProviderConfigurations
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  @override
+  late final GeneratedColumnWithTypeConverter<FallbackMode, String>
+  fallbackMode =
+      GeneratedColumn<String>(
+        'fallback_mode',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+        defaultValue: const Constant('otomatis'),
+      ).withConverter<FallbackMode>(
+        $AiProviderConfigurationsTable.$converterfallbackMode,
+      );
   static const VerificationMeta _dibuatPadaMeta = const VerificationMeta(
     'dibuatPada',
   );
@@ -9071,6 +9084,7 @@ class $AiProviderConfigurationsTable extends AiProviderConfigurations
     allowedMode,
     fallbackModel1,
     fallbackModel2,
+    fallbackMode,
     dibuatPada,
   ];
   @override
@@ -9233,6 +9247,13 @@ class $AiProviderConfigurationsTable extends AiProviderConfigurations
         DriftSqlType.string,
         data['${effectivePrefix}fallback_model2'],
       ),
+      fallbackMode: $AiProviderConfigurationsTable.$converterfallbackMode
+          .fromSql(
+            attachedDatabase.typeMapping.read(
+              DriftSqlType.string,
+              data['${effectivePrefix}fallback_mode'],
+            )!,
+          ),
       dibuatPada: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}dibuat_pada'],
@@ -9251,6 +9272,10 @@ class $AiProviderConfigurationsTable extends AiProviderConfigurations
   $converterallowedMode = const EnumNameConverter<AllowedModelsMode>(
     AllowedModelsMode.values,
   );
+  static JsonTypeConverter2<FallbackMode, String, String>
+  $converterfallbackMode = const EnumNameConverter<FallbackMode>(
+    FallbackMode.values,
+  );
 }
 
 class AiProviderConfiguration extends DataClass
@@ -9267,6 +9292,7 @@ class AiProviderConfiguration extends DataClass
   final AllowedModelsMode allowedMode;
   final String? fallbackModel1;
   final String? fallbackModel2;
+  final FallbackMode fallbackMode;
   final DateTime dibuatPada;
   const AiProviderConfiguration({
     required this.id,
@@ -9281,6 +9307,7 @@ class AiProviderConfiguration extends DataClass
     required this.allowedMode,
     this.fallbackModel1,
     this.fallbackModel2,
+    required this.fallbackMode,
     required this.dibuatPada,
   });
   @override
@@ -9312,6 +9339,13 @@ class AiProviderConfiguration extends DataClass
     if (!nullToAbsent || fallbackModel2 != null) {
       map['fallback_model2'] = Variable<String>(fallbackModel2);
     }
+    {
+      map['fallback_mode'] = Variable<String>(
+        $AiProviderConfigurationsTable.$converterfallbackMode.toSql(
+          fallbackMode,
+        ),
+      );
+    }
     map['dibuat_pada'] = Variable<DateTime>(dibuatPada);
     return map;
   }
@@ -9336,6 +9370,7 @@ class AiProviderConfiguration extends DataClass
       fallbackModel2: fallbackModel2 == null && nullToAbsent
           ? const Value.absent()
           : Value(fallbackModel2),
+      fallbackMode: Value(fallbackMode),
       dibuatPada: Value(dibuatPada),
     );
   }
@@ -9361,6 +9396,8 @@ class AiProviderConfiguration extends DataClass
           .fromJson(serializer.fromJson<String>(json['allowedMode'])),
       fallbackModel1: serializer.fromJson<String?>(json['fallbackModel1']),
       fallbackModel2: serializer.fromJson<String?>(json['fallbackModel2']),
+      fallbackMode: $AiProviderConfigurationsTable.$converterfallbackMode
+          .fromJson(serializer.fromJson<String>(json['fallbackMode'])),
       dibuatPada: serializer.fromJson<DateTime>(json['dibuatPada']),
     );
   }
@@ -9386,6 +9423,11 @@ class AiProviderConfiguration extends DataClass
       ),
       'fallbackModel1': serializer.toJson<String?>(fallbackModel1),
       'fallbackModel2': serializer.toJson<String?>(fallbackModel2),
+      'fallbackMode': serializer.toJson<String>(
+        $AiProviderConfigurationsTable.$converterfallbackMode.toJson(
+          fallbackMode,
+        ),
+      ),
       'dibuatPada': serializer.toJson<DateTime>(dibuatPada),
     };
   }
@@ -9403,6 +9445,7 @@ class AiProviderConfiguration extends DataClass
     AllowedModelsMode? allowedMode,
     Value<String?> fallbackModel1 = const Value.absent(),
     Value<String?> fallbackModel2 = const Value.absent(),
+    FallbackMode? fallbackMode,
     DateTime? dibuatPada,
   }) => AiProviderConfiguration(
     id: id ?? this.id,
@@ -9421,6 +9464,7 @@ class AiProviderConfiguration extends DataClass
     fallbackModel2: fallbackModel2.present
         ? fallbackModel2.value
         : this.fallbackModel2,
+    fallbackMode: fallbackMode ?? this.fallbackMode,
     dibuatPada: dibuatPada ?? this.dibuatPada,
   );
   AiProviderConfiguration copyWithCompanion(
@@ -9453,6 +9497,9 @@ class AiProviderConfiguration extends DataClass
       fallbackModel2: data.fallbackModel2.present
           ? data.fallbackModel2.value
           : this.fallbackModel2,
+      fallbackMode: data.fallbackMode.present
+          ? data.fallbackMode.value
+          : this.fallbackMode,
       dibuatPada: data.dibuatPada.present
           ? data.dibuatPada.value
           : this.dibuatPada,
@@ -9474,6 +9521,7 @@ class AiProviderConfiguration extends DataClass
           ..write('allowedMode: $allowedMode, ')
           ..write('fallbackModel1: $fallbackModel1, ')
           ..write('fallbackModel2: $fallbackModel2, ')
+          ..write('fallbackMode: $fallbackMode, ')
           ..write('dibuatPada: $dibuatPada')
           ..write(')'))
         .toString();
@@ -9493,6 +9541,7 @@ class AiProviderConfiguration extends DataClass
     allowedMode,
     fallbackModel1,
     fallbackModel2,
+    fallbackMode,
     dibuatPada,
   );
   @override
@@ -9511,6 +9560,7 @@ class AiProviderConfiguration extends DataClass
           other.allowedMode == this.allowedMode &&
           other.fallbackModel1 == this.fallbackModel1 &&
           other.fallbackModel2 == this.fallbackModel2 &&
+          other.fallbackMode == this.fallbackMode &&
           other.dibuatPada == this.dibuatPada);
 }
 
@@ -9528,6 +9578,7 @@ class AiProviderConfigurationsCompanion
   final Value<AllowedModelsMode> allowedMode;
   final Value<String?> fallbackModel1;
   final Value<String?> fallbackModel2;
+  final Value<FallbackMode> fallbackMode;
   final Value<DateTime> dibuatPada;
   const AiProviderConfigurationsCompanion({
     this.id = const Value.absent(),
@@ -9542,6 +9593,7 @@ class AiProviderConfigurationsCompanion
     this.allowedMode = const Value.absent(),
     this.fallbackModel1 = const Value.absent(),
     this.fallbackModel2 = const Value.absent(),
+    this.fallbackMode = const Value.absent(),
     this.dibuatPada = const Value.absent(),
   });
   AiProviderConfigurationsCompanion.insert({
@@ -9557,6 +9609,7 @@ class AiProviderConfigurationsCompanion
     this.allowedMode = const Value.absent(),
     this.fallbackModel1 = const Value.absent(),
     this.fallbackModel2 = const Value.absent(),
+    this.fallbackMode = const Value.absent(),
     required DateTime dibuatPada,
   }) : nama = Value(nama),
        baseUrl = Value(baseUrl),
@@ -9575,6 +9628,7 @@ class AiProviderConfigurationsCompanion
     Expression<String>? allowedMode,
     Expression<String>? fallbackModel1,
     Expression<String>? fallbackModel2,
+    Expression<String>? fallbackMode,
     Expression<DateTime>? dibuatPada,
   }) {
     return RawValuesInsertable({
@@ -9590,6 +9644,7 @@ class AiProviderConfigurationsCompanion
       if (allowedMode != null) 'allowed_mode': allowedMode,
       if (fallbackModel1 != null) 'fallback_model1': fallbackModel1,
       if (fallbackModel2 != null) 'fallback_model2': fallbackModel2,
+      if (fallbackMode != null) 'fallback_mode': fallbackMode,
       if (dibuatPada != null) 'dibuat_pada': dibuatPada,
     });
   }
@@ -9607,6 +9662,7 @@ class AiProviderConfigurationsCompanion
     Value<AllowedModelsMode>? allowedMode,
     Value<String?>? fallbackModel1,
     Value<String?>? fallbackModel2,
+    Value<FallbackMode>? fallbackMode,
     Value<DateTime>? dibuatPada,
   }) {
     return AiProviderConfigurationsCompanion(
@@ -9622,6 +9678,7 @@ class AiProviderConfigurationsCompanion
       allowedMode: allowedMode ?? this.allowedMode,
       fallbackModel1: fallbackModel1 ?? this.fallbackModel1,
       fallbackModel2: fallbackModel2 ?? this.fallbackModel2,
+      fallbackMode: fallbackMode ?? this.fallbackMode,
       dibuatPada: dibuatPada ?? this.dibuatPada,
     );
   }
@@ -9671,6 +9728,13 @@ class AiProviderConfigurationsCompanion
     if (fallbackModel2.present) {
       map['fallback_model2'] = Variable<String>(fallbackModel2.value);
     }
+    if (fallbackMode.present) {
+      map['fallback_mode'] = Variable<String>(
+        $AiProviderConfigurationsTable.$converterfallbackMode.toSql(
+          fallbackMode.value,
+        ),
+      );
+    }
     if (dibuatPada.present) {
       map['dibuat_pada'] = Variable<DateTime>(dibuatPada.value);
     }
@@ -9692,6 +9756,7 @@ class AiProviderConfigurationsCompanion
           ..write('allowedMode: $allowedMode, ')
           ..write('fallbackModel1: $fallbackModel1, ')
           ..write('fallbackModel2: $fallbackModel2, ')
+          ..write('fallbackMode: $fallbackMode, ')
           ..write('dibuatPada: $dibuatPada')
           ..write(')'))
         .toString();
@@ -12426,6 +12491,19 @@ class $DanaBalanceLedgersTable extends DanaBalanceLedgers
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
+  @override
+  late final GeneratedColumnWithTypeConverter<DanaRealizationStatus, String>
+  statusRealisasi =
+      GeneratedColumn<String>(
+        'status_realisasi',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+        defaultValue: const Constant('belumDieksekusi'),
+      ).withConverter<DanaRealizationStatus>(
+        $DanaBalanceLedgersTable.$converterstatusRealisasi,
+      );
   static const VerificationMeta _dibuatPadaMeta = const VerificationMeta(
     'dibuatPada',
   );
@@ -12452,6 +12530,7 @@ class $DanaBalanceLedgersTable extends DanaBalanceLedgers
     rewardAktual,
     saldoAkhirBiasa,
     saldoAkhirPlus,
+    statusRealisasi,
     dibuatPada,
   ];
   @override
@@ -12668,6 +12747,13 @@ class $DanaBalanceLedgersTable extends DanaBalanceLedgers
         DriftSqlType.int,
         data['${effectivePrefix}saldo_akhir_plus'],
       )!,
+      statusRealisasi: $DanaBalanceLedgersTable.$converterstatusRealisasi
+          .fromSql(
+            attachedDatabase.typeMapping.read(
+              DriftSqlType.string,
+              data['${effectivePrefix}status_realisasi'],
+            )!,
+          ),
       dibuatPada: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}dibuat_pada'],
@@ -12679,6 +12765,11 @@ class $DanaBalanceLedgersTable extends DanaBalanceLedgers
   $DanaBalanceLedgersTable createAlias(String alias) {
     return $DanaBalanceLedgersTable(attachedDatabase, alias);
   }
+
+  static JsonTypeConverter2<DanaRealizationStatus, String, String>
+  $converterstatusRealisasi = const EnumNameConverter<DanaRealizationStatus>(
+    DanaRealizationStatus.values,
+  );
 }
 
 class DanaBalanceLedger extends DataClass
@@ -12696,6 +12787,7 @@ class DanaBalanceLedger extends DataClass
   final int rewardAktual;
   final int saldoAkhirBiasa;
   final int saldoAkhirPlus;
+  final DanaRealizationStatus statusRealisasi;
   final DateTime dibuatPada;
   const DanaBalanceLedger({
     required this.id,
@@ -12711,6 +12803,7 @@ class DanaBalanceLedger extends DataClass
     required this.rewardAktual,
     required this.saldoAkhirBiasa,
     required this.saldoAkhirPlus,
+    required this.statusRealisasi,
     required this.dibuatPada,
   });
   @override
@@ -12729,6 +12822,13 @@ class DanaBalanceLedger extends DataClass
     map['reward_aktual'] = Variable<int>(rewardAktual);
     map['saldo_akhir_biasa'] = Variable<int>(saldoAkhirBiasa);
     map['saldo_akhir_plus'] = Variable<int>(saldoAkhirPlus);
+    {
+      map['status_realisasi'] = Variable<String>(
+        $DanaBalanceLedgersTable.$converterstatusRealisasi.toSql(
+          statusRealisasi,
+        ),
+      );
+    }
     map['dibuat_pada'] = Variable<DateTime>(dibuatPada);
     return map;
   }
@@ -12748,6 +12848,7 @@ class DanaBalanceLedger extends DataClass
       rewardAktual: Value(rewardAktual),
       saldoAkhirBiasa: Value(saldoAkhirBiasa),
       saldoAkhirPlus: Value(saldoAkhirPlus),
+      statusRealisasi: Value(statusRealisasi),
       dibuatPada: Value(dibuatPada),
     );
   }
@@ -12771,6 +12872,8 @@ class DanaBalanceLedger extends DataClass
       rewardAktual: serializer.fromJson<int>(json['rewardAktual']),
       saldoAkhirBiasa: serializer.fromJson<int>(json['saldoAkhirBiasa']),
       saldoAkhirPlus: serializer.fromJson<int>(json['saldoAkhirPlus']),
+      statusRealisasi: $DanaBalanceLedgersTable.$converterstatusRealisasi
+          .fromJson(serializer.fromJson<String>(json['statusRealisasi'])),
       dibuatPada: serializer.fromJson<DateTime>(json['dibuatPada']),
     );
   }
@@ -12791,6 +12894,11 @@ class DanaBalanceLedger extends DataClass
       'rewardAktual': serializer.toJson<int>(rewardAktual),
       'saldoAkhirBiasa': serializer.toJson<int>(saldoAkhirBiasa),
       'saldoAkhirPlus': serializer.toJson<int>(saldoAkhirPlus),
+      'statusRealisasi': serializer.toJson<String>(
+        $DanaBalanceLedgersTable.$converterstatusRealisasi.toJson(
+          statusRealisasi,
+        ),
+      ),
       'dibuatPada': serializer.toJson<DateTime>(dibuatPada),
     };
   }
@@ -12809,6 +12917,7 @@ class DanaBalanceLedger extends DataClass
     int? rewardAktual,
     int? saldoAkhirBiasa,
     int? saldoAkhirPlus,
+    DanaRealizationStatus? statusRealisasi,
     DateTime? dibuatPada,
   }) => DanaBalanceLedger(
     id: id ?? this.id,
@@ -12824,6 +12933,7 @@ class DanaBalanceLedger extends DataClass
     rewardAktual: rewardAktual ?? this.rewardAktual,
     saldoAkhirBiasa: saldoAkhirBiasa ?? this.saldoAkhirBiasa,
     saldoAkhirPlus: saldoAkhirPlus ?? this.saldoAkhirPlus,
+    statusRealisasi: statusRealisasi ?? this.statusRealisasi,
     dibuatPada: dibuatPada ?? this.dibuatPada,
   );
   DanaBalanceLedger copyWithCompanion(DanaBalanceLedgersCompanion data) {
@@ -12861,6 +12971,9 @@ class DanaBalanceLedger extends DataClass
       saldoAkhirPlus: data.saldoAkhirPlus.present
           ? data.saldoAkhirPlus.value
           : this.saldoAkhirPlus,
+      statusRealisasi: data.statusRealisasi.present
+          ? data.statusRealisasi.value
+          : this.statusRealisasi,
       dibuatPada: data.dibuatPada.present
           ? data.dibuatPada.value
           : this.dibuatPada,
@@ -12883,6 +12996,7 @@ class DanaBalanceLedger extends DataClass
           ..write('rewardAktual: $rewardAktual, ')
           ..write('saldoAkhirBiasa: $saldoAkhirBiasa, ')
           ..write('saldoAkhirPlus: $saldoAkhirPlus, ')
+          ..write('statusRealisasi: $statusRealisasi, ')
           ..write('dibuatPada: $dibuatPada')
           ..write(')'))
         .toString();
@@ -12903,6 +13017,7 @@ class DanaBalanceLedger extends DataClass
     rewardAktual,
     saldoAkhirBiasa,
     saldoAkhirPlus,
+    statusRealisasi,
     dibuatPada,
   );
   @override
@@ -12922,6 +13037,7 @@ class DanaBalanceLedger extends DataClass
           other.rewardAktual == this.rewardAktual &&
           other.saldoAkhirBiasa == this.saldoAkhirBiasa &&
           other.saldoAkhirPlus == this.saldoAkhirPlus &&
+          other.statusRealisasi == this.statusRealisasi &&
           other.dibuatPada == this.dibuatPada);
 }
 
@@ -12939,6 +13055,7 @@ class DanaBalanceLedgersCompanion extends UpdateCompanion<DanaBalanceLedger> {
   final Value<int> rewardAktual;
   final Value<int> saldoAkhirBiasa;
   final Value<int> saldoAkhirPlus;
+  final Value<DanaRealizationStatus> statusRealisasi;
   final Value<DateTime> dibuatPada;
   const DanaBalanceLedgersCompanion({
     this.id = const Value.absent(),
@@ -12954,6 +13071,7 @@ class DanaBalanceLedgersCompanion extends UpdateCompanion<DanaBalanceLedger> {
     this.rewardAktual = const Value.absent(),
     this.saldoAkhirBiasa = const Value.absent(),
     this.saldoAkhirPlus = const Value.absent(),
+    this.statusRealisasi = const Value.absent(),
     this.dibuatPada = const Value.absent(),
   });
   DanaBalanceLedgersCompanion.insert({
@@ -12970,6 +13088,7 @@ class DanaBalanceLedgersCompanion extends UpdateCompanion<DanaBalanceLedger> {
     required int rewardAktual,
     required int saldoAkhirBiasa,
     required int saldoAkhirPlus,
+    this.statusRealisasi = const Value.absent(),
     required DateTime dibuatPada,
   }) : tahun = Value(tahun),
        bulan = Value(bulan),
@@ -12998,6 +13117,7 @@ class DanaBalanceLedgersCompanion extends UpdateCompanion<DanaBalanceLedger> {
     Expression<int>? rewardAktual,
     Expression<int>? saldoAkhirBiasa,
     Expression<int>? saldoAkhirPlus,
+    Expression<String>? statusRealisasi,
     Expression<DateTime>? dibuatPada,
   }) {
     return RawValuesInsertable({
@@ -13014,6 +13134,7 @@ class DanaBalanceLedgersCompanion extends UpdateCompanion<DanaBalanceLedger> {
       if (rewardAktual != null) 'reward_aktual': rewardAktual,
       if (saldoAkhirBiasa != null) 'saldo_akhir_biasa': saldoAkhirBiasa,
       if (saldoAkhirPlus != null) 'saldo_akhir_plus': saldoAkhirPlus,
+      if (statusRealisasi != null) 'status_realisasi': statusRealisasi,
       if (dibuatPada != null) 'dibuat_pada': dibuatPada,
     });
   }
@@ -13032,6 +13153,7 @@ class DanaBalanceLedgersCompanion extends UpdateCompanion<DanaBalanceLedger> {
     Value<int>? rewardAktual,
     Value<int>? saldoAkhirBiasa,
     Value<int>? saldoAkhirPlus,
+    Value<DanaRealizationStatus>? statusRealisasi,
     Value<DateTime>? dibuatPada,
   }) {
     return DanaBalanceLedgersCompanion(
@@ -13048,6 +13170,7 @@ class DanaBalanceLedgersCompanion extends UpdateCompanion<DanaBalanceLedger> {
       rewardAktual: rewardAktual ?? this.rewardAktual,
       saldoAkhirBiasa: saldoAkhirBiasa ?? this.saldoAkhirBiasa,
       saldoAkhirPlus: saldoAkhirPlus ?? this.saldoAkhirPlus,
+      statusRealisasi: statusRealisasi ?? this.statusRealisasi,
       dibuatPada: dibuatPada ?? this.dibuatPada,
     );
   }
@@ -13094,6 +13217,13 @@ class DanaBalanceLedgersCompanion extends UpdateCompanion<DanaBalanceLedger> {
     if (saldoAkhirPlus.present) {
       map['saldo_akhir_plus'] = Variable<int>(saldoAkhirPlus.value);
     }
+    if (statusRealisasi.present) {
+      map['status_realisasi'] = Variable<String>(
+        $DanaBalanceLedgersTable.$converterstatusRealisasi.toSql(
+          statusRealisasi.value,
+        ),
+      );
+    }
     if (dibuatPada.present) {
       map['dibuat_pada'] = Variable<DateTime>(dibuatPada.value);
     }
@@ -13116,6 +13246,7 @@ class DanaBalanceLedgersCompanion extends UpdateCompanion<DanaBalanceLedger> {
           ..write('rewardAktual: $rewardAktual, ')
           ..write('saldoAkhirBiasa: $saldoAkhirBiasa, ')
           ..write('saldoAkhirPlus: $saldoAkhirPlus, ')
+          ..write('statusRealisasi: $statusRealisasi, ')
           ..write('dibuatPada: $dibuatPada')
           ..write(')'))
         .toString();
@@ -21036,6 +21167,7 @@ typedef $$AiProviderConfigurationsTableCreateCompanionBuilder =
       Value<AllowedModelsMode> allowedMode,
       Value<String?> fallbackModel1,
       Value<String?> fallbackModel2,
+      Value<FallbackMode> fallbackMode,
       required DateTime dibuatPada,
     });
 typedef $$AiProviderConfigurationsTableUpdateCompanionBuilder =
@@ -21052,6 +21184,7 @@ typedef $$AiProviderConfigurationsTableUpdateCompanionBuilder =
       Value<AllowedModelsMode> allowedMode,
       Value<String?> fallbackModel1,
       Value<String?> fallbackModel2,
+      Value<FallbackMode> fallbackMode,
       Value<DateTime> dibuatPada,
     });
 
@@ -21199,6 +21332,12 @@ class $$AiProviderConfigurationsTableFilterComposer
   ColumnFilters<String> get fallbackModel2 => $composableBuilder(
     column: $table.fallbackModel2,
     builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<FallbackMode, FallbackMode, String>
+  get fallbackMode => $composableBuilder(
+    column: $table.fallbackMode,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
   );
 
   ColumnFilters<DateTime> get dibuatPada => $composableBuilder(
@@ -21351,6 +21490,11 @@ class $$AiProviderConfigurationsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get fallbackMode => $composableBuilder(
+    column: $table.fallbackMode,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get dibuatPada => $composableBuilder(
     column: $table.dibuatPada,
     builder: (column) => ColumnOrderings(column),
@@ -21416,6 +21560,12 @@ class $$AiProviderConfigurationsTableAnnotationComposer
     column: $table.fallbackModel2,
     builder: (column) => column,
   );
+
+  GeneratedColumnWithTypeConverter<FallbackMode, String> get fallbackMode =>
+      $composableBuilder(
+        column: $table.fallbackMode,
+        builder: (column) => column,
+      );
 
   GeneratedColumn<DateTime> get dibuatPada => $composableBuilder(
     column: $table.dibuatPada,
@@ -21554,6 +21704,7 @@ class $$AiProviderConfigurationsTableTableManager
                 Value<AllowedModelsMode> allowedMode = const Value.absent(),
                 Value<String?> fallbackModel1 = const Value.absent(),
                 Value<String?> fallbackModel2 = const Value.absent(),
+                Value<FallbackMode> fallbackMode = const Value.absent(),
                 Value<DateTime> dibuatPada = const Value.absent(),
               }) => AiProviderConfigurationsCompanion(
                 id: id,
@@ -21568,6 +21719,7 @@ class $$AiProviderConfigurationsTableTableManager
                 allowedMode: allowedMode,
                 fallbackModel1: fallbackModel1,
                 fallbackModel2: fallbackModel2,
+                fallbackMode: fallbackMode,
                 dibuatPada: dibuatPada,
               ),
           createCompanionCallback:
@@ -21584,6 +21736,7 @@ class $$AiProviderConfigurationsTableTableManager
                 Value<AllowedModelsMode> allowedMode = const Value.absent(),
                 Value<String?> fallbackModel1 = const Value.absent(),
                 Value<String?> fallbackModel2 = const Value.absent(),
+                Value<FallbackMode> fallbackMode = const Value.absent(),
                 required DateTime dibuatPada,
               }) => AiProviderConfigurationsCompanion.insert(
                 id: id,
@@ -21598,6 +21751,7 @@ class $$AiProviderConfigurationsTableTableManager
                 allowedMode: allowedMode,
                 fallbackModel1: fallbackModel1,
                 fallbackModel2: fallbackModel2,
+                fallbackMode: fallbackMode,
                 dibuatPada: dibuatPada,
               ),
           withReferenceMapper: (p0) => p0
@@ -23628,6 +23782,7 @@ typedef $$DanaBalanceLedgersTableCreateCompanionBuilder =
       required int rewardAktual,
       required int saldoAkhirBiasa,
       required int saldoAkhirPlus,
+      Value<DanaRealizationStatus> statusRealisasi,
       required DateTime dibuatPada,
     });
 typedef $$DanaBalanceLedgersTableUpdateCompanionBuilder =
@@ -23645,6 +23800,7 @@ typedef $$DanaBalanceLedgersTableUpdateCompanionBuilder =
       Value<int> rewardAktual,
       Value<int> saldoAkhirBiasa,
       Value<int> saldoAkhirPlus,
+      Value<DanaRealizationStatus> statusRealisasi,
       Value<DateTime> dibuatPada,
     });
 
@@ -23720,6 +23876,16 @@ class $$DanaBalanceLedgersTableFilterComposer
   ColumnFilters<int> get saldoAkhirPlus => $composableBuilder(
     column: $table.saldoAkhirPlus,
     builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<
+    DanaRealizationStatus,
+    DanaRealizationStatus,
+    String
+  >
+  get statusRealisasi => $composableBuilder(
+    column: $table.statusRealisasi,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
   );
 
   ColumnFilters<DateTime> get dibuatPada => $composableBuilder(
@@ -23802,6 +23968,11 @@ class $$DanaBalanceLedgersTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get statusRealisasi => $composableBuilder(
+    column: $table.statusRealisasi,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get dibuatPada => $composableBuilder(
     column: $table.dibuatPada,
     builder: (column) => ColumnOrderings(column),
@@ -23876,6 +24047,12 @@ class $$DanaBalanceLedgersTableAnnotationComposer
     builder: (column) => column,
   );
 
+  GeneratedColumnWithTypeConverter<DanaRealizationStatus, String>
+  get statusRealisasi => $composableBuilder(
+    column: $table.statusRealisasi,
+    builder: (column) => column,
+  );
+
   GeneratedColumn<DateTime> get dibuatPada => $composableBuilder(
     column: $table.dibuatPada,
     builder: (column) => column,
@@ -23935,6 +24112,8 @@ class $$DanaBalanceLedgersTableTableManager
                 Value<int> rewardAktual = const Value.absent(),
                 Value<int> saldoAkhirBiasa = const Value.absent(),
                 Value<int> saldoAkhirPlus = const Value.absent(),
+                Value<DanaRealizationStatus> statusRealisasi =
+                    const Value.absent(),
                 Value<DateTime> dibuatPada = const Value.absent(),
               }) => DanaBalanceLedgersCompanion(
                 id: id,
@@ -23950,6 +24129,7 @@ class $$DanaBalanceLedgersTableTableManager
                 rewardAktual: rewardAktual,
                 saldoAkhirBiasa: saldoAkhirBiasa,
                 saldoAkhirPlus: saldoAkhirPlus,
+                statusRealisasi: statusRealisasi,
                 dibuatPada: dibuatPada,
               ),
           createCompanionCallback:
@@ -23967,6 +24147,8 @@ class $$DanaBalanceLedgersTableTableManager
                 required int rewardAktual,
                 required int saldoAkhirBiasa,
                 required int saldoAkhirPlus,
+                Value<DanaRealizationStatus> statusRealisasi =
+                    const Value.absent(),
                 required DateTime dibuatPada,
               }) => DanaBalanceLedgersCompanion.insert(
                 id: id,
@@ -23982,6 +24164,7 @@ class $$DanaBalanceLedgersTableTableManager
                 rewardAktual: rewardAktual,
                 saldoAkhirBiasa: saldoAkhirBiasa,
                 saldoAkhirPlus: saldoAkhirPlus,
+                statusRealisasi: statusRealisasi,
                 dibuatPada: dibuatPada,
               ),
           withReferenceMapper: (p0) => p0

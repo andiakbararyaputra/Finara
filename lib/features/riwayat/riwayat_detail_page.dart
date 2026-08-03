@@ -232,6 +232,7 @@ class _MenuAksi extends ConsumerWidget {
         'salin' => _salinTeks(context),
         'bagikan' => _bagikan(context),
         'pdf' => _eksporPdf(context),
+        'gambar' => _bagikanGambar(context),
         _ => _konfirmasiHapus(context, ref),
       },
       itemBuilder: (context) => [
@@ -242,6 +243,7 @@ class _MenuAksi extends ConsumerWidget {
         PopupMenuItem(value: 'salin', child: Text(l10n.salinSebagaiTeks)),
         PopupMenuItem(value: 'bagikan', child: Text(l10n.bagikan)),
         PopupMenuItem(value: 'pdf', child: Text(l10n.eksporPdf)),
+        PopupMenuItem(value: 'gambar', child: Text(l10n.bagikanGambar)),
         PopupMenuItem(value: 'hapus', child: Text(l10n.hapusBulanIni)),
       ],
     );
@@ -294,6 +296,22 @@ ${l10n.totalAlokasiDanaRencana}: ${formatRupiah(r.alokasiDana)}''';
           await service.buatPdf(judulBulan: judul, revisi: detail.revisi);
       final path = await service.simpanSementara(
           'finara-alokasi-${detail.bulan.tahun}-${detail.bulan.bulan}.pdf',
+          bytes);
+      await SharePlus.instance.share(ShareParams(files: [XFile(path)]));
+    } catch (_) {
+      // Plugin share/path tidak tersedia (mis. test) — abaikan.
+    }
+  }
+
+  Future<void> _bagikanGambar(BuildContext context) async {
+    const service = ExportService();
+    final judul = DateFormat('MMMM yyyy', 'id_ID')
+        .format(DateTime(detail.bulan.tahun, detail.bulan.bulan));
+    try {
+      final bytes = await service.buatGambar(
+          judulBulan: judul, revisi: detail.revisi);
+      final path = await service.simpanSementara(
+          'finara-alokasi-${detail.bulan.tahun}-${detail.bulan.bulan}.png',
           bytes);
       await SharePlus.instance.share(ShareParams(files: [XFile(path)]));
     } catch (_) {

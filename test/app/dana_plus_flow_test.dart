@@ -101,6 +101,9 @@ void main() {
 
     await tester.tap(find.byIcon(Icons.settings_outlined));
     await tester.pumpAndSettle();
+    await tester.dragUntilVisible(find.text('DANA dan DANA+'),
+        find.byType(ListView), const Offset(0, -300));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('DANA dan DANA+'));
     await tester.pumpAndSettle();
 
@@ -192,6 +195,9 @@ void main() {
 
     await tester.tap(find.byIcon(Icons.settings_outlined));
     await tester.pumpAndSettle();
+    await tester.dragUntilVisible(find.text('DANA dan DANA+'),
+        find.byType(ListView), const Offset(0, -300));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('DANA dan DANA+'));
     await tester.pumpAndSettle();
 
@@ -218,5 +224,102 @@ void main() {
     expect(ledger!.pindahDariPlus, 150000);
     expect(ledger.saldoAkhirPlus, 50000);
     expect(ledger.saldoAkhirBiasa, 150000);
+  });
+
+  testWidgets('status realisasi §94: default belum dieksekusi, dapat diubah, '
+      'bertahan saat ledger dicatat ulang', (tester) async {
+    final db = await pumpApp(tester);
+    final repo = DanaPlusRepository(db);
+    final kini = DateTime.now();
+    await repo.catatLedger(
+      tahun: kini.year,
+      bulan: kini.month,
+      saldoAwalBiasa: 0,
+      saldoAwalPlus: 0,
+      topUpKeBiasa: 300000,
+      pindahKePlus: 100000,
+      pindahDariPlus: 0,
+      pengeluaranBiasa: 0,
+      pengeluaranPlus: 0,
+      rewardAktual: 0,
+    );
+
+    var ledger = await repo.ledgerPeriode(kini.year, kini.month);
+    expect(ledger!.statusRealisasi, DanaRealizationStatus.belumDieksekusi);
+
+    await repo.setStatusRealisasi(
+        tahun: kini.year,
+        bulan: kini.month,
+        status: DanaRealizationStatus.sebagianSelesai);
+    ledger = await repo.ledgerPeriode(kini.year, kini.month);
+    expect(ledger!.statusRealisasi, DanaRealizationStatus.sebagianSelesai);
+
+    // Catat ulang dengan status yang dipertahankan (perilaku halaman).
+    await repo.catatLedger(
+      tahun: kini.year,
+      bulan: kini.month,
+      saldoAwalBiasa: 0,
+      saldoAwalPlus: 0,
+      topUpKeBiasa: 300000,
+      pindahKePlus: 150000,
+      pindahDariPlus: 0,
+      pengeluaranBiasa: 0,
+      pengeluaranPlus: 0,
+      rewardAktual: 0,
+      status: ledger.statusRealisasi,
+    );
+    ledger = await repo.ledgerPeriode(kini.year, kini.month);
+    expect(ledger!.statusRealisasi, DanaRealizationStatus.sebagianSelesai);
+    expect(ledger.pindahKePlus, 150000);
+  });
+
+  testWidgets('checklist eksekusi §93 dan rekomendasi §89 tampil di '
+      'halaman DANA+', (tester) async {
+    final db = await pumpApp(tester);
+    await DanaPlusRepository(db).simpanKonfigurasi(
+      availability: DanaPlusAvailability.menggunakan,
+      mode: DanaSplitMode.smartLiquidity,
+      strategi: DanaExecutionStrategy.sekaligusLaluBagi,
+    );
+
+    await tester.tap(find.byIcon(Icons.settings_outlined));
+    await tester.pumpAndSettle();
+    await tester.dragUntilVisible(find.text('DANA dan DANA+'),
+        find.byType(ListView), const Offset(0, -300));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('DANA dan DANA+'));
+    await tester.pumpAndSettle();
+
+    // Rekomendasi §89: kalimat + 3 tombol aksi.
+    await tester.dragUntilVisible(find.text('Rekomendasi Pembagian'),
+        find.byType(ListView), const Offset(0, -300));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Untuk top-up berikutnya'), findsOneWidget);
+    expect(find.text('Gunakan Rekomendasi'), findsOneWidget);
+    expect(find.text('Sesuaikan Pembagian'), findsOneWidget);
+    expect(find.text('Tetap Gunakan Pembagian Saya'), findsOneWidget);
+
+    // Checklist §93: instruksi manual + disclaimer.
+    await tester.dragUntilVisible(find.text('Checklist Eksekusi DANA'),
+        find.byType(ListView), const Offset(0, -300));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Top-up Rp'), findsOneWidget);
+    expect(find.textContaining('Pertahankan Rp'), findsOneWidget);
+    expect(
+        find.textContaining('instruksi manual'), findsOneWidget);
+
+    // Centang langkah pertama.
+    await tester.tap(find.byType(CheckboxListTile).first);
+    await tester.pumpAndSettle();
+
+    // Tutup rekomendasi.
+    await tester.dragUntilVisible(
+        find.text('Tetap Gunakan Pembagian Saya'),
+        find.byType(ListView),
+        const Offset(0, 300));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Tetap Gunakan Pembagian Saya'));
+    await tester.pumpAndSettle();
+    expect(find.text('Rekomendasi Pembagian'), findsNothing);
   });
 }

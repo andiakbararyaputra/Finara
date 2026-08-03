@@ -15,6 +15,7 @@ import '../../domain/ai/ai_models.dart';
 import '../../domain/ai/ai_provider_adapter.dart';
 import '../../domain/ai/financial_context_builder.dart';
 import '../../domain/ai/model_policy.dart';
+import '../../domain/models/ai_enums.dart';
 import '../../l10n/app_localizations.dart';
 import 'ai_providers.dart';
 
@@ -48,20 +49,11 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   }
 
   Future<void> _kirim(String teks) async {
-    final l10n = AppLocalizations.of(context)!;
     final isi = teks.trim();
     if (isi.isEmpty || _streaming) return;
     _inputCtrl.clear();
 
     final chatRepo = ref.read(chatRepositoryProvider);
-    final percakapan =
-        await chatRepo.percakapan(widget.conversationId);
-    if (percakapan == null) return;
-    final config = await ref
-        .read(aiProviderRepositoryProvider)
-        .provider(percakapan.providerId);
-    if (config == null) return;
-
     await chatRepo.tambahPesan(
         conversationId: widget.conversationId, role: 'user', content: isi);
     // Judul percakapan = pesan pertama.
@@ -75,6 +67,36 @@ class _ChatPageState extends ConsumerState<ChatPage> {
       ..invalidate(pesanPercakapanProvider(widget.conversationId))
       ..invalidate(daftarPercakapanProvider);
 
+    await _prosesPermintaan();
+  }
+
+  /// Regenerasi jawaban terakhir (§42): hapus jawaban lalu minta ulang
+  /// dengan riwayat yang sama.
+  Future<void> _regenerasi() async {
+    if (_streaming) return;
+    final chatRepo = ref.read(chatRepositoryProvider);
+    final pesan = await chatRepo.pesanPercakapan(widget.conversationId);
+    if (pesan.isEmpty || pesan.last.role != 'assistant') return;
+    await chatRepo.hapusPesan(pesan.last.id);
+    ref.invalidate(pesanPercakapanProvider(widget.conversationId));
+    await _prosesPermintaan();
+  }
+
+  /// Meminta jawaban utk riwayat tersimpan saat ini, dengan rantai
+  /// fallback §37 sesuai preferensi pengguna.
+  Future<void> _prosesPermintaan() async {
+    final l10n = AppLocalizations.of(context)!;
+    final chatRepo = ref.read(chatRepositoryProvider);
+    final percakapan =
+        await chatRepo.percakapan(widget.conversationId);
+    if (percakapan == null) return;
+    final config = await ref
+        .read(aiProviderRepositoryProvider)
+        .provider(percakapan.providerId);
+    if (config == null) return;
+
+    final pesanSebelum =
+        await chatRepo.pesanPercakapan(widget.conversationId);
     final apiKey =
         await ref.read(apiKeyStoreProvider).baca(config.id) ?? '';
     final adapter =
@@ -118,6 +140,8 @@ class _ChatPageState extends ConsumerState<ChatPage> {
           );
           break;
         } on AIProviderException catch (e) {
+          // §37: hormati preferensi pengguna sebelum beralih model.
+          if (config.fallbackMode == FallbackMode.nonaktif) rethrow;
           final berikutnya = const FallbackService().modelBerikutnya(
             modelGagal: modelAktif,
             error: e.kind,
@@ -127,10 +151,16 @@ class _ChatPageState extends ConsumerState<ChatPage> {
             daftarModel: kebijakan,
           );
           if (berikutnya == null) rethrow;
+          if (config.fallbackMode == FallbackMode.konfirmasi) {
+            final setuju = await _konfirmasiFallback(
+                l10n, config.nama, berikutnya);
+            if (!setuju) rethrow;
+          }
           modelAktif = berikutnya;
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(l10n.beralihKeCadangan(berikutnya))));
+                content: Text(
+                    '${l10n.beralihKeCadangan(berikutnya)} · ${config.nama}')));
           }
         }
       }
@@ -236,6 +266,83 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     if (selesai != null && !selesai.isCompleted) selesai.complete();
   }
 
+  /// §37: tampilkan provider & model tujuan sebelum beralih.
+  Future<bool> _konfirmasiFallback(
+      AppLocalizations l10n, String provider, String model) async {
+    if (!mounted) return false;
+    final jawab = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.konfirmasiFallbackJudul),
+        content: Text(l10n.konfirmasiFallbackIsi(model, provider)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: Text(l10n.batal),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: Text(l10n.gunakanModelIni),
+          ),
+        ],
+      ),
+    );
+    return jawab ?? false;
+  }
+
+  /// Ganti model percakapan (§33) — daftar mengikuti Allowed Models §34.
+  Future<void> _gantiModel() async {
+    final l10n = AppLocalizations.of(context)!;
+    final chatRepo = ref.read(chatRepositoryProvider);
+    final percakapan = await chatRepo.percakapan(widget.conversationId);
+    if (percakapan == null) return;
+    final repo = ref.read(aiProviderRepositoryProvider);
+    final config = await repo.provider(percakapan.providerId);
+    if (config == null) return;
+    final semua = await repo.modelProvider(config.id);
+    const allowed = AllowedModelsService();
+    final kandidat = [
+      for (final m in semua)
+        if (allowed.bolehDipakai(config.allowedMode, policyDariRow(m))) m,
+    ];
+    if (kandidat.isEmpty || !mounted) return;
+
+    final pilihan = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) => SimpleDialog(
+        title: Text(l10n.gantiModel),
+        children: [
+          for (final m in kandidat)
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(dialogContext, m.modelId),
+              child: Row(
+                children: [
+                  Icon(
+                    m.modelId == percakapan.modelId
+                        ? Icons.radio_button_checked
+                        : Icons.radio_button_off,
+                    size: 18,
+                  ),
+                  const SizedBox(width: FinaraSpacing.sm),
+                  Expanded(
+                      child: Text(m.displayName ?? m.modelId,
+                          overflow: TextOverflow.ellipsis)),
+                  if (m.favorit)
+                    const Icon(Icons.star_rounded, size: 16),
+                ],
+              ),
+            ),
+        ],
+      ),
+    );
+    if (pilihan == null || pilihan == percakapan.modelId) return;
+    await chatRepo.ubahModel(widget.conversationId, pilihan);
+    if (!mounted) return;
+    setState(() {});
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(l10n.modelDiganti(pilihan))));
+  }
+
   void _gulirKeBawah() {
     if (!_scrollCtrl.hasClients) return;
     _scrollCtrl.jumpTo(_scrollCtrl.position.maxScrollExtent);
@@ -268,6 +375,13 @@ class _ChatPageState extends ConsumerState<ChatPage> {
             ],
           ),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.swap_horiz_rounded),
+            tooltip: l10n.gantiModel,
+            onPressed: _streaming ? null : _gantiModel,
+          ),
+        ],
       ),
       body: Center(
         child: ConstrainedBox(
@@ -286,6 +400,18 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                             _GelembungPesan(
                               teks: m.content,
                               dariPengguna: m.role == 'user',
+                            ),
+                          if (!_streaming &&
+                              tampil.isNotEmpty &&
+                              tampil.last.role == 'assistant')
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: TextButton.icon(
+                                icon: const Icon(Icons.refresh_rounded,
+                                    size: 18),
+                                label: Text(l10n.regenerasi),
+                                onPressed: _regenerasi,
+                              ),
                             ),
                           if (_streaming)
                             _GelembungPesan(

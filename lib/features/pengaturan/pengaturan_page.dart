@@ -1,12 +1,16 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../app/data_providers.dart';
 import '../../app/providers.dart';
 import '../../app/router.dart';
 import '../../app/theme_mode_controller.dart';
 import '../../data/repositories/settings_repository.dart';
+import '../../data/services/backup_service.dart';
+import '../../data/services/export_service.dart';
 import '../../design_system/tokens/finara_spacing.dart';
 import '../../l10n/app_localizations.dart';
 
@@ -58,6 +62,9 @@ class PengaturanPage extends ConsumerWidget {
               Text(l10n.keamanan, style: theme.textTheme.titleMedium),
               const _SectionKeamanan(),
               const Divider(height: FinaraSpacing.xxl),
+              Text(l10n.cadanganJudul, style: theme.textTheme.titleMedium),
+              const _SectionCadangan(),
+              const Divider(height: FinaraSpacing.xxl),
               ListTile(
                 contentPadding: EdgeInsets.zero,
                 leading: const Icon(Icons.subscriptions_outlined),
@@ -91,7 +98,7 @@ class PengaturanPage extends ConsumerWidget {
                 contentPadding: EdgeInsets.zero,
                 leading: const Icon(Icons.info_outline_rounded),
                 title: Text(l10n.versiAplikasi),
-                subtitle: const Text('0.2.0'),
+                subtitle: const Text('0.3.0'),
               ),
               const SizedBox(height: FinaraSpacing.md),
               Text(
@@ -289,6 +296,163 @@ final _biometrikProvider = FutureProvider<bool>((ref) async {
       .baca(SettingKeys.biometrikAktif);
   return nilai == 'true';
 });
+
+class _SectionCadangan extends ConsumerWidget {
+  const _SectionCadangan();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          leading: const Icon(Icons.backup_outlined),
+          title: Text(l10n.buatCadangan),
+          onTap: () => _buatCadangan(context, ref),
+        ),
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          leading: const Icon(Icons.restore_rounded),
+          title: Text(l10n.pulihkanCadangan),
+          onTap: () => _pulihkan(context, ref),
+        ),
+        Text(l10n.infoApiKeyBackup,
+            style: theme.textTheme.bodySmall!
+                .copyWith(color: theme.colorScheme.onSurfaceVariant)),
+      ],
+    );
+  }
+
+  /// Dialog frasa sandi; konfirmasi ganda hanya saat membuat cadangan.
+  Future<String?> _mintaFrasa(BuildContext context,
+      {required bool konfirmasiGanda}) async {
+    final l10n = AppLocalizations.of(context)!;
+    final f1 = TextEditingController();
+    final f2 = TextEditingController();
+    String? error;
+    final hasil = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          title: Text(l10n.frasaSandi),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: f1,
+                obscureText: true,
+                decoration: InputDecoration(
+                    labelText: l10n.frasaSandi, errorText: error),
+              ),
+              if (konfirmasiGanda) ...[
+                const SizedBox(height: FinaraSpacing.md),
+                TextField(
+                  controller: f2,
+                  obscureText: true,
+                  decoration:
+                      InputDecoration(labelText: l10n.ulangiFrasaSandi),
+                ),
+              ],
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: Text(l10n.batal),
+            ),
+            FilledButton(
+              onPressed: () {
+                if (f1.text.length < 6 ||
+                    (konfirmasiGanda && f1.text != f2.text)) {
+                  setState(() => error = l10n.frasaTidakSama);
+                  return;
+                }
+                Navigator.pop(dialogContext, f1.text);
+              },
+              child: Text(l10n.simpan),
+            ),
+          ],
+        ),
+      ),
+    );
+    return hasil;
+  }
+
+  Future<void> _buatCadangan(BuildContext context, WidgetRef ref) async {
+    final l10n = AppLocalizations.of(context)!;
+    final frasa = await _mintaFrasa(context, konfirmasiGanda: true);
+    if (frasa == null) return;
+    final bytes =
+        await BackupService(ref.read(databaseProvider)).buatCadangan(frasa);
+    final kini = DateTime.now();
+    final nama = 'finara-backup-${kini.year}'
+        '${kini.month.toString().padLeft(2, '0')}'
+        '${kini.day.toString().padLeft(2, '0')}.finarabak';
+    try {
+      final path =
+          await const ExportService().simpanSementara(nama, bytes);
+      await SharePlus.instance.share(ShareParams(files: [XFile(path)]));
+    } catch (_) {
+      // Plugin share/path tidak tersedia (mis. test) — abaikan.
+    }
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(l10n.infoApiKeyBackup)));
+  }
+
+  Future<void> _pulihkan(BuildContext context, WidgetRef ref) async {
+    final l10n = AppLocalizations.of(context)!;
+    final lanjut = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.pulihkanCadangan),
+        content: Text(l10n.konfirmasiPulihkanIsi),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: Text(l10n.batal),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: Text(l10n.pulihkanCadangan),
+          ),
+        ],
+      ),
+    );
+    if (lanjut != true || !context.mounted) return;
+
+    final pilihan = await FilePicker.platform
+        .pickFiles(type: FileType.any, withData: true);
+    final bytes = pilihan?.files.single.bytes;
+    if (bytes == null || !context.mounted) return;
+
+    final frasa = await _mintaFrasa(context, konfirmasiGanda: false);
+    if (frasa == null || !context.mounted) return;
+
+    try {
+      await BackupService(ref.read(databaseProvider))
+          .pulihkan(bytes, frasa);
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.pulihkanBerhasil)));
+      // Segarkan seluruh data turunan.
+      ref
+        ..invalidate(revisiBulanAktifProvider)
+        ..invalidate(daftarRiwayatProvider)
+        ..invalidate(realisasiBulanIniProvider)
+        ..invalidate(daftarLanggananProvider)
+        ..invalidate(targetDanaDaruratProvider)
+        ..invalidate(skorKesehatanProvider);
+    } catch (_) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(l10n.pulihkanGagal)));
+    }
+  }
+}
 
 final _autoLockMenitProvider = FutureProvider<int>((ref) async {
   final nilai = await ref

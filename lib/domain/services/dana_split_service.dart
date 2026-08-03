@@ -32,6 +32,15 @@ enum DanaPlusAvailability {
   tidakIngin,
 }
 
+/// Status realisasi eksekusi rencana DANA/DANA+ periode berjalan (§94).
+enum DanaRealizationStatus {
+  belumDieksekusi,
+  sebagianSelesai,
+  selesai,
+  tidakSesuaiRencana,
+  dibatalkan,
+}
+
 class DanaSplitInput {
   const DanaSplitInput({
     required this.danaDasarPembagian,

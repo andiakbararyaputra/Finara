@@ -8,6 +8,8 @@ import '../../core/money.dart';
 import '../../data/db/app_database.dart';
 import '../../design_system/tokens/finara_spacing.dart';
 import '../../design_system/widgets/finara_card.dart';
+import '../../domain/services/dana_recommendation_service.dart';
+import '../../domain/services/dana_schedule_service.dart';
 import '../../domain/services/dana_split_service.dart';
 import '../../l10n/app_localizations.dart';
 
@@ -42,6 +44,7 @@ class _DanaPlusPageState extends ConsumerState<DanaPlusPage> {
   int? _tingkatRewardBp;
   RewardRatePeriod _periodeReward = RewardRatePeriod.perTahun;
   bool _dimuat = false;
+  bool _rekomendasiDitutup = false;
 
   bool get _aktif => _availability == DanaPlusAvailability.menggunakan;
 
@@ -195,6 +198,38 @@ class _DanaPlusPageState extends ConsumerState<DanaPlusPage> {
                     alokasiDana: revisi.alokasiDana,
                     input: _bangunInput(revisi.alokasiDana),
                   ),
+                if (revisi != null && !_rekomendasiDitutup) ...[
+                  const SizedBox(height: FinaraSpacing.lg),
+                  _CardRekomendasi(
+                    revisi: revisi,
+                    ledger: ledger,
+                    batasPlus: _batasPlus,
+                    onGunakan: () {
+                      setState(() => _mode = DanaSplitMode.smartLiquidity);
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(l10n.rekomendasiDiterapkan)));
+                    },
+                    onSesuaikan: (persenBiasa) {
+                      setState(() {
+                        _mode = DanaSplitMode.persentase;
+                        _persenBiasa = persenBiasa;
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(l10n.sesuaikanInfo)));
+                    },
+                    onTutup: () =>
+                        setState(() => _rekomendasiDitutup = true),
+                  ),
+                ],
+                if (revisi != null) ...[
+                  const SizedBox(height: FinaraSpacing.lg),
+                  _CardChecklistEksekusi(
+                    revisi: revisi,
+                    strategi: _strategi,
+                    input: _bangunInput,
+                    danaPlusAktif: _aktif,
+                  ),
+                ],
                 const SizedBox(height: FinaraSpacing.lg),
                 _SimulasiReward(
                   tingkatRewardBp: _tingkatRewardBp,
@@ -423,6 +458,24 @@ class _CardLedger extends ConsumerWidget {
                 l.saldoAkhirPlus),
             _Baris(l10n.realisasiPindahPlus, l.pindahKePlus),
             _Baris(l10n.rewardAktual, l.rewardAktual),
+            const SizedBox(height: FinaraSpacing.md),
+            DropdownButtonFormField<DanaRealizationStatus>(
+              initialValue: l.statusRealisasi,
+              isExpanded: true,
+              decoration:
+                  InputDecoration(labelText: l10n.statusRealisasiLabel),
+              items: [
+                for (final s in DanaRealizationStatus.values)
+                  DropdownMenuItem(
+                      value: s, child: Text(labelStatusRealisasi(l10n, s))),
+              ],
+              onChanged: (s) async {
+                if (s == null) return;
+                await ref.read(danaPlusRepositoryProvider).setStatusRealisasi(
+                    tahun: l.tahun, bulan: l.bulan, status: s);
+                ref.invalidate(_ledgerBulanIniProvider);
+              },
+            ),
           ] else
             Text(l10n.tidakTersedia, style: theme.textTheme.bodySmall),
         ],
@@ -512,6 +565,8 @@ class _CardLedger extends ConsumerWidget {
             pengeluaranBiasa: nilai(5),
             pengeluaranPlus: nilai(6),
             rewardAktual: nilai(7),
+            status: l?.statusRealisasi ??
+                DanaRealizationStatus.belumDieksekusi,
           );
       ref.invalidate(_ledgerBulanIniProvider);
     }
@@ -560,6 +615,7 @@ class _CardTarikDariPlusState extends ConsumerState<_CardTarikDariPlus> {
           pengeluaranBiasa: l.pengeluaranBiasa,
           pengeluaranPlus: l.pengeluaranPlus,
           rewardAktual: l.rewardAktual,
+          status: l.statusRealisasi,
         );
     ref.invalidate(_ledgerBulanIniProvider);
     if (!mounted) return;
@@ -632,6 +688,225 @@ class _Baris extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+String labelStatusRealisasi(
+    AppLocalizations l10n, DanaRealizationStatus status) {
+  return switch (status) {
+    DanaRealizationStatus.belumDieksekusi => l10n.srBelumDieksekusi,
+    DanaRealizationStatus.sebagianSelesai => l10n.srSebagianSelesai,
+    DanaRealizationStatus.selesai => l10n.srSelesai,
+    DanaRealizationStatus.tidakSesuaiRencana => l10n.srTidakSesuaiRencana,
+    DanaRealizationStatus.dibatalkan => l10n.srDibatalkan,
+  };
+}
+
+/// Nominal & tanggal top-up berikutnya dari jadwal §17.
+({int nominal, int? hariSampaiBerikutnya}) _topUpBerikutnya(
+    MonthlyAllocationRevision revisi) {
+  final kini = DateTime.now();
+  final jadwal = const DanaScheduleService().hitung(
+    totalAlokasiDana: revisi.alokasiDana,
+    tahun: kini.year,
+    bulan: kini.month,
+    frekuensi: revisi.frekuensiTopUpDana,
+    hariTopUpMingguan: revisi.hariTopUpMingguan,
+  );
+  final entri = jadwal.jadwalTopUp;
+  if (entri.isEmpty) return (nominal: 0, hariSampaiBerikutnya: null);
+  final hariIni = DateTime(kini.year, kini.month, kini.day);
+  var indeks = entri.indexWhere((e) => !e.tanggal.isBefore(hariIni));
+  if (indeks < 0) indeks = entri.length - 1;
+  final berikutSetelahnya =
+      indeks + 1 < entri.length ? entri[indeks + 1] : null;
+  return (
+    nominal: entri[indeks].nominal,
+    hariSampaiBerikutnya: berikutSetelahnya
+        ?.tanggal
+        .difference(entri[indeks].tanggal)
+        .inDays,
+  );
+}
+
+class _CardRekomendasi extends ConsumerWidget {
+  const _CardRekomendasi({
+    required this.revisi,
+    required this.ledger,
+    required this.batasPlus,
+    required this.onGunakan,
+    required this.onSesuaikan,
+    required this.onTutup,
+  });
+
+  final MonthlyAllocationRevision revisi;
+  final DanaBalanceLedger? ledger;
+  final int? batasPlus;
+  final VoidCallback onGunakan;
+  final ValueChanged<int> onSesuaikan;
+  final VoidCallback onTutup;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final kini = DateTime.now();
+    final hariDalamBulan = DateTime(kini.year, kini.month + 1, 0).day;
+    final sisaAnggaran = ref
+        .watch(sisaAnggaranDanaProvider(
+            (revisiId: revisi.id, alokasiDana: revisi.alokasiDana)))
+        .value;
+    final topUp = _topUpBerikutnya(revisi);
+
+    final rekomendasi = const DanaRecommendationService().rekomendasikan(
+      danaDasarPembagian: topUp.nominal,
+      danaPlusAktif: true,
+      sisaAnggaranAktual: sisaAnggaran,
+      hariTersisaPeriode: hariDalamBulan - kini.day + 1,
+      hariSampaiTopUpBerikutnya: topUp.hariSampaiBerikutnya,
+      batasDanaPlus: batasPlus,
+      saldoAwalDanaPlus: ledger?.saldoAkhirPlus ?? 0,
+    );
+    if (rekomendasi == null) return const SizedBox.shrink();
+
+    final persenBiasa = rekomendasi.keBiasa + rekomendasi.kePlus == 0
+        ? 100
+        : (rekomendasi.keBiasa * 100) ~/
+            (rekomendasi.keBiasa + rekomendasi.kePlus);
+
+    return FinaraCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(l10n.rekomendasiPembagian, style: theme.textTheme.titleSmall),
+          const SizedBox(height: FinaraSpacing.sm),
+          Text(l10n.rekomendasiKalimat(
+              formatRupiah(rekomendasi.keBiasa),
+              formatRupiah(rekomendasi.kePlus))),
+          const SizedBox(height: FinaraSpacing.md),
+          Text(l10n.alasanRekomendasi,
+              style: theme.textTheme.bodySmall!
+                  .copyWith(fontWeight: FontWeight.w600)),
+          const SizedBox(height: FinaraSpacing.xs),
+          for (final alasan in [
+            l10n.alasanHorizon(rekomendasi.hariHorizon),
+            l10n.alasanAnggaranHorizon(
+                formatRupiah(rekomendasi.anggaranHorizon)),
+            l10n.alasanTagihan(
+                formatRupiah(rekomendasi.tagihanBelumTermasuk)),
+            l10n.alasanBuffer(formatRupiah(rekomendasi.buffer)),
+            l10n.alasanBelumDiperlukan(
+                formatRupiah(rekomendasi.danaBelumDiperlukan)),
+          ])
+            Padding(
+              padding: const EdgeInsets.only(bottom: 2),
+              child: Text('• $alasan',
+                  style: theme.textTheme.bodySmall!.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant)),
+            ),
+          const SizedBox(height: FinaraSpacing.sm),
+          Wrap(
+            spacing: FinaraSpacing.sm,
+            runSpacing: FinaraSpacing.xs,
+            children: [
+              FilledButton.tonal(
+                onPressed: onGunakan,
+                child: Text(l10n.gunakanRekomendasi),
+              ),
+              OutlinedButton(
+                onPressed: () => onSesuaikan(persenBiasa),
+                child: Text(l10n.sesuaikanPembagian),
+              ),
+              TextButton(
+                onPressed: onTutup,
+                child: Text(l10n.tetapPembagianSaya),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CardChecklistEksekusi extends StatefulWidget {
+  const _CardChecklistEksekusi({
+    required this.revisi,
+    required this.strategi,
+    required this.input,
+    required this.danaPlusAktif,
+  });
+
+  final MonthlyAllocationRevision revisi;
+  final DanaExecutionStrategy strategi;
+  final DanaSplitInput Function(int danaDasarPembagian) input;
+  final bool danaPlusAktif;
+
+  @override
+  State<_CardChecklistEksekusi> createState() =>
+      _CardChecklistEksekusiState();
+}
+
+class _CardChecklistEksekusiState extends State<_CardChecklistEksekusi> {
+  final Set<int> _dicentang = {};
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+
+    // §93: strategi sekaligus pakai total bulanan; periodik pakai nominal
+    // top-up berikutnya, bukan target bulanan penuh.
+    final nominalTopUp =
+        widget.strategi == DanaExecutionStrategy.sekaligusLaluBagi
+            ? widget.revisi.alokasiDana
+            : _topUpBerikutnya(widget.revisi).nominal;
+    final split =
+        const DanaSplitService().hitung(widget.input(nominalTopUp));
+    final entri = const DanaChecklistBuilder().susun(
+      nominalTopUp: nominalTopUp,
+      keBiasa: split.saldoBiasa,
+      kePlus: split.saldoPlus,
+      danaPlusAktif: widget.danaPlusAktif,
+    );
+    if (entri.isEmpty) return const SizedBox.shrink();
+
+    return FinaraCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(l10n.checklistEksekusiDana,
+              style: theme.textTheme.titleSmall),
+          for (var i = 0; i < entri.length; i++)
+            CheckboxListTile(
+              contentPadding: EdgeInsets.zero,
+              dense: true,
+              controlAffinity: ListTileControlAffinity.leading,
+              title: Text(_labelChecklist(l10n, entri[i])),
+              value: _dicentang.contains(i),
+              onChanged: (v) => setState(() =>
+                  v == true ? _dicentang.add(i) : _dicentang.remove(i)),
+            ),
+          const SizedBox(height: FinaraSpacing.xs),
+          Text(l10n.checklistManualInfo,
+              style: theme.textTheme.bodySmall!
+                  .copyWith(color: theme.colorScheme.onSurfaceVariant)),
+        ],
+      ),
+    );
+  }
+
+  String _labelChecklist(AppLocalizations l10n, DanaChecklistEntry entri) {
+    final nominal =
+        entri.nominal == null ? '' : formatRupiah(entri.nominal!);
+    return switch (entri.step) {
+      DanaChecklistStep.topUp => l10n.cekTopUp(nominal),
+      DanaChecklistStep.pertahankanBiasa =>
+        l10n.cekPertahankanBiasa(nominal),
+      DanaChecklistStep.pindahkanKePlus => l10n.cekPindahkanPlus(nominal),
+      DanaChecklistStep.periksaTotal => l10n.cekPeriksaTotal,
+      DanaChecklistStep.catatAktual => l10n.cekCatatAktual,
+    };
   }
 }
 

@@ -19,7 +19,8 @@ class MockAIAdapter implements AIProviderAdapter {
   });
 
   final List<AIModelInfo> models;
-  final String jawaban;
+  /// Dapat diubah antar-permintaan (utk uji regenerasi).
+  String jawaban;
 
   /// Jika diisi, semua operasi jaringan melempar error ini.
   final AIErrorKind? errorKind;

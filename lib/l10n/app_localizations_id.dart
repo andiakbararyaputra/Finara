@@ -1059,6 +1059,192 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
+  String get rekomendasiPembagian => 'Rekomendasi Pembagian';
+
+  @override
+  String rekomendasiKalimat(String biasa, String plus) {
+    return 'Untuk top-up berikutnya, pertahankan $biasa pada Saldo DANA Biasa dan pindahkan $plus ke Saldo DANA+.';
+  }
+
+  @override
+  String get alasanRekomendasi => 'Alasan rekomendasi';
+
+  @override
+  String alasanHorizon(int hari) {
+    return 'Horizon perhitungan: $hari hari';
+  }
+
+  @override
+  String alasanAnggaranHorizon(String nominal) {
+    return 'Perkiraan kebutuhan transaksi dalam horizon: $nominal';
+  }
+
+  @override
+  String alasanTagihan(String nominal) {
+    return 'Tagihan terdekat belum termasuk anggaran: $nominal';
+  }
+
+  @override
+  String alasanBuffer(String nominal) {
+    return 'Buffer keamanan: $nominal';
+  }
+
+  @override
+  String alasanBelumDiperlukan(String nominal) {
+    return 'Dana yang belum diperlukan segera: $nominal';
+  }
+
+  @override
+  String get gunakanRekomendasi => 'Gunakan Rekomendasi';
+
+  @override
+  String get sesuaikanPembagian => 'Sesuaikan Pembagian';
+
+  @override
+  String get tetapPembagianSaya => 'Tetap Gunakan Pembagian Saya';
+
+  @override
+  String get rekomendasiDiterapkan =>
+      'Mode Smart Liquidity diterapkan — tinjau lalu simpan';
+
+  @override
+  String get sesuaikanInfo =>
+      'Persentase diisi dari rekomendasi — geser sesuai kebutuhan lalu simpan';
+
+  @override
+  String get checklistEksekusiDana => 'Checklist Eksekusi DANA';
+
+  @override
+  String cekTopUp(String nominal) {
+    return 'Top-up $nominal';
+  }
+
+  @override
+  String cekPertahankanBiasa(String nominal) {
+    return 'Pertahankan $nominal pada Saldo DANA Biasa';
+  }
+
+  @override
+  String cekPindahkanPlus(String nominal) {
+    return 'Pindahkan $nominal ke Saldo DANA+ jika tersedia';
+  }
+
+  @override
+  String get cekPeriksaTotal =>
+      'Periksa bahwa total nominal top-up telah terbagi sesuai rencana';
+
+  @override
+  String get cekCatatAktual =>
+      'Catat nominal pemindahan aktual periode berjalan';
+
+  @override
+  String get checklistManualInfo =>
+      'Checklist ini hanya instruksi manual — Finara tidak melakukan top-up atau pemindahan saldo apa pun.';
+
+  @override
+  String get statusRealisasiLabel => 'Status realisasi';
+
+  @override
+  String get srBelumDieksekusi => 'Belum dieksekusi';
+
+  @override
+  String get srSebagianSelesai => 'Sebagian selesai';
+
+  @override
+  String get srSelesai => 'Selesai';
+
+  @override
+  String get srTidakSesuaiRencana => 'Tidak sesuai rencana';
+
+  @override
+  String get srDibatalkan => 'Dibatalkan';
+
+  @override
+  String get regenerasi => 'Regenerasi';
+
+  @override
+  String get gantiModel => 'Ganti model';
+
+  @override
+  String modelDiganti(String model) {
+    return 'Model percakapan diganti ke $model';
+  }
+
+  @override
+  String get fallbackModeLabel => 'Perilaku fallback';
+
+  @override
+  String get fbOtomatis => 'Gunakan otomatis';
+
+  @override
+  String get fbKonfirmasi => 'Minta konfirmasi dulu';
+
+  @override
+  String get fbNonaktif => 'Jangan gunakan fallback';
+
+  @override
+  String get konfirmasiFallbackJudul => 'Gunakan model cadangan?';
+
+  @override
+  String konfirmasiFallbackIsi(String model, String provider) {
+    return 'Permintaan akan dialihkan ke model $model pada provider $provider.';
+  }
+
+  @override
+  String get gunakanModelIni => 'Gunakan model ini';
+
+  @override
+  String get bagikanGambar => 'Bagikan sebagai gambar';
+
+  @override
+  String get cadanganJudul => 'Cadangan & Pemulihan';
+
+  @override
+  String get buatCadangan => 'Buat cadangan terenkripsi';
+
+  @override
+  String get pulihkanCadangan => 'Pulihkan dari cadangan';
+
+  @override
+  String get frasaSandi => 'Frasa sandi';
+
+  @override
+  String get ulangiFrasaSandi => 'Ulangi frasa sandi';
+
+  @override
+  String get frasaTidakSama =>
+      'Frasa sandi tidak sama atau terlalu pendek (minimal 6 karakter)';
+
+  @override
+  String get infoApiKeyBackup =>
+      'API key tidak ikut dicadangkan dan harus dimasukkan ulang setelah pemulihan.';
+
+  @override
+  String get konfirmasiPulihkanIsi =>
+      'Pemulihan akan MENGGANTI seluruh data saat ini dengan isi cadangan. Lanjutkan?';
+
+  @override
+  String get pulihkanBerhasil =>
+      'Pemulihan berhasil — masukkan ulang API key di pengaturan AI';
+
+  @override
+  String get pulihkanGagal =>
+      'Pemulihan gagal — file atau frasa sandi tidak valid';
+
+  @override
+  String get pdfTerproteksiJudul => 'PDF terproteksi';
+
+  @override
+  String get passwordPdfLabel => 'Password PDF';
+
+  @override
+  String get infoPasswordPdf =>
+      'Password hanya digunakan pada perangkat untuk membuka dokumen ini dan tidak akan disimpan.';
+
+  @override
+  String get bukaPdf => 'Buka';
+
+  @override
   String get descPenghasilanUtama =>
       'Gaji atau pemasukan rutin utama yang kamu terima bulan ini.';
 

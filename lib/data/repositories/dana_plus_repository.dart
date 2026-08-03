@@ -59,6 +59,7 @@ class DanaPlusRepository {
     required int pengeluaranBiasa,
     required int pengeluaranPlus,
     required int rewardAktual,
+    DanaRealizationStatus status = DanaRealizationStatus.belumDieksekusi,
     DateTime? sekarang,
   }) {
     final hasil = const DanaLedgerService().hitung(
@@ -85,10 +86,22 @@ class DanaPlusRepository {
             rewardAktual: rewardAktual,
             saldoAkhirBiasa: hasil.saldoAkhirBiasa,
             saldoAkhirPlus: hasil.saldoAkhirPlus,
+            statusRealisasi: Value(status),
             dibuatPada: sekarang ?? DateTime.now(),
           ),
           mode: InsertMode.insertOrReplace,
         );
+  }
+
+  /// Perbarui status realisasi ledger periode (§94).
+  Future<void> setStatusRealisasi({
+    required int tahun,
+    required int bulan,
+    required DanaRealizationStatus status,
+  }) async {
+    await (_db.update(_db.danaBalanceLedgers)
+          ..where((t) => t.tahun.equals(tahun) & t.bulan.equals(bulan)))
+        .write(DanaBalanceLedgersCompanion(statusRealisasi: Value(status)));
   }
 
   Future<DanaBalanceLedger?> ledgerPeriode(int tahun, int bulan) {

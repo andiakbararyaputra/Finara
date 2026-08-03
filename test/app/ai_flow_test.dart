@@ -244,4 +244,122 @@ void main() {
     expect(find.textContaining('satu'), findsOneWidget);
     expect(find.textContaining('delapan'), findsNothing);
   });
+
+  testWidgets('regenerasi §42: jawaban lama diganti jawaban baru',
+      (tester) async {
+    final mock = MockAIAdapter(jawaban: 'Jawaban pertama dari mock.');
+    await pumpApp(tester, mock: mock, denganProvider: true);
+
+    await tester.tap(find.text('Finara AI'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Percakapan Baru'));
+    await tester.pumpAndSettle();
+    await tester.enterText(
+        find.widgetWithText(TextField, 'Tulis pertanyaan…'), 'Halo');
+    await tester.tap(find.byIcon(Icons.send_rounded));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Jawaban pertama'), findsOneWidget);
+
+    mock.jawaban = 'Jawaban kedua setelah regenerasi.';
+    await tester.tap(find.text('Regenerasi'));
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining('Jawaban kedua'), findsOneWidget);
+    expect(find.textContaining('Jawaban pertama'), findsNothing);
+    // Pesan user tidak terduplikasi.
+    expect(mock.requestLog.last.messages.where((m) => m.role == AIRole.user),
+        hasLength(1));
+  });
+
+  testWidgets('ganti model §33: percakapan memakai model baru',
+      (tester) async {
+    final mock = MockAIAdapter(jawaban: 'Oke.');
+    final db = await pumpApp(tester, mock: mock, denganProvider: true);
+
+    // Daftarkan model kedua agar picker punya pilihan.
+    final provider =
+        (await AIProviderRepository(db).semuaProvider()).single;
+    await AIProviderRepository(db).tambahModelManual(
+        providerId: provider.id, modelId: 'mock-besar');
+
+    await tester.tap(find.text('Finara AI'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Percakapan Baru'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byIcon(Icons.swap_horiz_rounded));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('mock-besar'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Model percakapan diganti'), findsOneWidget);
+    // Tunggu snackbar hilang agar tidak menutupi tombol kirim.
+    await tester.pump(const Duration(seconds: 5));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(
+        find.widgetWithText(TextField, 'Tulis pertanyaan…'), 'Halo');
+    await tester.tap(find.byIcon(Icons.send_rounded));
+    await tester.pumpAndSettle();
+    expect(mock.requestLog.last.model, 'mock-besar');
+  });
+
+  testWidgets('fallback nonaktif §37: error langsung tampil tanpa beralih',
+      (tester) async {
+    final mock = MockAIAdapter(errorKind: AIErrorKind.rateLimit);
+    final db = await pumpApp(tester, mock: mock, denganProvider: true);
+    final repo = AIProviderRepository(db);
+    final provider = (await repo.semuaProvider()).single;
+    await repo.tambahModelManual(
+        providerId: provider.id, modelId: 'mock-cadangan');
+    await repo.setFallback(provider.id,
+        model1: 'mock-cadangan', model2: null);
+    await repo.setFallbackMode(provider.id, FallbackMode.nonaktif);
+
+    await tester.tap(find.text('Finara AI'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Percakapan Baru'));
+    await tester.pumpAndSettle();
+    await tester.enterText(
+        find.widgetWithText(TextField, 'Tulis pertanyaan…'), 'Halo');
+    await tester.tap(find.byIcon(Icons.send_rounded));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Terlalu banyak permintaan — coba lagi nanti'),
+        findsOneWidget);
+    // Tidak ada percobaan ke model cadangan.
+    expect(mock.requestLog.every((r) => r.model != 'mock-cadangan'), isTrue);
+  });
+
+  testWidgets('fallback konfirmasi §37: dialog tampilkan model & provider',
+      (tester) async {
+    final mock = MockAIAdapter(errorKind: AIErrorKind.rateLimit);
+    final db = await pumpApp(tester, mock: mock, denganProvider: true);
+    final repo = AIProviderRepository(db);
+    final provider = (await repo.semuaProvider()).single;
+    await repo.tambahModelManual(
+        providerId: provider.id, modelId: 'mock-cadangan');
+    await repo.setFallback(provider.id,
+        model1: 'mock-cadangan', model2: null);
+    await repo.setFallbackMode(provider.id, FallbackMode.konfirmasi);
+
+    await tester.tap(find.text('Finara AI'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Percakapan Baru'));
+    await tester.pumpAndSettle();
+    await tester.enterText(
+        find.widgetWithText(TextField, 'Tulis pertanyaan…'), 'Halo');
+    await tester.tap(find.byIcon(Icons.send_rounded));
+    await tester.pumpAndSettle();
+
+    // Dialog §37: provider & model tujuan disebutkan.
+    expect(find.text('Gunakan model cadangan?'), findsOneWidget);
+    expect(find.textContaining('mock-cadangan'), findsOneWidget);
+    expect(find.textContaining('Provider Uji'), findsOneWidget);
+
+    // Batal → error asli ditampilkan.
+    await tester.tap(find.widgetWithText(TextButton, 'Batal'));
+    await tester.pumpAndSettle();
+    expect(find.text('Terlalu banyak permintaan — coba lagi nanti'),
+        findsOneWidget);
+  });
 }
