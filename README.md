@@ -8,6 +8,10 @@ Finara adalah aplikasi Android untuk pengelolaan dan alokasi keuangan pribadi: m
 
 📦 **Unduh**: [Releases](https://github.com/andiakbararyaputra/Finara/releases) (v0.3.0 pre-release)
 
+## Preview
+
+![Finara Personal Finance Preview](assets/finara-preview.png)
+
 ## Fitur
 
 ### 💰 Mesin alokasi
